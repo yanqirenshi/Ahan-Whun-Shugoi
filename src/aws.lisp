@@ -22,6 +22,7 @@
 (defun aws (service &rest options)
   (valudation-service service)
   (let ((cmd (apply #'make-aws-command service options)))
+    (print cmd)
     (multiple-value-bind (values output error-output exit-status)
         (trivial-shell:shell-command cmd)
       (declare (ignore output error-output exit-status))

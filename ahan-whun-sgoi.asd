@@ -1,10 +1,10 @@
 #|
-  This file is a part of ahan-whun-sgoi project.
-  Copyright (c) 2015 Satoshi Iwasaki (yanqirenshi@gmail.com)
+This file is a part of ahan-whun-sgoi project.
+Copyright (c) 2015 Satoshi Iwasaki (yanqirenshi@gmail.com)
 |#
 
 #|
-  Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
+Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
 |#
 
 (in-package :cl-user)
@@ -24,10 +24,17 @@
   :components ((:module "src"
                 :components
                 ((:file "package")
+                 (:module "graph"
+                  :components ((:file "graph")))
                  (:file "aws" :depends-on ("package"))
-                 (:file "ec2" :depends-on ("aws"))
-                 (:file "elb" :depends-on ("aws"))
-                 (:file "s3" :depends-on ("aws")))))
+                 (:module "ec2"
+                  :components ((:file "ec2")))
+                 (:module "elb"
+                  :components ((:file "elb")))
+                 (:module "s3"
+                  :components ((:file "class")
+                               (:file "s3" :depends-on ("class")))))))
+
   :description ""
   :long-description
   #.(with-open-file (stream (merge-pathnames

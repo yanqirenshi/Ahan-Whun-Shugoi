@@ -3,23 +3,6 @@
 ;; ex) (aws :s3 "ls")
 
 ;;;
-;;; class
-;;;
-(defclass s3-object ()
-  ((name :accessor name
-         :initarg :name)))
-
-(defclass s3-root-bucket (s3-object)
-  ((timestamp :accessor timestamp
-              :initarg :timestamp)))
-
-(defclass s3-branch-bucket (s3-object) ())
-
-(defclass s3-file (s3-root-bucket)
-  ((size :accessor size
-         :initarg :size)))
-
-;;;
 ;;; s3-root-bucket
 ;;;
 (defun s3-root-bucket-p (line)
@@ -66,6 +49,7 @@
                    :size (aref arr 1)
                    :timestamp (aref arr 0))))
 
+
 ;;;
 ;;; s3
 ;;;
@@ -75,5 +59,7 @@
       (arr2s3-root-bucket (s3-root-bucket-p l))
       (error "Faild parse s3 line")))
 
-(defun aws-s3-ls (path)
-  (mapline #'line2s3-object (aws :s3 path)))
+(defun aws-s3-ls (path &key recursive page-size human-readable summarize)
+  (declare (ignore recursive page-size human-readable summarize))
+  (let ((args (concatenate 'string "ls " (or path ""))))
+    (mapline #'line2s3-object (aws :s3 args))))
