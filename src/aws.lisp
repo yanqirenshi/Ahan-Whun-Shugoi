@@ -3,9 +3,10 @@
 (defun mapline (func text)
   (let ((out nil))
     (with-input-from-string (stream text)
-      (do ((l (read-line stream) (read-line stream nil 'eof)))
-          ((eq l 'eof) out)
-        (push (funcall func l) out)))))
+      (do ((line (read-line stream nil 'eof)
+                 (read-line stream nil 'eof)))
+          ((eq line 'eof) out)
+        (push (funcall func line) out)))))
 
 (defun servicep (service)
   (find service '(:s3 :elb :ec2)))
