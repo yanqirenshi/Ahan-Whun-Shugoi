@@ -26,10 +26,11 @@
       (cl-ppcre:scan-to-strings "^\\s+PRE\\s+(.*)/$" line)
     (when ret arr)))
 
-(defun arr2s3-branch-bucket (arr &key (graph *graph*))
+(defun arr2s3-branch-bucket (path arr &key (graph *graph*))
   (when arr
     (shinra:make-vertex graph 's3-branch-bucket
-                        `((name ,(aref arr 0))))))
+                        `((path ,path)
+                          (name ,(aref arr 0))))))
 
 ;;;
 ;;; s3-file
@@ -40,10 +41,11 @@
       (cl-ppcre:scan-to-strings "^(\\d+-\\d+-\\d+\\s+\\d+:\\d+:\\d+)\\s+(\\d+)\\s+(.*)$" line)
     (when ret arr)))
 
-(defun arr2s3-file (arr &key (graph *graph*))
+(defun arr2s3-file (path arr &key (graph *graph*))
   (when arr
     (shinra:make-vertex graph 's3-file
-                        `((name ,(aref arr 2))
+                        `((path ,path)
+                          (name ,(aref arr 2))
                           (size ,(aref arr 1))
                           (timestamp ,(aref arr 0))))))
 
@@ -112,17 +114,18 @@
 ;;;
 ;;; s3
 ;;;
-(defun line2s3-object (l)
-  (or (arr2s3-file (s3-file-line-p l))
-      (arr2s3-branch-bucket (s3-branch-bucket-line-p l))
+(defun line2s3-object (path l)
+  (or (arr2s3-file path (s3-file-line-p l))
+      (arr2s3-branch-bucket path (s3-branch-bucket-line-p l))
       (arr2s3-root-bucket (s3-root-bucket-line-p l))
-      (warn "Faild parse s3 line. line=~a " l)))
+      (warn "Faild parse s3 line. path=~a line=~a " path l)))
 
 (defgeneric aws-s3-ls (path &key recursive page-size human-readable summarize)
   (:method ((path string) &key recursive page-size human-readable summarize)
     (declare (ignore recursive page-size human-readable summarize))
     (let ((args (concatenate 'string "ls " path)))
       (mapline #'(lambda (line) line) (aws :s3 args))))
+
   (:method ((keyword symbol) &key recursive page-size human-readable summarize)
     (unless (keywordp keyword) (eq keyword :root))
     (mapcar #'line2s3-object
@@ -140,5 +143,7 @@
                                      :human-readable human-readable
                                      :summarize summarize)))))
 
+(defun make-s3-path(obj)
+  (let ((path (path obj)))
+    (concatenate 'string path (name obj))))
 
-;; aws s3 ls s3://lambda-driver-log/ --recursive

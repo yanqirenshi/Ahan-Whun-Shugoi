@@ -10,8 +10,12 @@
   ((timestamp :accessor timestamp
               :initarg :timestamp)))
 
-(defclass s3-branch-bucket (s3-object) ())
+(defclass s3-branch-bucket (s3-object)
+  ((path :accessor path
+         :initarg :path)))
 
 (defclass s3-file (s3-root-bucket)
-  ((size :accessor size
+  ((path :accessor path
+         :initarg :path)
+   (size :accessor size
          :initarg :size)))
