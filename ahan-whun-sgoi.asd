@@ -17,6 +17,8 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :author "Satoshi Iwasaki"
   :license "MIT"
   :depends-on (:cl-ppcre
+               :cl-json
+               :local-time
                :trivial-shell
                :jonathan
                :upanishad

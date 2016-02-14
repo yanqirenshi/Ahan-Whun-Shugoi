@@ -4,5 +4,7 @@
   (:use :cl)
   (:export #:start
            #:stop
-           #:graph-data-stor))
+           #:graph-data-stor
+           ;; s3
+           #:name))
 (in-package :ahan-whun-sgoi)
