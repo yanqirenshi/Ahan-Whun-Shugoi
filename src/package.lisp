@@ -1,5 +1,5 @@
 (in-package :cl-user)
-(defpackage ahan-whun-sgoi
+(defpackage ahan-whun-shugoi
   (:nicknames :aws)
   (:use :cl)
   (:export #:start
@@ -7,4 +7,4 @@
            #:graph-data-stor
            ;; s3
            #:name))
-(in-package :ahan-whun-sgoi)
+(in-package :ahan-whun-shugoi)

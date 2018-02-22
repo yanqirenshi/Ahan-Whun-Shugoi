@@ -4,19 +4,19 @@
 |#
 
 (in-package :cl-user)
-(defpackage ahan-whun-sgoi-test-asd
+(defpackage ahan-whun-shugoi-test-asd
   (:use :cl :asdf))
-(in-package :ahan-whun-sgoi-test-asd)
+(in-package :ahan-whun-shugoi-test-asd)
 
-(defsystem ahan-whun-sgoi-test
+(defsystem ahan-whun-shugoi-test
   :author "Satoshi Iwasaki"
   :license "MIT"
-  :depends-on (:ahan-whun-sgoi
+  :depends-on (:ahan-whun-shugoi
                :prove)
   :components ((:module "t"
                 :components
-                ((:test-file "ahan-whun-sgoi"))))
-  :description "Test system for ahan-whun-sgoi"
+                ((:test-file "ahan-whun-shugoi"))))
+  :description "Test system for ahan-whun-shugoi"
 
   :defsystem-depends-on (:prove-asdf)
   :perform (test-op :after (op c)

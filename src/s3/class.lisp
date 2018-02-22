@@ -1,4 +1,4 @@
-(in-package :ahan-whun-sgoi)
+(in-package :ahan-whun-shugoi)
 
 (defclass s3-object (shinra:shin)
   ((name :accessor name

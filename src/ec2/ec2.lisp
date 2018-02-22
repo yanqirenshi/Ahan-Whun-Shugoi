@@ -1,4 +1,4 @@
-(in-package :ahan-whun-sgoi)
+(in-package :ahan-whun-shugoi)
 
 (defun aws-ec2 (&rest option)
   (remove-if-not #'consp

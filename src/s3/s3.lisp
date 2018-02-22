@@ -1,4 +1,4 @@
-(in-package :ahan-whun-sgoi)
+(in-package :ahan-whun-shugoi)
 
 ;; ex) (aws :s3 "ls")
 

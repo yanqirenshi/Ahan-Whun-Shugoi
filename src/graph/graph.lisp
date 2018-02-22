@@ -1,4 +1,4 @@
-(in-package :ahan-whun-sgoi)
+(in-package :ahan-whun-shugoi)
 
 (defvar *graph-data-stor* nil)
 (defvar *graph* nil)
