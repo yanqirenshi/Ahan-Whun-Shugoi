@@ -2,6 +2,14 @@
 
 ## Usage
 
+> **aws** _command_ &rest _options_ => _list_
+
+## EC2
+
+```lisp
+(aws :ec2 :describe-instances)
+```
+
 ## Installation
 
 ## Author

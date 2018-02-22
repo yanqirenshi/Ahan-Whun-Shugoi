@@ -17,7 +17,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :author "Satoshi Iwasaki"
   :license "MIT"
   :depends-on (:cl-ppcre
-               :cl-json
+               :cl-json ;; TODO: これいる？ 
                :local-time
                :trivial-shell
                :jonathan
