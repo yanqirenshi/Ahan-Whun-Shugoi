@@ -36,7 +36,7 @@
 
 (defun find-tag (tag)
   "
- ex) (find-tag (html2list "https://docs.aws.amazon.com/ja_jp/cli/latest/reference/index.html#options"))
+ ex) (find-tag (html2list \"https://docs.aws.amazon.com/ja_jp/cli/latest/reference/index.html#options\"))
 "
   (when (and tag (tag-p tag))
     (let ((classes (tag-classes tag))
@@ -45,4 +45,4 @@
                (find "compound" classes :test 'equal))
           (print tag)
           (dolist (child-tag contents)
-            (xxx child-tag))))))
+            (find-tag child-tag))))))
