@@ -26,7 +26,9 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :closure-html)
   :components ((:module "src"
                 :components
-                ((:file "package")
+                ((:module "scraping"
+                  :components ((:file "aws")))
+                 (:file "package")
                  (:module "graph"
                   :components ((:file "graph")))
                  (:module "ec2"
