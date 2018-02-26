@@ -22,20 +22,23 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :trivial-shell
                :jonathan
                :upanishad
-               :shinrabanshou)
+               :shinrabanshou
+               :closure-html)
   :components ((:module "src"
                 :components
                 ((:file "package")
                  (:module "graph"
                   :components ((:file "graph")))
-                 (:file "aws" :depends-on ("package"))
                  (:module "ec2"
-                  :components ((:file "ec2")))
+                  :components ((:file "cmds")
+                               (:file "ec2")))
                  (:module "elb"
                   :components ((:file "elb")))
                  (:module "s3"
                   :components ((:file "class")
-                               (:file "s3" :depends-on ("class")))))))
+                               (:file "cmds")
+                               (:file "s3" :depends-on ("class"))))
+                 (:file "aws" :depends-on ("package")))))
 
   :description ""
   :long-description
