@@ -28,7 +28,9 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :components ((:module "src"
                 :components
                 ((:module "scraping"
-                  :components ((:file "aws")))
+                  :components ((:file "package")
+                               (:file "classes")
+                               (:file "aws")))
                  (:file "package")
                  (:module "graph"
                   :components ((:file "graph")))

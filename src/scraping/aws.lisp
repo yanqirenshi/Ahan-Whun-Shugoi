@@ -1,19 +1,3 @@
-(in-package :cl-user)
-(defpackage ahan-whun-shugoi.scraping
-  (:use :cl)
-  (:export #:start
-           #:stop
-           #:graph-data-stor
-           ;; s3
-           #:name)
-  (:import-from :alexandria
-                #:when-let)
-  (:import-from :chtml
-                #:pt-name
-                #:pt-attrs
-                #:pt-builder
-                #:pt-children
-                #:pt-parent))
 (in-package :ahan-whun-shugoi.scraping)
 
 (defun html2pt (uri)
@@ -39,6 +23,10 @@
             (setf out (nconc out ret))))
         out)))
 
+
+;;;
+;;; top page (aws command)
+;;;
 (defun find-root (&key (uri "https://docs.aws.amazon.com/ja_jp/cli/latest/reference/index.html"))
   (find-tag (html2pt uri)
             (lambda (tag)
