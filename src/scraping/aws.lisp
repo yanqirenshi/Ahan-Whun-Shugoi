@@ -5,47 +5,45 @@
            #:stop
            #:graph-data-stor
            ;; s3
-           #:name))
+           #:name)
+  (:import-from :alexandria
+                #:when-let)
+  (:import-from :chtml
+                #:pt-name
+                #:pt-attrs
+                #:pt-builder
+                #:pt-children
+                #:pt-parent))
 (in-package :ahan-whun-shugoi.scraping)
 
-(defun html2list (uri)
-  (chtml:parse (dex:get uri) (chtml:make-lhtml-builder)))
+(defun html2pt (uri)
+  (chtml:parse (dex:get uri) (chtml:make-pt-builder)))
 
-(defun tag-p (o)
-  (and (listp o)
-       (keywordp (car o))))
-
-(defun tag-name (tag)
-  (assert  (tag-p tag))
-  (first tag))
-
-(defun tag-attrs (tag)
-  (assert  (tag-p tag))
-  (second tag))
-
-(defun tag-contents (tag)
-  (assert  (tag-p tag))
-  (remove-if #'(lambda (v)
-                 (and (stringp v)
-                      (string= "" (string-trim '(#\Space #\Tab #\Newline) v))))
-             (cddr tag)))
-
-(defun tag-classes (tag)
-  (assert  (tag-p tag))
-  (let ((classes (assoc :CLASS (tag-attrs tag))))
+(defun pt-classes (tag)
+  (let ((classes (getf (pt-attrs tag) :class)))
     (when classes
-      (split-sequence:split-sequence #\Space (second classes)))))
+      (split-sequence:split-sequence #\Space classes))))
 
-(defun parent-page-p (tag)
-  (let ((classes (tag-classes tag)))
-    (and (find "toctree-wrapper" classes :test 'equal)
-         (find "compound" classes :test 'equal))))
+(defun find-tag-target-tag-p (tag conds)
+  (if (not conds)
+      t
+      (when (funcall (car conds) tag)
+        (find-tag-target-tag-p tag (cdr conds)))))
 
-(defun find-tag (tag)
-  "ex) (find-tag (html2list \"https://docs.aws.amazon.com/ja_jp/cli/latest/reference/index.html\"))"
-  (when (and tag (tag-p tag))
-    (let ((contents (tag-contents tag)))
-      (if (parent-page-p tag)
-          (list tag)
-          (dolist (child-tag contents)
-            (find-tag child-tag))))))
+(defun find-tag (tag &rest conds)
+  (if (find-tag-target-tag-p tag conds)
+      (list tag)
+      (let ((out nil))
+        (dolist (child (pt-children tag))
+          (when-let ((ret (apply #'find-tag child conds)))
+            (setf out (nconc out ret))))
+        out)))
+
+(defun find-root (&key (uri "https://docs.aws.amazon.com/ja_jp/cli/latest/reference/index.html"))
+  (find-tag (html2pt uri)
+            (lambda (tag)
+              (eq :a (pt-name tag)))
+            (lambda (tag)
+              (let ((classes (pt-classes tag)))
+                (and (find "reference" classes :test 'equal)
+                     (find "internal"  classes :test 'equal))))))
