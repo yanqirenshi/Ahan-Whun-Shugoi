@@ -24,7 +24,8 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :upanishad
                :shinrabanshou
                :closure-html
-               :cl-html-util)
+               :quri
+               :dexador)
   :components ((:module "src"
                 :components
                 ((:module "scraping"

@@ -27,7 +27,7 @@
   (quri:render-uri
    (quri:make-uri :scheme *uri-scheme*
                   :host *uri-host*
-                  :path (format nil "~a" (merge-pathnames path *uri-base-path*))))))
+                  :path (format nil "~a" (merge-pathnames path *uri-base-path*)))))
 
 (defun root-uri ()
   (aws-uri "index.html"))
