@@ -17,7 +17,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :author "Satoshi Iwasaki"
   :license "MIT"
   :depends-on (:cl-ppcre
-               :cl-json ;; TODO: これいる？ 
+               :cl-json ;; TODO: これいる？
                :local-time
                :trivial-shell
                :jonathan
@@ -29,6 +29,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                 :components
                 ((:module "scraping"
                   :components ((:file "package")
+                               (:file "util")
                                (:file "classes")
                                (:file "aws")))
                  (:file "package")
