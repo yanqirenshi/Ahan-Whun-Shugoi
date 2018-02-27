@@ -31,6 +31,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                   :components ((:file "package")
                                (:file "util")
                                (:file "classes")
+                               (:file "sevieces")
                                (:file "aws")))
                  (:file "package")
                  (:module "graph"

@@ -4,11 +4,31 @@
 ;;; class
 ;;;
 (defclass aws (shin)
-  (description synopsis))
+  ((code :accessor code
+         :initarg :code
+         :initform nil)
+   (synopsis :accessor synopsis
+             :initarg :synopsis
+             :initform nil)
+   (uri :accessor uri
+        :initarg :uri
+        :initform nil)
+   (description :accessor description
+                :initarg :description
+                :initform nil)))
 
 ;; aws --> services
 ;;     --> options
-(defclass services (shin) (description))
+(defclass service (shin)
+  ((code :accessor code
+         :initarg :code
+         :initform nil)
+   (uri :accessor uri
+         :initarg :uri
+         :initform nil)
+   (description :accessor description
+                :initarg :description
+                :initform nil)))
 
 ;; service --> commands
 ;;         --> options
