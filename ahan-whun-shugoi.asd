@@ -23,7 +23,8 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :jonathan
                :upanishad
                :shinrabanshou
-               :closure-html)
+               :closure-html
+               :cl-html-util)
   :components ((:module "src"
                 :components
                 ((:module "scraping"
