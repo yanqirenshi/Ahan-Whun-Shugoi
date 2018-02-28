@@ -1,11 +1,7 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi.scraping
   (:use :cl :ahan-whun-shugoi.html)
-  (:export #:start
-           #:stop
-           #:graph-data-stor
-           ;; s3
-           #:name)
+  (:export #:collect)
   (:import-from :shinra
                 #:shin
                 #:ra)

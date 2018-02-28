@@ -1,18 +1,32 @@
 (in-package :ahan-whun-shugoi.scraping)
 
-(defun find-services (html)
+(defclass aws ()
+  ((description :accessor description
+                :initarg :description
+                :initform nil)
+   (synopsis :accessor synopsis
+             :initarg :synopsis
+             :initform nil)
+   (options :accessor options
+            :initarg :options
+            :initform nil)))
+
+(defun find-aws-services (html)
   (find-tag html
-            (lambda (tag)
-              (eq :a (pt-name tag)))
-            (lambda (tag)
-              (let ((classes (pt-classes tag)))
-                (and (find "reference" classes :test 'equal)
-                     (find "internal"  classes :test 'equal))))))
+            #'is-a
+            #'class-is-reference
+            #'class-is-internal))
 
 (defun find-aws (&key (uri (root-uri)))
   (let ((html (html2pt uri)))
-    (list :description (find-description html)
-          :synopsis    (find-synopsis html)
-          :options     (find-options html)
-          :sevieces    (mapcar #'a-tag2service
-                               (find-services (find-available-services html))))))
+    (values (make-instance 'aws
+                           :description (find-description html)
+                           :synopsis    (find-synopsis html)
+                           :options     (find-options html))
+            (mapcar #'a-tag2service
+                    (find-aws-services (find-available-services html))))))
+
+(defun collect (&key (uri (root-uri)))
+  (multiple-value-bind (aws services)
+      (find-aws :uri uri)
+    (find-services aws services)))

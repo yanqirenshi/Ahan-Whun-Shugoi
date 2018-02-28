@@ -5,3 +5,6 @@
                  :code (pt-attrs (first (pt-children tag)))
                  :uri (getf (pt-attrs tag) :href)
                  :description nil))
+
+(defun find-services (aws services)
+  (list aws services))

@@ -3,11 +3,20 @@
 ;;;
 ;;; finder conditions
 ;;;
+(defun is-a (tag)
+  (eq :a (pt-name tag)))
+
 (defun is-div (tag)
   (eq :div (pt-name tag)))
 
 (defun class-is-section (tag)
   (find "section" (pt-classes tag) :test 'equal))
+
+(defun class-is-reference (tag)
+  (find "reference" (pt-classes tag) :test 'equal))
+
+(defun class-is-internal (tag)
+  (find "internal" (pt-classes tag) :test 'equal))
 
 (defun id-is (tag id)
   (let ((attr (pt-attrs tag)))
