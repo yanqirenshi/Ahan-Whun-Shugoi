@@ -54,11 +54,14 @@
   (unless (servicep service)
     (error "not supported service. service=~a" service)))
 
+(defvar *print-command-stream* t)
+
 (defun aws (service command &rest options)
   (assert (servicep service))
   (let ((cmd (apply #'make-aws-command service command options)))
-    (print cmd)
+    (when *print-command-stream*
+      (format *print-command-stream* "~a~%" cmd))
     (multiple-value-bind (values output error-output exit-status)
         (trivial-shell:shell-command cmd)
       (declare (ignore output error-output exit-status))
-      values)))
+      (jojo:parse values))))
