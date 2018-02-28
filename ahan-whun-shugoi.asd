@@ -43,7 +43,10 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                  (:module "s3" :components ((:file "class")
                                             (:file "cmds")
                                             (:file "s3" :depends-on ("class"))))
-                 (:module "logs" :components ((:file "cmds")))
+                 (:module "logs" :components ((:file "cmds")
+                                              (:file "class")))
+                 (:module "iam" :components ((:file "cmds")
+                                             (:file "class")))
                  (:file "aws" :depends-on ("package")))))
   :description ""
   :long-description

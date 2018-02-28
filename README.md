@@ -10,6 +10,15 @@
 (aws :ec2 :describe-instances :--profile "")
 ```
 
+## Scraping
+
+WEB(html) ⇒ DB(Shinrabanshou)
+
+```lisp
+(collect :uri "https://docs.aws.amazon.com/cli/latest/reference/")
+```
+
+
 ## Installation
 
 ## Author
