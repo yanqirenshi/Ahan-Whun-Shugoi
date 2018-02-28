@@ -60,14 +60,24 @@
 
 (defvar *print-command-stream* t)
 
+(defun aws-print-command (cmd)
+  (when *print-command-stream*
+    (format *print-command-stream* "Command⇒ ~a~%" cmd)))
+
+(defun aws-faild (values output error-output exit-status)
+  (format t "~%<error-output>~% ~a~%" error-output)
+  (format t "<output>~% ~a~%" output)
+  (format t "<exit-status>~% ~a~%~%" exit-status)
+  (format t "<values>~% ~a~%" values))
+
 (defun aws (service command &rest options)
   (assert (servicep service))
   (let ((cmd (apply #'make-aws-command service command options)))
-    (when *print-command-stream*
-      (format *print-command-stream* "Command=~a~%" cmd))
+    (aws-print-command cmd)
     (if (getf options :test) ;; test mode
         (format t "Skipt Submit(test-mode).~%" )
         (multiple-value-bind (values output error-output exit-status)
             (trivial-shell:shell-command cmd)
-          (declare (ignore output error-output exit-status))
-          (jojo:parse values)))))
+          (if (= 0 error-output)
+              (jojo:parse values)
+              (aws-faild values output error-output exit-status))))))
