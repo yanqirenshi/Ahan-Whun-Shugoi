@@ -18,7 +18,8 @@
   (assoc service *commands*))
 
 (defun options-table ()
-  '((:--profile 'string)))
+  '((:--profile 'string)
+    (:test 'boolean)))
 
 (defun get-option-values (options)
   (let ((first-keyword-position (position-if (lambda (v) (keywordp v)) options)))
@@ -40,7 +41,9 @@
             (option-values (get-option-values (cdr options))))
         (assert-option-values option-table-values option-values)
         (concatenate 'string
-                     (format nil "~(~a~) ~{~a ~}" option option-values)
+                     (if (eq :test option)
+                         ""
+                         (format nil "~(~a~) ~{~a ~}" option option-values))
                      (opt2cmd (subseq options (+ 1 (length option-values)))))))))
 
 (defun make-aws-command (service command &rest options)
@@ -61,8 +64,10 @@
   (assert (servicep service))
   (let ((cmd (apply #'make-aws-command service command options)))
     (when *print-command-stream*
-      (format *print-command-stream* "~a~%" cmd))
-    (multiple-value-bind (values output error-output exit-status)
-        (trivial-shell:shell-command cmd)
-      (declare (ignore output error-output exit-status))
-      (jojo:parse values))))
+      (format *print-command-stream* "Command=~a~%" cmd))
+    (if (getf options :test) ;; test mode
+        (format t "Skipt Submit(test-mode).~%" )
+        (multiple-value-bind (values output error-output exit-status)
+            (trivial-shell:shell-command cmd)
+          (declare (ignore output error-output exit-status))
+          (jojo:parse values)))))
