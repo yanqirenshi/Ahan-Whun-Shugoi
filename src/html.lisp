@@ -2,6 +2,8 @@
 (defpackage ahan-whun-shugoi.html
   (:nicknames :aws.html)
   (:use :cl)
+  (:import-from :alexandria
+                #:when-let)
   (:import-from :chtml
                 #:pt-name
                 #:pt-attrs
