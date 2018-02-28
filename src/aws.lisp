@@ -2,7 +2,8 @@
 
 (defvar *commands*
   `((:s3 ,(cmds-s3))
-    (:ec2 ,(cmds-ec2))))
+    (:ec2 ,(cmds-ec2))
+    (:logs ,(cmds-logs))))
 
 (defun mapline (func text)
   (let ((out nil))

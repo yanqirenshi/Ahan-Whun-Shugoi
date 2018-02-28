@@ -36,19 +36,15 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                                (:file "sevieces")
                                (:file "aws")))
                  (:file "package")
-                 (:module "graph"
-                  :components ((:file "graph")))
-                 (:module "ec2"
-                  :components ((:file "cmds")
-                               (:file "ec2")))
-                 (:module "elb"
-                  :components ((:file "elb")))
-                 (:module "s3"
-                  :components ((:file "class")
-                               (:file "cmds")
-                               (:file "s3" :depends-on ("class"))))
+                 (:module "graph" :components ((:file "graph")))
+                 (:module "ec2" :components ((:file "cmds")
+                                             (:file "ec2")))
+                 (:module "elb" :components ((:file "elb")))
+                 (:module "s3" :components ((:file "class")
+                                            (:file "cmds")
+                                            (:file "s3" :depends-on ("class"))))
+                 (:module "logs" :components ((:file "cmds")))
                  (:file "aws" :depends-on ("package")))))
-
   :description ""
   :long-description
   #.(with-open-file (stream (merge-pathnames

@@ -80,3 +80,61 @@
 (defun print-all-instances (&key (instances (mapcar #'plist2ec2-instance (aws-ec2 "describe-instances"))))
   (dolist (instance (sort-instances name instances))
     (print-instance-1line instance)))
+
+;; '(:|OwnerId| "..."
+;;   :|Groups| NIL
+;;   :|ReservationId| "..."
+;;   :|Instances| ((:|AmiLaunchIndex| {integer}
+;;                  :|Tags| ((:|Key| "..." :|Value| "..."))
+;;                  :|VirtualizationType| "..."
+;;                  :|RootDeviceName| "..."
+;;                  :|RootDeviceType| "..."
+;;                  :|Architecture| "..."
+;;                  :|BlockDeviceMappings| ((:|Ebs| (:|AttachTime| "..."
+;;                                                   :|VolumeId| "..."
+;;                                                   :|DeleteOnTermination| {boolean}
+;;                                                   :|Status| "...")
+;;                                           :|DeviceName| "..."))
+;;                  :|Hypervisor| "..."
+;;                  :|Placement| (:|AvailabilityZone| "..."
+;;                                :|GroupName| "..."
+;;                                :|Tenancy| "...")
+;;                  :|SourceDestCheck| {boolean}
+;;                  :|NetworkInterfaces| ((:|PrivateIpAddress| "..."
+;;                                         :|OwnerId| "..."
+;;                                         :|Ipv6Addresses| NIL
+;;                                         :|Groups| ((:|GroupId| "..."
+;;                                                      :|GroupName| "..."))
+;;                                         :|Attachment| (:|AttachTime| "..."
+;;                                                        :|AttachmentId| "..."
+;;                                                        :|DeleteOnTermination| {boolean}
+;;                                                        :|DeviceIndex| {integer}
+;;                                                        :|Status| "...")
+;;                                         :|SubnetId| "..."
+;;                                         :|PrivateIpAddresses| ((:|PrivateIpAddress| "..."
+;;                                                                  :|Primary| {boolean}))
+;;                                         :|NetworkInterfaceId| "..."
+;;                                         :|Description| "..."
+;;                                         :|VpcId| "..."
+;;                                         :|SourceDestCheck| {boolean}
+;;                                         :|MacAddress| "..."
+;;                                         :|Status| "..."))
+;;                  :|InstanceType| "..."
+;;                  :|SubnetId| "..."
+;;                  :|ClientToken| "..."
+;;                  :|SecurityGroups| ((:|GroupId| "..."
+;;                                      :|GroupName| "..."))
+;;                  :|KeyName| "..."
+;;                  :|PrivateDnsName| "..."
+;;                  :|ImageId| "..."
+;;                  :|EnaSupport| {boolean}
+;;                  :|InstanceId| "..."
+;;                  :|StateTransitionReason| "..."
+;;                  :|VpcId| "..."
+;;                  :|ProductCodes| NIL
+;;                  :|PrivateIpAddress| "..."
+;;                  :|LaunchTime| "..."
+;;                  :|EbsOptimized| {boolean}
+;;                  :|State| (:|Name| "..." :|Code| {integer})
+;;                  :|PublicDnsName| "..."
+;;                  :|Monitoring| (:|State| "..."))))
