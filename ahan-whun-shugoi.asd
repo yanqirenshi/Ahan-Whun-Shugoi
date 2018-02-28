@@ -28,7 +28,8 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :dexador)
   :components ((:module "src"
                 :components
-                ((:module "scraping"
+                ((:file "html")
+                 (:module "scraping"
                   :components ((:file "package")
                                (:file "util")
                                (:file "classes")

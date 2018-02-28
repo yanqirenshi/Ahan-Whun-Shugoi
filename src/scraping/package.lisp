@@ -1,6 +1,6 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi.scraping
-  (:use :cl)
+  (:use :cl :ahan-whun-shugoi.html)
   (:export #:start
            #:stop
            #:graph-data-stor
