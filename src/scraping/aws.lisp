@@ -23,7 +23,7 @@
                            :description (find-description html)
                            :synopsis    (find-synopsis html)
                            :options     (find-options html))
-            (mapcar #'a-tag2service
+            (mapcar #'a-tag2service-plist
                     (find-aws-services (find-available-services html))))))
 
 (defun collect (&key (uri (root-uri)))

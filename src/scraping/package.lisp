@@ -1,5 +1,6 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi.scraping
+  (:nicknames :aws-scraping)
   (:use :cl :ahan-whun-shugoi.html)
   (:export #:collect)
   (:import-from :shinra

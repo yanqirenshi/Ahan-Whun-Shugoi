@@ -9,6 +9,9 @@
 (defun is-div (tag)
   (eq :div (pt-name tag)))
 
+(defun is-h1 (tag)
+  (eq :h1 (pt-name tag)))
+
 (defun class-is-section (tag)
   (find "section" (pt-classes tag) :test 'equal))
 
@@ -34,6 +37,9 @@
 
 (defun id-is-available-services (tag)
   (id-is tag "available-services"))
+
+(defun id-is-available-commands (tag)
+  (id-is tag "available-commands"))
 
 (defun find-description (html)
   (car (find-tag html
