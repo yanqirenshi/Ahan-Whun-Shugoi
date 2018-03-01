@@ -29,6 +29,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :components ((:module "src"
                 :components
                 ((:file "html")
+                 (:fild "db")
                  (:module "scraping"
                   :components ((:file "package")
                                (:file "util")
