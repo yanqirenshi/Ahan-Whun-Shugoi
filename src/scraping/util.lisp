@@ -1,48 +1,35 @@
 (in-package :ahan-whun-shugoi.scraping)
 
-(defun is-a (tag)
-  (eq :a (pt-name tag)))
-
-(defun is-div (tag)
-  (eq :div (pt-name tag)))
-
-(defun is-h1 (tag)
-  (eq :h1 (pt-name tag)))
-
 (defun class-is-section (tag)
-  (find "section" (pt-classes tag) :test 'equal))
+  (class-is "section" tag))
 
 (defun class-is-reference (tag)
-  (find "reference" (pt-classes tag) :test 'equal))
+  (class-is "reference" tag))
 
 (defun class-is-internal (tag)
-  (find "internal" (pt-classes tag) :test 'equal))
-
-(defun id-is (tag id)
-  (let ((attr (pt-attrs tag)))
-    (string= id (getf attr :id))))
+  (class-is "internal" tag))
 
 (defun id-is-description (tag)
   (let ((attr (pt-attrs tag)))
     (string= "description" (getf attr :id))))
 
 (defun id-is-synopsis (tag)
-  (id-is tag "synopsis"))
+  (id-is "synopsis" tag))
 
 (defun id-is-options (tag)
-  (id-is tag "options"))
+  (id-is "options" tag))
 
 (defun id-is-examples (tag)
-  (id-is tag "examples"))
+  (id-is "examples" tag))
 
 (defun id-is-output (tag)
-  (id-is tag "output"))
+  (id-is "output" tag))
 
 (defun id-is-available-services (tag)
-  (id-is tag "available-services"))
+  (id-is "available-services" tag))
 
 (defun id-is-available-commands (tag)
-  (id-is tag "available-commands"))
+  (id-is "available-commands" tag))
 
 (defun find-description-tag (html)
   (car (find-tag html

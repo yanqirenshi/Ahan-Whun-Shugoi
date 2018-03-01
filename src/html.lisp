@@ -13,7 +13,13 @@
   (:export #:html2pt
            #:pt-classes
            #:find-tag-target-tag-p
-           #:find-tag))
+           #:find-tag
+           ;;
+           #:is-a
+           #:is-div
+           #:is-h1
+           #:id-is
+           #:class-is))
 (in-package :ahan-whun-shugoi.html)
 
 (defun html2pt (uri)
@@ -38,3 +44,19 @@
           (when-let ((ret (apply #'find-tag child conds)))
             (setf out (nconc out ret))))
         out)))
+
+(defun is-a (tag)
+  (eq :a (pt-name tag)))
+
+(defun is-div (tag)
+  (eq :div (pt-name tag)))
+
+(defun is-h1 (tag)
+  (eq :h1 (pt-name tag)))
+
+(defun id-is (id tag)
+  (let ((attr (pt-attrs tag)))
+    (string= id (getf attr :id))))
+
+(defun class-is (class tag)
+  (find class (pt-classes tag) :test 'equal))
