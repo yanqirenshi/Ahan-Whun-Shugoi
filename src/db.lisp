@@ -1,7 +1,9 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi.db
   (:nicknames :aws.db)
-  (:use :cl))
+  (:use :cl)
+  (:export #:start
+           #:stop))
 (in-package :ahan-whun-shugoi.db)
 
 (defvar *graph* nil)
