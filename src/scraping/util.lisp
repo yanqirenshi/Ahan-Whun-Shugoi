@@ -1,8 +1,5 @@
 (in-package :ahan-whun-shugoi.scraping)
 
-;;;
-;;; finder conditions
-;;;
 (defun is-a (tag)
   (eq :a (pt-name tag)))
 
@@ -35,32 +32,50 @@
 (defun id-is-options (tag)
   (id-is tag "options"))
 
+(defun id-is-examples (tag)
+  (id-is tag "examples"))
+
+(defun id-is-output (tag)
+  (id-is tag "output"))
+
 (defun id-is-available-services (tag)
   (id-is tag "available-services"))
 
 (defun id-is-available-commands (tag)
   (id-is tag "available-commands"))
 
-(defun find-description (html)
+(defun find-description-tag (html)
   (car (find-tag html
                  #'is-div
                  #'class-is-section
                  #'id-is-description)))
 
-(defun find-synopsis (html)
+(defun find-synopsis-tag (html)
   (car (find-tag html
                  #'is-div
                  #'class-is-section
                  #'id-is-synopsis)))
 
-(defun find-options (html)
+(defun find-options-tag (html)
   (car (find-tag html
                  #'is-div
                  #'class-is-section
                  #'id-is-options)))
 
-(defun find-available-services (html)
+(defun find-available-services-tag (html)
   (car (find-tag html
                  #'is-div
                  #'class-is-section
                  #'id-is-available-services)))
+
+(defun find-examples-tag (html)
+  (car (find-tag html
+                 #'is-div
+                 #'class-is-section
+                 #'id-is-examples)))
+
+(defun find-output-tag (html)
+  (car (find-tag html
+                 #'is-div
+                 #'class-is-section
+                 #'id-is-output)))

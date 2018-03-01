@@ -21,17 +21,13 @@
 (defun html2service (uri html)
   (make-instance 'service
                  :code (html2service-code html)
-                 :description (find-description html)
+                 :description (find-description-tag html)
                  :uri uri))
 
 (defun make-service (aws html uri)
   (let ((service (html2service uri html)))
     (list "make-r" aws service)
     service))
-
-(defun a-tag2command-plist (tag uri)
-  (list :code (pt-attrs (first (pt-children tag)))
-        :uri (merge-pathnames (getf (pt-attrs tag) :href) uri)))
 
 (defun find-service-commands (html uri)
   (let ((section (car (find-tag html

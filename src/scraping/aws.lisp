@@ -20,11 +20,11 @@
 (defun find-aws (&key (uri (root-uri)))
   (let ((html (html2pt uri)))
     (values (make-instance 'aws
-                           :description (find-description html)
-                           :synopsis    (find-synopsis html)
-                           :options     (find-options html))
+                           :description (find-description-tag html)
+                           :synopsis    (find-synopsis-tag html)
+                           :options     (find-options-tag html))
             (mapcar #'a-tag2service-plist
-                    (find-aws-services (find-available-services html))))))
+                    (find-aws-services (find-available-services-tag html))))))
 
 (defun collect (&key (uri (root-uri)))
   (multiple-value-bind (aws services)
