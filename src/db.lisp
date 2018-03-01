@@ -7,7 +7,7 @@
 (defvar *graph* nil)
 
 (defvar *graph-stor-dir*
-  (merge-pathnames "data/graph/" (asdf:system-source-directory :wnqi-big-size-api)))
+  (merge-pathnames "data/graph/" (asdf:system-source-directory :ahan-whun-shugoi)))
 
 (defun start ()
   (when *graph* (stop))
