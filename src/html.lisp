@@ -18,6 +18,7 @@
            #:is-a
            #:is-div
            #:is-h1
+           #:is-pre
            #:id-is
            #:class-is))
 (in-package :ahan-whun-shugoi.html)
@@ -53,6 +54,9 @@
 
 (defun is-h1 (tag)
   (eq :h1 (pt-name tag)))
+
+(defun is-pre (tag)
+  (eq :pre (pt-name tag)))
 
 (defun id-is (id tag)
   (let ((attr (pt-attrs tag)))
