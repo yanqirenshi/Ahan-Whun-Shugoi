@@ -17,9 +17,10 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :author "Satoshi Iwasaki"
   :license "MIT"
   :depends-on (:cl-ppcre
-               :cl-json ;; TODO: これいる？
+               :cl-json
                :local-time
                :trivial-shell
+               :split-sequence
                :jonathan
                :upanishad
                :shinrabanshou

@@ -1,5 +1,19 @@
 (in-package :ahan-whun-shugoi.scraping)
 
+;;;
+;;; etc
+;;;
+(defun trim (v)
+  (string-trim '(#\Space #\Tab #\Newline) v))
+
+(defun split-str-token (str delimiter)
+  (mapcar #'trim
+          (split-sequence delimiter str)))
+
+
+;;;
+;;; tag
+;;;
 (defun class-is-section (tag)
   (class-is "section" tag))
 

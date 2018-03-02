@@ -3,6 +3,10 @@
   (:nicknames :aws-scraping)
   (:use :cl :ahan-whun-shugoi.html)
   (:export #:collect)
+  (:import-from :split-sequence
+                #:split-sequence)
+  (:import-from :cl-ppcre
+                #:scan-to-strings)
   (:import-from :shinra
                 #:shin
                 #:ra)
