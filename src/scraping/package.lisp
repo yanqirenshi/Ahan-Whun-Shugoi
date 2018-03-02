@@ -7,6 +7,10 @@
                 #:split-sequence)
   (:import-from :cl-ppcre
                 #:scan-to-strings)
+  (:import-from :lparallel
+                #:plet
+                #:*kernel*
+                #:make-kernel)
   (:import-from :shinra
                 #:shin
                 #:ra)
@@ -17,7 +21,9 @@
                 #:pt-attrs
                 #:pt-builder
                 #:pt-children
-                #:pt-parent))
+                #:pt-parent)
+  (:import-from :aws.db
+                #:*graph*))
 (in-package :ahan-whun-shugoi.scraping)
 
 (defvar *uri-scheme* "https")

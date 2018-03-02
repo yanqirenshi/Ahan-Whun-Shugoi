@@ -71,19 +71,34 @@
     (sleep sleep-time)
     html))
 
-(defclass command ()
-  ((description :accessor description :initarg :description :initform nil)
+(defun html2service-code (html)
+  (let* ((h1 (car (find-tag html #'is-h1)))
+         (children (pt-children h1)))
+    (pt-attrs (first children))))
+
+
+(defclass command (shinra:shin)
+  ((code        :accessor code        :initarg :code        :initform nil)
+   (description :accessor description :initarg :description :initform nil)
    (synopsis    :accessor synopsis    :initarg :synopsis    :initform nil)
    (examples    :accessor examples    :initarg :examples    :initform nil)
    (output      :accessor output      :initarg :output      :initform nil)))
 
 (defun make-command (html)
   (when html
-    (make-instance 'command
-                   :description (find-description-tag html)
-                   :synopsis    (prse-synopsis (find-synopsis-tag html))
-                   :examples    (find-examples-tag html)
-                   :output      (find-output-tag html))))
+    ;; (make-instance 'command
+    ;;                :description (find-description-tag html)
+    ;;                :synopsis    (prse-synopsis (find-synopsis-tag html))
+    ;;                :examples    (find-examples-tag html)
+    ;;                :output      (find-output-tag html))
+    (up:execute-transaction
+     (shinra:tx-make-vertex *graph*
+                            'command
+                            `((code ,(html2service-code html))
+                              (description ,(find-description-tag html))
+                              (synopsis    ,(prse-synopsis (find-synopsis-tag html)))
+                              (examples    ,(find-examples-tag html))
+                              (output      ,(find-output-tag html)))))))
 
 (defun find-command-options (html)
   (find-options-tag html))
@@ -92,7 +107,8 @@
   (dolist (command commands)
     (let* ((uri (getf command :uri))
            (html (get-command-html uri)))
-      (find-options aws
-                    service
-                    (make-command html)
-                    (find-command-options html)))))
+      (unless (string= "wait" (getf command :code))
+        (find-options aws
+                      service
+                      (make-command html)
+                      (find-command-options html))))))

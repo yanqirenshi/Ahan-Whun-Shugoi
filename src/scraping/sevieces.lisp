@@ -8,7 +8,6 @@
   (aws-uri (getf services :uri)))
 
 (defun get-service-html (uri &key (sleep-time 1))
-  (print uri)
   (let ((html (html2pt uri)))
     (sleep sleep-time)
     html))
@@ -43,7 +42,10 @@
 (defun find-services (aws services)
   (dolist (service services)
     (let* ((uri (make-service-uri service))
-           (html (get-service-html uri)))
-      (find-commands aws
-                     (make-service aws html uri)
-                     (find-service-commands html uri)))))
+           (html (get-service-html uri))
+           (service (make-service aws html uri)))
+      (print (code service))
+      (unless (string= "wait" (code service))
+        (find-commands aws
+                       service
+                       (find-service-commands html uri))))))

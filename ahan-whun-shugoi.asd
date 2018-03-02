@@ -26,7 +26,8 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :shinrabanshou
                :closure-html
                :quri
-               :dexador)
+               :dexador
+               :lparallel)
   :components ((:module "src"
                 :components
                 ((:file "html")
