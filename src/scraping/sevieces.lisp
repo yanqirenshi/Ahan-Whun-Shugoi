@@ -17,15 +17,34 @@
          (children (pt-children h1)))
     (pt-attrs (first children))))
 
+(defun get-service (&key code)
+  (car (shinra:find-vertex *graph* 'service
+                            :slot 'code
+                            :value code)))
+
+(defun update-service-by-html (server html)
+  (declare (ignore html))
+  server)
+
 (defun html2service (uri html)
-  (make-instance 'service
-                 :code (html2service-code html)
-                 :description (find-description-tag html)
-                 :uri uri))
+  (let ((service (get-service :code (html2service-code html))))
+    (if service
+        (update-service-by-html service html)
+        (execute-transaction
+         (shinra:tx-make-vertex *graph* 'service
+                                `((code ,(html2service-code html))
+                                  (uri ,uri)))))))
+
+(defun make-r-aws-service (aws service)
+  (or (get-r *graph* 'r-services :from aws service :r)
+      (execute-transaction
+       (make-edge *graph* 'r-services
+                  aws service
+                  :r))))
 
 (defun make-service (aws html uri)
   (let ((service (html2service uri html)))
-    (list "make-r" aws service)
+    (make-r-aws-service aws service)
     service))
 
 (defun find-service-commands (html uri)
@@ -44,7 +63,6 @@
     (let* ((uri (make-service-uri service))
            (html (get-service-html uri))
            (service (make-service aws html uri)))
-      (print (code service))
       (unless (string= "wait" (code service))
         (find-commands aws
                        service

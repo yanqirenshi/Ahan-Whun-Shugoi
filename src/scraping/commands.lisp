@@ -76,39 +76,46 @@
          (children (pt-children h1)))
     (pt-attrs (first children))))
 
+(defun get-command (&key code)
+  (shinra:find-vertex *graph* 'command
+                      :slot 'code
+                      :value code))
 
-(defclass command (shinra:shin)
-  ((code        :accessor code        :initarg :code        :initform nil)
-   (description :accessor description :initarg :description :initform nil)
-   (synopsis    :accessor synopsis    :initarg :synopsis    :initform nil)
-   (examples    :accessor examples    :initarg :examples    :initform nil)
-   (output      :accessor output      :initarg :output      :initform nil)))
+(defun update-command (command html)
+  (declare (ignore html))
+  command)
 
-(defun make-command (html)
+(defun make-command (html &key uri)
   (when html
-    ;; (make-instance 'command
-    ;;                :description (find-description-tag html)
-    ;;                :synopsis    (prse-synopsis (find-synopsis-tag html))
-    ;;                :examples    (find-examples-tag html)
-    ;;                :output      (find-output-tag html))
-    (up:execute-transaction
-     (shinra:tx-make-vertex *graph*
-                            'command
-                            `((code ,(html2service-code html))
-                              (description ,(find-description-tag html))
-                              (synopsis    ,(prse-synopsis (find-synopsis-tag html)))
-                              (examples    ,(find-examples-tag html))
-                              (output      ,(find-output-tag html)))))))
+    (let* ((code (html2service-code html))
+           (command (car (get-command :code code))))
+      (if command
+          (update-command command html)
+          (execute-transaction
+           (tx-make-vertex *graph*
+                           'command
+                           `((code ,code)
+                             ;; (description ,(find-description-tag html))
+                             ;; (synopsis    ,(prse-synopsis (find-synopsis-tag html)))
+                             ;; (examples    ,(find-examples-tag html))
+                             ;; (output      ,(find-output-tag html))
+                             (uri ,uri)
+                             )))))))
 
 (defun find-command-options (html)
   (find-options-tag html))
 
+(defun make-r-service-command (service command)
+  (or (shinra:get-r *graph* 'r-commands :from service command :r)
+      (execute-transaction
+       (shinra:tx-make-edge *graph* 'r-commands
+                            service command :r))))
+
 (defun find-commands (aws service commands)
+  (declare (ignore aws))
   (dolist (command commands)
     (let* ((uri (getf command :uri))
            (html (get-command-html uri)))
       (unless (string= "wait" (getf command :code))
-        (find-options aws
-                      service
-                      (make-command html)
-                      (find-command-options html))))))
+        (let ((command (make-command html :uri uri)))
+          (make-r-service-command service command))))))
