@@ -11,9 +11,6 @@
                 #:plet
                 #:*kernel*
                 #:make-kernel)
-  (:import-from :shinra
-                #:shin
-                #:ra)
   (:import-from :alexandria
                 #:when-let)
   (:import-from :chtml
@@ -23,7 +20,15 @@
                 #:pt-children
                 #:pt-parent)
   (:import-from :aws.db
-                #:*graph*))
+                #:*graph*)
+  (:import-from :up
+                #:execute-transaction)
+  (:import-from :shinra
+                #:shin
+                #:ra
+                #:tx-make-vertex
+                #:get-r
+                #:make-edge))
 (in-package :ahan-whun-shugoi.scraping)
 
 (defvar *uri-scheme* "https")

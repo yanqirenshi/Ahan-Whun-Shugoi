@@ -6,4 +6,8 @@
 *.x86f
 *~
 .#*
+<<<<<<< HEAD
 .DS_Store
+=======
+data/
+>>>>>>> 0a0b3a41a831f39161ffb62cf679eaa23a307db7
