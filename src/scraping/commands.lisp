@@ -1,8 +1,5 @@
 (in-package :ahan-whun-shugoi.scraping)
 
-;;;
-;;; find-commands
-;;;
 (defun merge-command-uri (tag uri)
   (let ((uri (quri:uri uri)))
     (setf (quri:uri-path uri)
@@ -45,12 +42,7 @@
            (tx-make-vertex *graph*
                            'command
                            `((code ,code)
-                             ;; (description ,(find-description-tag html))
-                             ;; (synopsis    ,(prse-synopsis (find-synopsis-tag html)))
-                             ;; (examples    ,(find-examples-tag html))
-                             ;; (output      ,(find-output-tag html))
-                             (uri ,uri)
-                             )))))))
+                             (uri ,uri))))))))
 
 (defun find-command-options (html)
   (find-options-tag html))
@@ -71,11 +63,9 @@
               (synopsis (prse-synopsis (find-synopsis-tag html)))
               (options  (prse-options (find-options-tag html))))
           (make-r-service-command service command)
-          (format t "~2a = ~2a ⇒ ~a : ~a~%"
-                  (length synopsis)
-                  (length options)
-                  (= (length synopsis) (length options))
-                  (code command))
           (unless (= (length synopsis) (length options))
-            (push (list :command command :synopsis synopsis :options options)
-                  *tmp*)))))))
+            (format t "~2a = ~2a ⇒ ~a : ~a~%"
+                    (length synopsis)
+                    (length options)
+                    (= (length synopsis) (length options))
+                    (code command))))))))

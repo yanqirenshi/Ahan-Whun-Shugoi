@@ -3,38 +3,30 @@
 (defun find-options (aws service command options)
   (list aws service command options))
 
-(defun get-x-html-options ()
-  (find-options-tag
-   (html2pt "https://docs.aws.amazon.com/ja_jp/cli/latest/reference/acm/add-tags-to-certificate.html")))
-
 (defun find-options-option-name (option-tag)
+  "この関数は廃止予定です。
+正規表現のところを他で利用するので残しています。"
   (let ((span-tag (car (find-tag option-tag #'is-span))))
     (multiple-value-bind (ret arr)
         (cl-ppcre:scan-to-strings "^(--.*)$"
                                   (pt-attrs (first (pt-children span-tag))))
       (when ret (aref arr 0)))))
 
-(defun find-option-value-type (tag)
-  (when (and tag (second (pt-children tag)))
-    (let ((attr (pt-attrs (second (pt-children tag)))))
-      (when (stringp attr)
-        (multiple-value-bind (ret arr)
-            (cl-ppcre:scan-to-strings "^\\s+\\((.*)\\)[\\s\\S]*$" attr)
-            (when ret (aref arr 0)))))))
-
 (defun eq-tag-attr-is-separator-bar (tag)
   (let ((attrs (pt-attrs tag)))
     (and (stringp attrs)
          (string= "|" (trim attrs)))))
 
+(defun option-value-type-tag-p (tag)
+  (let ((attrs (pt-attrs tag)))
+    (and (stringp attrs)
+         (cl-ppcre:scan-to-strings "^\\s+\\((.*)\\)[\\s\\S]*$" attrs))))
+
 (defun find-option-value-type-tag (option-tag)
   (first
    (find-tag option-tag
              #'is-pcdata
-             #'(lambda (tag)
-                 (let ((attrs (pt-attrs tag)))
-                   (and (stringp attrs)
-                        (cl-ppcre:scan-to-strings "^\\s+\\((.*)\\)[\\s\\S]*$" attrs)))))))
+             #'option-value-type-tag-p)))
 
 (defun %find-option-name-tags (option-tag-children)
   "option タグ直下のタグから option 名のタグを抽出する。"
@@ -49,10 +41,12 @@
                 (%find-option-name-tags (cddr option-tag-children)))))))
 
 (defun find-option-name-tags (option-tag)
+  "option-tag から option-name のタグを抽出する。"
   (when option-tag
     (%find-option-name-tags (pt-children option-tag))))
 
 (defun find-option-tags (tag)
+  "options-tag から全ての option-tag を抽出する。"
   (find-tag tag
             #'is-p
             #'(lambda (tag)
@@ -63,26 +57,46 @@
                        second-child
                        (eq :tt (pt-name first-child)))))))
 
-(defun option-tag2plist (option-tag)
-  (let ((name (find-options-option-name option-tag)))
-    (let ((value-type (find-option-value-type option-tag)))
-      (list :name name :type value-type))))
+(defun get-options-option-name-string (option-name-tag)
+  "option-name-tag option-tag から option name の文字列を抽出する。"
+  (pt-attrs (car (find-tag (car (find-tag option-name-tag #'is-span))
+                           #'(lambda (tag)
+                               (eq :pcdata (pt-name tag)))))))
 
 (defun make-option-data (option-tag value-type-tag)
+  "option-tag value-type-tag から (:code {string} :value-types {list}) のデータを作成する。"
   (mapcar #'(lambda (option-name-tag)
-              (list :code (pt-attrs (car (find-tag (car (find-tag option-name-tag #'is-span))
-                                                 #'(lambda (tag) (eq :pcdata (pt-name tag))))))
-                    :value-type (pt-attrs value-type-tag)))
+              (list :code (get-options-option-name-string option-name-tag)
+                    :value-types (pt-attrs value-type-tag)))
           (find-option-name-tags option-tag)))
 
 (defun prse-options (options-tag)
+  "options-tag から全ての option に対しての情報を抽出する。
+抽出したものは (:code {string} :value-types {list}) の形式で抽出する。"
   (let ((value-type-tag (find-option-value-type-tag options-tag)))
     (apply #'append
            (mapcar #'(lambda (option-tag)
                        (make-option-data option-tag value-type-tag))
                    (find-option-tags options-tag)))))
 
-#|
-(mapcar #'option-tag2plist
-        (find-option-tags (get-x-html-options)))
-|#
+;; 問題ありリスト
+;; 0  = 8  ⇒ NIL : create-subscription
+;; 0  = 8  ⇒ NIL : update-subscription
+;; 0  = 1  ⇒ NIL : get
+;; 0  = 2  ⇒ NIL : set
+;; 14 = 16 ⇒ NIL : update-item
+;; 12 = 13 ⇒ NIL : copy-snapshot
+;; 11 = 13 ⇒ NIL : describe-environments
+;; 31 = 34 ⇒ NIL : create-cluster
+;; 7  = 9  ⇒ NIL : start-face-detection
+;; 3  = 7  ⇒ NIL : set-sms-attributes
+;; 8  = 9  ⇒ NIL : send-message
+;; 9  = 15 ⇒ NIL : count-closed-workflow-executions
+;; 7  = 10 ⇒ NIL : count-open-workflow-executions
+;; 14 = 20 ⇒ NIL : list-closed-workflow-executions
+;; 12 = 15 ⇒ NIL : list-open-workflow-executions
+;; 4  = 5  ⇒ NIL : record-activity-task-heartbeat
+;; 4  = 5  ⇒ NIL : respond-activity-task-canceled
+;; 4  = 5  ⇒ NIL : respond-activity-task-completed
+;; 5  = 6  ⇒ NIL : respond-activity-task-failed
+;; 5  = 6  ⇒ NIL : respond-decision-task-completed
