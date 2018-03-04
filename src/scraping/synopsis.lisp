@@ -1,5 +1,12 @@
 (in-package :ahan-whun-shugoi.scraping)
 
+(defun cleanup-options (options)
+  (remove-if #'(lambda (tag)
+                 (or (and (stringp (pt-attrs tag))
+                          (string= "" (trim (pt-attrs tag))))
+                     (eq :h2 (pt-name tag))))
+             options))
+
 (defun find-synopsis-pre-contents (tag)
   "synopsis-tag から contents を抽出する。"
   (let ((pre-tag (car (cleanup-options
