@@ -67,20 +67,15 @@
     (let* ((uri (getf command :uri))
            (html (get-command-html uri)))
       (unless (string= "wait" (getf command :code))
-        (let ((command (make-command html :uri uri))
+        (let ((command  (make-command html :uri uri))
               (synopsis (prse-synopsis (find-synopsis-tag html)))
-              (options (mapcar #'option-tag2plist
-                               (find-option-tags (find-options-tag html)))))
+              (options  (prse-options (find-options-tag html))))
           (make-r-service-command service command)
-          ;; (format t "~a: ~a = ~a ⇒ ~a~%" (code command) (length synopsis) (length options)
-          ;;         (= (length synopsis) (length options)))
+          (format t "~2a = ~2a ⇒ ~a : ~a~%"
+                  (length synopsis)
+                  (length options)
+                  (= (length synopsis) (length options))
+                  (code command))
           (unless (= (length synopsis) (length options))
             (push (list :command command :synopsis synopsis :options options)
                   *tmp*)))))))
-
-;; create-profile
-
-;; synopsis をパース
-;; options をパース
-;; synopsis を元に options から値の型を取得する。
-;; options を make する。
