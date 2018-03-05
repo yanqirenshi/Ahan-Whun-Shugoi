@@ -3,7 +3,8 @@
   (:nicknames :aws.db)
   (:use :cl)
   (:export #:start
-           #:stop))
+           #:stop
+           #:snapshot))
 (in-package :ahan-whun-shugoi.db)
 
 (defvar *graph* nil)
@@ -15,6 +16,9 @@
   (when *graph* (stop))
   (setf *graph*
         (shinra:make-banshou 'shinra:banshou *graph-stor-dir*)))
+
+(defun snapshot ()
+  (up:snapshot *graph*))
 
 (defun stop ()
   (when *graph*

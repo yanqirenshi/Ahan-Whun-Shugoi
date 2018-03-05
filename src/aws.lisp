@@ -20,6 +20,9 @@
 
 (defun options-table ()
   '((:--profile 'string)
+    (:--log-group-name 'string)
+    (:--log-stream-name 'string)
+    (:--filter-pattern 'string)
     (:test 'boolean)))
 
 (defun get-option-values (options)
@@ -44,8 +47,15 @@
         (concatenate 'string
                      (if (eq :test option)
                          ""
-                         (format nil "~(~a~) ~{~a ~}" option option-values))
+                         (format nil "~(~a~) ~{\"~a\" ~}" option option-values))
                      (opt2cmd (subseq options (+ 1 (length option-values)))))))))
+
+(defun assert-service (service)
+  (unless (servicep service)
+    (error "not supported service. service=~a" service)))
+
+(defun assert-command (service command)
+  (assert (list service command)))
 
 (defun make-aws-command (service command &rest options)
   (format nil "aws ~a ~a ~a"
@@ -55,17 +65,19 @@
               (opt2cmd options)
               "")))
 
-(defun valudation-service (service)
-  (unless (servicep service)
-    (error "not supported service. service=~a" service)))
-
-(defvar *print-command-stream* t)
+(defvar *print-command-stream* t
+  "実行するコマンドの出力先。
+ストリームをセットする。
+初期値は t(標準出力)。
+nil にするとコマンドを出力しない。")
 
 (defun aws-print-command (cmd)
+  "実行するコマンドを出力する。"
   (when *print-command-stream*
     (format *print-command-stream* "Command⇒ ~a~%" cmd)))
 
 (defun aws-faild (values output error-output exit-status)
+  "aws cli 実行時エラー時の情報を出力する。"
   (format t "~%<error-output>~% ~a~%" error-output)
   (format t "<output>~% ~a~%" output)
   (format t "<exit-status>~% ~a~%~%" exit-status)
@@ -75,8 +87,10 @@
   (assert (servicep service))
   (let ((cmd (apply #'make-aws-command service command options)))
     (aws-print-command cmd)
-    (if (getf options :test) ;; test mode
+    (if (getf options :test)
+        ;; test mode
         (format t "Skipt Submit(test-mode).~%" )
+        ;; normal mode
         (multiple-value-bind (values output error-output exit-status)
             (trivial-shell:shell-command cmd)
           (if (= 0 error-output)
