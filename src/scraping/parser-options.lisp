@@ -26,12 +26,13 @@
              #'option-value-type-tag-p)))
 
 (defun find-option-value-type (option-tag)
-  "https://docs.aws.amazon.com/ja_jp/cli/latest/reference/codecommit/batch-get-repositories.html"
-  (let* ((attrs (pt-attrs (find-option-value-type-tag option-tag))))
-    (when (stringp attrs)
-      (multiple-value-bind (ret arr)
-          (cl-ppcre:scan-to-strings "^\\s+\\((.*)\\)[\\s\\S]*$" attrs)
-        (when ret (aref arr 0))))))
+  "https://docs.aws.amazon.com/cli/latest/reference/codecommit/credential-helper/index.html"
+  (when-let ((option-value-type-tag (find-option-value-type-tag option-tag)))
+    (let* ((attrs (pt-attrs option-value-type-tag)))
+      (when (stringp attrs)
+        (multiple-value-bind (ret arr)
+            (cl-ppcre:scan-to-strings "^\\s+\\((.*)\\)[\\s\\S]*$" attrs)
+          (when ret (aref arr 0)))))))
 
 (defun %find-option-name-tags (option-tag-children)
   "option タグ直下のタグから option 名のタグを抽出する。"
