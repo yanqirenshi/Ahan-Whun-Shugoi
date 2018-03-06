@@ -32,7 +32,7 @@
                       #'class-is-internal))))
 
 ;;;
-;;; shinra
+;;; DB(shinra)
 ;;;
 (defun get-service (&key code)
   (car (shinra:find-vertex *graph* 'service
@@ -54,8 +54,6 @@
     (if service
         (update-service-by-html service html)
         (progn
-          (print "Service ----------------------------")
-          (print (html2service-code html))
           (shinra:tx-make-vertex graph 'service
                                  `((code ,(html2service-code html))
                                    (uri ,uri)))))))

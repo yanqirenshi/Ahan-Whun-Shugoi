@@ -23,4 +23,3 @@
     (up:snapshot *graph*))
   (up:close-open-streams *graph*)
   (setf *graph* nil))
-
