@@ -53,8 +53,44 @@
        (shinra:tx-make-edge *graph* 'r-commands
                             service command :r))))
 
+(defun squeeze-code (plists)
+  (when plists
+    (let ((plist (car plists)))
+      (cons (getf plist :code)
+            (squeeze-code (cdr plists))))))
+
+(defun make-code-lsit (synopsis options)
+  (remove-duplicates (merge 'list
+                            (squeeze-code synopsis)
+                            (squeeze-code options)
+                            #'string<)
+                     :test 'equal))
+
+(defun get-plist-rec-at-code (code plists)
+  (find-if #'(lambda (plist)
+               (string= code (getf plist :code)))
+           plists))
+
+(defun %merge-synopsis&options (code-list synopsis options)
+  (when code-list
+    (let* ((code (car code-list))
+           (synopsis-data (get-plist-rec-at-code code synopsis))
+           (options-data (get-plist-rec-at-code code options)))
+      (if (not (and synopsis-data options-data))
+          (%merge-synopsis&options (cdr code-list) synopsis options)
+          (cons (list :code        (alexandria:make-keyword (string-upcase (getf options-data :code)))
+                      :value-types (getf options-data :value-types)
+                      :attrs       (getf synopsis-data :attrs)
+                      :require     (getf synopsis-data :require))
+                (%merge-synopsis&options (cdr code-list) synopsis options))))))
+
+
+(defun merge-synopsis&options (synopsis options)
+  (%merge-synopsis&options (make-code-lsit synopsis options)
+                           synopsis
+                           options))
+
 (defun find-commands (aws service commands)
-  (declare (ignore aws))
   (dolist (command commands)
     (let* ((uri (getf command :uri))
            (html (get-command-html uri)))
@@ -63,8 +99,12 @@
               (synopsis (prse-synopsis (find-synopsis-tag html)))
               (options  (prse-options (find-options-tag html))))
           (make-r-service-command service command)
-          (unless (= (length synopsis) (length options))
-            (format t "~2a = ~2a ⇒ ~a : ~a~%"
+          (if (= (length synopsis) (length options))
+              (find-options aws
+                            service
+                            command
+                            (merge-synopsis&options synopsis options))
+              (warn "~2a = ~2a ⇒ ~a : ~a~%"
                     (length synopsis)
                     (length options)
                     (= (length synopsis) (length options))
