@@ -1,31 +1,38 @@
 (in-package :ahan-whun-shugoi.scraping)
 
+;;;
+;;; DB(shinra)
+;;;
 (defun get-option (&key code)
   (car (shinra:find-vertex *graph* 'option
                            :slot 'code
                            :value code)))
 
-(defun update-option (option plist)
-  (declare (ignore plist))
+(defun tx-update-option (graph option plist)
+  (declare (ignore plist graph))
   option)
 
-(defun make-option (plist)
+(defun tx-make-option (graph plist)
   (when plist
     (let* ((code (getf plist :code))
            (option (get-option :code code)))
       (if option
-          (update-option option plist)
-          (execute-transaction
-           (tx-make-vertex *graph*
-                           'option
-                           `((code ,code))))))))
+          (tx-update-option graph option plist)
+          (tx-make-vertex graph
+                          'option
+                          `((code ,code)))))))
 
-(defun make-r-command-option (command option)
-  (execute-transaction
-   (shinra:tx-make-edge *graph* 'r-options command option :r)))
+(defun tx-make-r-command-option (graph command option)
+  (shinra:tx-make-edge graph 'r-options command option :r))
 
-(defun find-options (aws service command options)
-  (declare (ignore aws service))
+(defun tx-add-option (graph command option-data)
+  (let ((option (tx-make-option graph option-data)))
+    (tx-make-r-command-option graph command option)))
+
+;;;
+;;; ADD-OPTIONS
+;;;
+(defun add-options (command options)
   (dolist (option-data options)
-    (let ((option (make-option option-data)))
-      (make-r-command-option command option))))
+    (up:execute-transaction
+     (tx-add-option *graph* command option-data))))

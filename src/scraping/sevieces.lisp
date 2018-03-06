@@ -1,5 +1,8 @@
 (in-package :ahan-whun-shugoi.scraping)
 
+;;;
+;;; html
+;;;
 (defun a-tag2service-plist (tag)
   (list :code (pt-attrs (first (pt-children tag)))
         :uri (getf (pt-attrs tag) :href)))
@@ -17,36 +20,6 @@
          (children (pt-children h1)))
     (pt-attrs (first children))))
 
-(defun get-service (&key code)
-  (car (shinra:find-vertex *graph* 'service
-                            :slot 'code
-                            :value code)))
-
-(defun update-service-by-html (server html)
-  (declare (ignore html))
-  server)
-
-(defun html2service (uri html)
-  (let ((service (get-service :code (html2service-code html))))
-    (if service
-        (update-service-by-html service html)
-        (execute-transaction
-         (shinra:tx-make-vertex *graph* 'service
-                                `((code ,(html2service-code html))
-                                  (uri ,uri)))))))
-
-(defun make-r-aws-service (aws service)
-  (or (get-r *graph* 'r-services :from aws service :r)
-      (execute-transaction
-       (make-edge *graph* 'r-services
-                  aws service
-                  :r))))
-
-(defun make-service (aws html uri)
-  (let ((service (html2service uri html)))
-    (make-r-aws-service aws service)
-    service))
-
 (defun find-service-commands (html uri)
   (let ((section (car (find-tag html
                                 #'is-div
@@ -58,6 +31,44 @@
                       #'class-is-reference
                       #'class-is-internal))))
 
+;;;
+;;; shinra
+;;;
+(defun get-service (&key code)
+  (car (shinra:find-vertex *graph* 'service
+                           :slot 'code
+                           :value code)))
+
+(defun tx-update-service-by-html (graph server html)
+  (declare (ignore html graph))
+  server)
+
+(defun tx-make-r-aws-service (graph aws service)
+  (or (get-r graph 'r-services :from aws service :r)
+      (make-edge graph 'r-services
+                 aws service
+                 :r)))
+
+(defun tx-html2service (graph uri html)
+  (let ((service (get-service :code (html2service-code html))))
+    (if service
+        (update-service-by-html service html)
+        (shinra:tx-make-vertex graph 'service
+                               `((code ,(html2service-code html))
+                                 (uri ,uri))))))
+
+(defun tx-make-service (graph aws html uri)
+  (let ((service (tx-html2service graph uri html)))
+    (tx-make-r-aws-service graph aws service)
+    service))
+
+(defun make-service (aws html uri)
+  (up:execute-transaction
+   (tx-make-service *graph* aws html uri)))
+
+;;;
+;;; FIND-SERVICES
+;;;
 (defun find-services (aws services)
   (dolist (service services)
     (let* ((uri (make-service-uri service))

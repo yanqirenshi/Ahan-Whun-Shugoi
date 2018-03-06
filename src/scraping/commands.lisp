@@ -1,5 +1,8 @@
 (in-package :ahan-whun-shugoi.scraping)
 
+;;;
+;;; html
+;;;
 (defun merge-command-uri (tag uri)
   (let ((uri (quri:uri uri)))
     (setf (quri:uri-path uri)
@@ -23,36 +26,12 @@
          (children (pt-children h1)))
     (pt-attrs (first children))))
 
-(defun get-command (&key code)
-  (shinra:find-vertex *graph* 'command
-                      :slot 'code
-                      :value code))
-
-(defun update-command (command html)
-  (declare (ignore html))
-  command)
-
-(defun make-command (html &key uri)
-  (when html
-    (let* ((code (html2service-code html))
-           (command (car (get-command :code code))))
-      (if command
-          (update-command command html)
-          (execute-transaction
-           (tx-make-vertex *graph*
-                           'command
-                           `((code ,code)
-                             (uri ,uri))))))))
-
 (defun find-command-options (html)
   (find-options-tag html))
 
-(defun make-r-service-command (service command)
-  (or (shinra:get-r *graph* 'r-commands :from service command :r)
-      (execute-transaction
-       (shinra:tx-make-edge *graph* 'r-commands
-                            service command :r))))
-
+;;;
+;;; merge-synopsis&options
+;;;
 (defun squeeze-code (plists)
   (when plists
     (let ((plist (car plists)))
@@ -89,23 +68,64 @@
   (%merge-synopsis&options (make-code-lsit synopsis options)
                            synopsis
                            options))
+;;;
+;;; DB(shinra)
+;;;
+(defun get-command (graph &key code)
+  (shinra:find-vertex graph 'command
+                      :slot 'code
+                      :value code))
+
+(defun tx-update-command (graph command html)
+  (declare (ignore graph html))
+  command)
+
+
+(defun %tx-make-command (graph html &key uri)
+  (when html
+    (let* ((code (html2service-code html))
+           (command (car (get-command graph :code code))))
+      (if command
+          (tx-update-command graph command html)
+          (tx-make-vertex graph
+                          'command
+                          `((code ,code)
+                            (uri ,uri)))))))
+
+(defun tx-make-r-service-command (graph service command)
+  (or (shinra:get-r graph 'r-commands :from service command :r)
+      (shinra:tx-make-edge graph 'r-commands
+                           service command :r)))
+
+(defun tx-make-command (graph service command-html)
+  (let ((command (%tx-make-command graph command-html)))
+    (tx-make-r-service-command graph service command)
+    command))
+
+(defun make-command (service command-html &key (graph *graph*))
+  (up:execute-transaction
+   (tx-make-command graph service command-html)))
+
+;;;
+;;; find-commands
+;;;
+(defun warn-unmutch-options (command synopsis options)
+  (warn "~2a = ~2a ⇒ ~a : ~a~%"
+        (length synopsis)
+        (length options)
+        (= (length synopsis) (length options))
+        (code command)))
 
 (defun find-commands (aws service commands)
+  (declare (ignore aws))
   (dolist (command commands)
     (let* ((uri (getf command :uri))
            (html (get-command-html uri)))
       (unless (string= "wait" (getf command :code))
-        (let ((command  (make-command html :uri uri))
+        (let ((command  (make-command service html))
               (synopsis (prse-synopsis (find-synopsis-tag html)))
               (options  (prse-options (find-options-tag html))))
-          (make-r-service-command service command)
           (if (= (length synopsis) (length options))
-              (find-options aws
-                            service
-                            command
-                            (merge-synopsis&options synopsis options))
-              (warn "~2a = ~2a ⇒ ~a : ~a~%"
-                    (length synopsis)
-                    (length options)
-                    (= (length synopsis) (length options))
-                    (code command))))))))
+              (add-options command
+                           (merge-synopsis&options synopsis options))
+              (warn-unmutch-options command synopsis options)))))))

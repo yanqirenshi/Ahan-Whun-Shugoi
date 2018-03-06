@@ -23,6 +23,8 @@
     (:--log-group-name 'string)
     (:--log-stream-name 'string)
     (:--filter-pattern 'string)
+    (:--start-time 'long)
+    (:--end-time  'long)
     (:test 'boolean)))
 
 (defun get-option-values (options)
