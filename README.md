@@ -21,6 +21,27 @@ WEB(html) ⇒ DB(Shinrabanshou)
 
 ## Installation
 
+プログラムをロードする。
+
+```lisp
+(ql:quickload :ahan-whun-shugoi)
+```
+
+DBを起動する。
+
+```lisp
+(aws.db:start)
+```
+
+WEBからDBにデータを取り込む。(1〜2時間くらい)
+
+```lisp
+(defvar *collect*
+  (bordeaux-threads:make-thread
+   #'(lambda ()
+       (time (collect)))))
+```
+
 ## Author
 
 * Satoshi Iwasaki (yanqirenshi@gmail.com)
