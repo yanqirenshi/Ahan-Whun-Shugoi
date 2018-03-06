@@ -53,9 +53,12 @@
   (let ((service (get-service :code (html2service-code html))))
     (if service
         (update-service-by-html service html)
-        (shinra:tx-make-vertex graph 'service
-                               `((code ,(html2service-code html))
-                                 (uri ,uri))))))
+        (progn
+          (print "Service ----------------------------")
+          (print (html2service-code html))
+          (shinra:tx-make-vertex graph 'service
+                                 `((code ,(html2service-code html))
+                                   (uri ,uri)))))))
 
 (defun tx-make-service (graph aws html uri)
   (let ((service (tx-html2service graph uri html)))

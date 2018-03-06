@@ -85,6 +85,7 @@
   (when html
     (let* ((code (html2service-code html))
            (command (car (get-command graph :code code))))
+      (print code)
       (if command
           (tx-update-command graph command html)
           (tx-make-vertex graph
