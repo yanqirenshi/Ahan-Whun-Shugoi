@@ -29,7 +29,8 @@
                 #:tx-make-vertex
                 #:get-r
                 #:make-edge)
-  (:export #:get-service
+  (:export #:find-aws-options
+           #:get-service
            #:get-service-command
            #:find-command-options
            #:get-command))

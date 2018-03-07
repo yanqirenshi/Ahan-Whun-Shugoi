@@ -31,3 +31,4 @@
 (defclass r-services (ra) ())
 (defclass r-commands (ra) ())
 (defclass r-options  (ra) ())
+(defclass r-aws2options (ra) ())

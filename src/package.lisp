@@ -4,6 +4,7 @@
   (:use :cl)
   (:export :aws)
   (:import-from :aws.scraping
+                #:find-aws-options
                 #:get-service
                 #:get-service-command
                 #:find-command-options)

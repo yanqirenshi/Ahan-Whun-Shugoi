@@ -41,7 +41,9 @@ nil にするとコマンドを出力しない。")
 ;;; AWS CLI
 ;;;
 (defun aws (service command &rest options)
-  (let ((cmd (make-aws-cli-command service command options)))
+  (let* ((cmd (make-aws-cli-command service
+                                    command
+                                    options)))
     (aws-print-command cmd)
     (if (getf options :test)
         (aws-test-mode)

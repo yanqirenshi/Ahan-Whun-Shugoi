@@ -13,9 +13,6 @@
 (defun get-master-option (master option-code)
   (when master
     (let ((option (car master)))
-      (when (eq :--profile option-code)
-        ;; TODO: これはなぁ。。。。
-        (setf option (make-instance 'aws.scraping::option :code option-code)))
       (if (eq option-code (aws.scraping::code option))
           option
           (get-master-option (cdr master) option-code)))))
