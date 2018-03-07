@@ -54,7 +54,7 @@
           (%merge-synopsis&options (cdr code-list) synopsis options)
           (cons (list :code        (ensure-keyword (getf options-data :code))
                       :value-types (getf options-data :value-types)
-                      :attrs       (getf synopsis-data :attrs)
+                      :attributes  (getf synopsis-data :attributes)
                       :require     (getf synopsis-data :require))
                 (%merge-synopsis&options (cdr code-list) synopsis options))))))
 
@@ -67,9 +67,9 @@
 ;;;
 (defun get-command (&key code (graph *graph*))
   (when code
-    (car (shinra:find-vertex graph 'command
-                             :slot 'code
-                             :value code))))
+    (car (find-vertex graph 'command
+                      :slot 'code
+                      :value code))))
 
 (defun find-command-options (command &key (graph *graph*))
   (when command

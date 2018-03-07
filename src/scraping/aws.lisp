@@ -10,7 +10,7 @@
 ;;; DB(shinra)
 ;;;
 (defun get-aws (&key (code :aws))
-  (car (shinra:find-vertex *graph* 'aws :slot 'code :value code)))
+  (car (find-vertex *graph* 'aws :slot 'code :value code)))
 
 (defun %tx-make-aws (graph html)
   (declare (ignore html))

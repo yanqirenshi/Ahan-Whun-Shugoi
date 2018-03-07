@@ -31,9 +31,9 @@
 ;;;
 (defun get-service (&key code (graph *graph*))
   (when code
-    (car (shinra:find-vertex graph 'service
-                             :slot 'code
-                             :value code))))
+    (car (find-vertex graph 'service
+                      :slot 'code
+                      :value code))))
 
 (defun get-service-command (service command-code &key (graph *graph*))
   (when (and service command-code)

@@ -26,6 +26,7 @@
   (:import-from :shinra
                 #:shin
                 #:ra
+                #:find-vertex
                 #:tx-make-vertex
                 #:get-r
                 #:make-edge)

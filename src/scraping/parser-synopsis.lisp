@@ -24,7 +24,7 @@
 (defun %prse-synopsis-parse-option-make (str require)
   (multiple-value-bind (name attrs)
       (%prse-synopsis-split-option str)
-    (list :code name :attrs attrs :require require)))
+    (list :code name :attributes attrs :require require)))
 
 (defun %prse-synopsis-parse-option (str require)
   (if (not (find #\| str))
