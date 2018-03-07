@@ -28,7 +28,6 @@
                           `((code ,code)))))))
 
 (defun tx-make-r-command-option (graph command option option-data)
-  (print option-data)
   (shinra:tx-make-edge graph 'r-command2options command option :r
                        `((option-type ,(if (getf option-data :require) :required :optional))
                          (value-types ,(getf option-data :value-types))
