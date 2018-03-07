@@ -55,7 +55,7 @@
                  :r)))
 
 (defun tx-html2service (graph uri html)
-  (let* ((code (get-code-from-h1-tag html))
+  (let* ((code (ensure-keyword (get-code-from-h1-tag html)))
          (service (get-service :code code :graph graph)))
     (if service
         (tx-update-service-by-html graph service html)

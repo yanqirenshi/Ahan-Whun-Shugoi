@@ -14,7 +14,7 @@
 
 (defun tx-make-option (graph plist)
   (when plist
-    (let* ((code (getf plist :code))
+    (let* ((code (ensure-keyword (getf plist :code)))
            (option (get-option :code code)))
       (if option
           (tx-update-option graph option plist)

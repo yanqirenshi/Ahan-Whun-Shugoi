@@ -47,7 +47,7 @@
 
 (defun %merge-synopsis&options (code-list synopsis options)
   (when code-list
-    (let* ((code (car code-list))
+    (let* ((code (ensure-keyword (car code-list)))
            (synopsis-data (get-plist-rec-at-code code synopsis))
            (options-data (get-plist-rec-at-code code options)))
       (if (not (and synopsis-data options-data))
@@ -87,7 +87,7 @@
 (defun %tx-make-command (graph html &key uri)
   (when html
     (let* ((code (get-code-from-h1-tag html))
-           (command (car (get-command :graph graph :code code))))
+           (command (get-command :graph graph :code code)))
       (if command
           (tx-update-command graph command html)
           (tx-make-vertex graph

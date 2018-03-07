@@ -13,6 +13,11 @@
 (defun str2keyword (str)
   (alexandria:make-keyword (string-upcase str)))
 
+(defun ensure-keyword (v)
+  (cond ((keywordp v) v)
+        ((stringp v) (str2keyword v))
+        (t (error v))))
+
 ;;;
 ;;; tag
 ;;;

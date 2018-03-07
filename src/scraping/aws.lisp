@@ -67,7 +67,17 @@
 ;;;
 ;;; collect
 ;;;
-(defun collect (&key (uri (root-uri)))
+(defun collect-target-service (services target)
+  (if (eq :all target)
+      services
+      (let ((target-list (alexandria:ensure-list target)))
+        (remove-if #'(lambda (rec)
+                       (not (find (str2keyword (getf rec :code))
+                                  target-list)))
+                   services))))
+
+(defun collect (&key (target :all) (uri (root-uri)))
   (multiple-value-bind (aws services)
       (find-aws :uri uri)
-    (find-services aws services)))
+    (find-services aws
+                   (collect-target-service services target))))
