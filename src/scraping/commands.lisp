@@ -73,7 +73,7 @@
 
 (defun find-command-options (command &key (graph *graph*))
   (when command
-    (shinra:find-r-vertex graph 'r-options
+    (shinra:find-r-vertex graph 'r-command2options
                           :from command
                           :edge-type :r
                           :vertex-class 'option)))
@@ -95,9 +95,9 @@
                             (uri ,uri)))))))
 
 (defun tx-make-r-service-command (graph service command)
-  (or (shinra:get-r graph 'r-commands :from service command :r)
-      (shinra:tx-make-edge graph 'r-commands
-                           service command :r)))
+  (let ((class 'r-services2commands))
+    (or (shinra:get-r graph class :from service command :r)
+        (shinra:tx-make-edge graph class service command :r))))
 
 (defun tx-make-command (graph service command-html)
   (let ((command (%tx-make-command graph command-html)))

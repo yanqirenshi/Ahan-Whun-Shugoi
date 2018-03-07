@@ -39,7 +39,7 @@
   (when (and service command-code)
     (find-if #'(lambda (cmd)
                  (eq command-code (code cmd)))
-             (shinra:find-r-vertex graph 'r-commands
+             (shinra:find-r-vertex graph 'r-services2commands
                                    :from service
                                    :edge-type :r
                                    :vertex-class 'command))))
@@ -49,10 +49,9 @@
   server)
 
 (defun tx-make-r-aws-service (graph aws service)
-  (or (get-r graph 'r-services :from aws service :r)
-      (make-edge graph 'r-services
-                 aws service
-                 :r)))
+  (let ((class 'r-aws2services))
+    (or (get-r graph class :from aws service :r)
+        (make-edge graph class aws service :r))))
 
 (defun tx-html2service (graph uri html)
   (let* ((code (ensure-keyword (get-code-from-h1-tag html)))

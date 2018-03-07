@@ -28,7 +28,10 @@
   ((code        :accessor code        :initarg :code        :initform nil)
    (description :accessor description :initarg :description :initform nil)))
 
-(defclass r-services (ra) ())
-(defclass r-commands (ra) ())
-(defclass r-options  (ra) ())
+(defclass r-aws2services (ra) ())
 (defclass r-aws2options (ra) ())
+(defclass r-services2commands (ra) ())
+(defclass r-command2options (ra)
+  ((option-type :accessor option-type :initarg :option-type :initform :require)
+   (value-types :accessor value-types :initarg :value-types :initform nil)
+   (attributes  :accessor attributes  :initarg :attributes  :initform nil)))

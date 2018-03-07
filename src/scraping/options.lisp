@@ -14,6 +14,10 @@
   option)
 
 (defun tx-make-option (graph plist)
+  "plist から option クラスインスタンスを作成する。
+すでに存在する場合は更新する。
+ plist ::= (:code ... :value-types (...) :attrs (...) :require)
+"
   (when plist
     (let* ((code (ensure-keyword (getf plist :code)))
            (option (get-option :code code)))
@@ -24,7 +28,7 @@
                           `((code ,code)))))))
 
 (defun tx-make-r-command-option (graph command option)
-  (shinra:tx-make-edge graph 'r-options command option :r))
+  (shinra:tx-make-edge graph 'r-command2options command option :r))
 
 (defun tx-add-option (graph command option-data)
   (let ((option (tx-make-option graph option-data)))
