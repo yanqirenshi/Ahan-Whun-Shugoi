@@ -21,8 +21,11 @@
   (when options
     (let* ((option-code (car options))
            (option-master (get-master-option master option-code)))
-      (assert (keywordp option-code))
-      (assert option-master)
+      (assert (keywordp option-code)
+              (option-code) "option-code ist not keyword. option-code= ~S" option-code)
+      (assert option-master
+              (option-code)
+              "Cannot find master ~S." option-code)
       (let ((option-values (get-option-values (cdr options))))
         (concatenate 'string
                      (if (eq :test option-code)

@@ -4,7 +4,8 @@
 ;;; DB(shinra)
 ;;;
 (defun get-option (&key code)
-  (car (shinra:find-vertex *graph* 'option
+  (car (shinra:find-vertex *graph*
+                           'option
                            :slot 'code
                            :value code)))
 

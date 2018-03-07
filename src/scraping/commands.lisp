@@ -47,17 +47,16 @@
 
 (defun %merge-synopsis&options (code-list synopsis options)
   (when code-list
-    (let* ((code (ensure-keyword (car code-list)))
+    (let* ((code (car code-list))
            (synopsis-data (get-plist-rec-at-code code synopsis))
            (options-data (get-plist-rec-at-code code options)))
       (if (not (and synopsis-data options-data))
           (%merge-synopsis&options (cdr code-list) synopsis options)
-          (cons (list :code        (str2keyword (getf options-data :code))
+          (cons (list :code        (ensure-keyword (getf options-data :code))
                       :value-types (getf options-data :value-types)
                       :attrs       (getf synopsis-data :attrs)
                       :require     (getf synopsis-data :require))
                 (%merge-synopsis&options (cdr code-list) synopsis options))))))
-
 
 (defun merge-synopsis&options (synopsis options)
   (%merge-synopsis&options (make-code-lsit synopsis options)
