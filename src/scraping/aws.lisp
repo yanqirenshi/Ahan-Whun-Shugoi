@@ -10,7 +10,7 @@
   (declare (ignore html))
   (tx-make-vertex graph
                   'aws
-                  `((code "aws")
+                  `((code :aws)
                     ;; (description ,(find-description-tag html))
                     ;; (synopsis    ,(find-synopsis-tag html))
                     ;; (options     ,(find-options-tag html))

@@ -1,9 +1,24 @@
 (in-package :ahan-whun-shugoi)
 
-(defun make-aws-cli-command (service command options)
-  (format nil "aws ~a ~a ~a"
-          (string-downcase (symbol-name service))
-          (string-downcase (symbol-name command))
-          (if options
-              (opt2cmd options)
-              "")))
+(defun get-master (service-code command-code)
+  (let* ((service (get-service :code service-code))
+         (command (get-service-command service command-code))
+         (options (find-command-options command)))
+    (assert service)
+    (assert command)
+    (assert options)
+    (values service command options)))
+
+(defun get-code (obj &key to-str)
+  (let ((code (aws.scraping::code obj)))
+    (if (not to-str)
+        code
+        (string-downcase (symbol-name code)))))
+
+(defun make-aws-cli-command (service-code command-code &optional options_in)
+  (multiple-value-bind (service command options)
+      (get-master service-code command-code)
+    (format nil "aws ~a ~a~a"
+            (get-code service :to-str t)
+            (get-code command :to-str t)
+            (opt2cmd options_in :master options))))

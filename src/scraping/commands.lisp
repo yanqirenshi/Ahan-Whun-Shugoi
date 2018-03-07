@@ -21,11 +21,6 @@
     (sleep sleep-time)
     html))
 
-(defun html2service-code (html)
-  (let* ((h1 (car (find-tag html #'is-h1)))
-         (children (pt-children h1)))
-    (pt-attrs (first children))))
-
 (defun find-command-options (html)
   (find-options-tag html))
 
@@ -57,7 +52,7 @@
            (options-data (get-plist-rec-at-code code options)))
       (if (not (and synopsis-data options-data))
           (%merge-synopsis&options (cdr code-list) synopsis options)
-          (cons (list :code        (alexandria:make-keyword (string-upcase (getf options-data :code)))
+          (cons (list :code        (str2keyword (getf options-data :code))
                       :value-types (getf options-data :value-types)
                       :attrs       (getf synopsis-data :attrs)
                       :require     (getf synopsis-data :require))
@@ -71,10 +66,18 @@
 ;;;
 ;;; DB(shinra)
 ;;;
-(defun get-command (graph &key code)
-  (shinra:find-vertex graph 'command
-                      :slot 'code
-                      :value code))
+(defun get-command (&key code (graph *graph*))
+  (when code
+    (car (shinra:find-vertex graph 'command
+                             :slot 'code
+                             :value code))))
+
+(defun find-command-options (command &key (graph *graph*))
+  (when command
+    (shinra:find-r-vertex graph 'r-options
+                          :from command
+                          :edge-type :r
+                          :vertex-class 'option)))
 
 (defun tx-update-command (graph command html)
   (declare (ignore graph html))
@@ -83,8 +86,8 @@
 
 (defun %tx-make-command (graph html &key uri)
   (when html
-    (let* ((code (html2service-code html))
-           (command (car (get-command graph :code code))))
+    (let* ((code (get-code-from-h1-tag html))
+           (command (car (get-command :graph graph :code code))))
       (if command
           (tx-update-command graph command html)
           (tx-make-vertex graph

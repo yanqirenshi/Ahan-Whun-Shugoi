@@ -1,14 +1,5 @@
 (in-package :ahan-whun-shugoi)
 
-(defun options-table ()
-  '((:--profile 'string)
-    (:--log-group-name 'string)
-    (:--log-stream-name 'string)
-    (:--filter-pattern 'string)
-    (:--start-time 'long)
-    (:--end-time  'long)
-    (:test 'boolean)))
-
 (defun get-option-values (options)
   (let ((first-keyword-position (position-if (lambda (v) (keywordp v)) options)))
     (if (null first-keyword-position)
@@ -19,17 +10,30 @@
   (assert (= (length option-table-values)
              (length option-values))))
 
-(defun opt2cmd (options &key (options-table (options-table)))
+(defun get-master-option (master option-code)
+  (when master
+    (let ((option (car master)))
+      (when (eq :--profile option-code)
+        ;; TODO: これはなぁ。。。。
+        (setf option (make-instance 'aws.scraping::option :code option-code)))
+      (if (eq option-code (aws.scraping::code option))
+          option
+          (get-master-option (cdr master) option-code)))))
+
+(defun %opt2cmd (options master)
   (when options
-    (let* ((option (car options))
-           (option-table (assoc option options-table)))
-      (assert (keywordp option))
-      (assert option-table)
-      (let ((option-table-values (cdr option-table))
-            (option-values (get-option-values (cdr options))))
-        (assert-option-values option-table-values option-values)
+    (let* ((option-code (car options))
+           (option-master (get-master-option master option-code)))
+      (assert (keywordp option-code))
+      (assert option-master)
+      (let ((option-values (get-option-values (cdr options))))
         (concatenate 'string
-                     (if (eq :test option)
+                     (if (eq :test option-code)
                          ""
-                         (format nil "~(~a~) ~{\"~a\" ~}" option option-values))
-                     (opt2cmd (subseq options (+ 1 (length option-values)))))))))
+                         (format nil " ~(~a~) ~{\"~a\"~}" option-code option-values))
+                     (%opt2cmd (subseq options (+ 1 (length option-values))) master))))))
+
+(defun opt2cmd (options &key master)
+  (if (null options)
+      ""
+      (%opt2cmd options master)))

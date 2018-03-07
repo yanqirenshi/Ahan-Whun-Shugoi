@@ -10,6 +10,8 @@
   (mapcar #'trim
           (split-sequence delimiter str)))
 
+(defun str2keyword (str)
+  (alexandria:make-keyword (string-upcase str)))
 
 ;;;
 ;;; tag
@@ -80,3 +82,8 @@
                  #'is-div
                  #'class-is-section
                  #'id-is-output)))
+
+(defun get-code-from-h1-tag (html)
+  (let* ((h1 (car (find-tag html #'is-h1)))
+         (children (pt-children h1)))
+    (str2keyword (pt-attrs (first children)))))

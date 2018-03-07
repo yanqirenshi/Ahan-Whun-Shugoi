@@ -15,11 +15,6 @@
     (sleep sleep-time)
     html))
 
-(defun html2service-code (html)
-  (let* ((h1 (car (find-tag html #'is-h1)))
-         (children (pt-children h1)))
-    (pt-attrs (first children))))
-
 (defun find-service-commands (html uri)
   (let ((section (car (find-tag html
                                 #'is-div
@@ -34,10 +29,20 @@
 ;;;
 ;;; DB(shinra)
 ;;;
-(defun get-service (&key code)
-  (car (shinra:find-vertex *graph* 'service
-                           :slot 'code
-                           :value code)))
+(defun get-service (&key code (graph *graph*))
+  (when code
+    (car (shinra:find-vertex graph 'service
+                             :slot 'code
+                             :value code))))
+
+(defun get-service-command (service command-code &key (graph *graph*))
+  (when (and service command-code)
+    (find-if #'(lambda (cmd)
+                 (eq command-code (code cmd)))
+             (shinra:find-r-vertex graph 'r-commands
+                                   :from service
+                                   :edge-type :r
+                                   :vertex-class 'command))))
 
 (defun tx-update-service-by-html (graph server html)
   (declare (ignore html graph))
@@ -50,12 +55,13 @@
                  :r)))
 
 (defun tx-html2service (graph uri html)
-  (let ((service (get-service :code (html2service-code html))))
+  (let* ((code (get-code-from-h1-tag html))
+         (service (get-service :code code :graph graph)))
     (if service
-        (update-service-by-html service html)
+        (tx-update-service-by-html graph service html)
         (progn
           (shinra:tx-make-vertex graph 'service
-                                 `((code ,(html2service-code html))
+                                 `((code ,code)
                                    (uri ,uri)))))))
 
 (defun tx-make-service (graph aws html uri)

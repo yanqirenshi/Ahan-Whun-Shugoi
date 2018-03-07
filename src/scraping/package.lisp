@@ -28,7 +28,11 @@
                 #:ra
                 #:tx-make-vertex
                 #:get-r
-                #:make-edge))
+                #:make-edge)
+  (:export #:get-service
+           #:get-service-command
+           #:find-command-options
+           #:get-command))
 (in-package :ahan-whun-shugoi.scraping)
 
 (defvar *uri-scheme* "https")

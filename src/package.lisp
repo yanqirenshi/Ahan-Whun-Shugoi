@@ -3,6 +3,10 @@
   (:nicknames :aws)
   (:use :cl)
   (:export :aws)
+  (:import-from :aws.scraping
+                #:get-service
+                #:get-service-command
+                #:find-command-options)
   ;; db
   (:export #:start
            #:stop
