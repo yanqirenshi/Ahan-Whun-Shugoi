@@ -4,7 +4,8 @@
   (:use :cl)
   (:export #:start
            #:stop
-           #:snapshot))
+           #:snapshot
+           #:remove-all-files))
 (in-package :ahan-whun-shugoi.db)
 
 (defvar *graph* nil)
@@ -24,3 +25,7 @@
   (when *graph*
     (upanishad:stop *graph*)
     (setf *graph* nil)))
+
+(defun remove-all-files ()
+  (mapcar #'delete-file
+          (fad:list-directory *graph-stor-dir*)))
