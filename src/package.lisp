@@ -1,7 +1,8 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi
   (:nicknames :aws)
-  (:use :cl)
+  (:use #:cl
+        #:aws.cli.command)
   (:export :aws)
   (:import-from :aws.scraping
                 #:find-aws-options

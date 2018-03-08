@@ -1,4 +1,10 @@
-(in-package :ahan-whun-shugoi)
+(in-package :cl-user)
+(defpackage ahan-whun-shugoi.cli.option
+  (:nicknames :aws.cli.option)
+  (:use :cl :aws.scraping)
+  (:export #:opt2cmd))
+(in-package :ahan-whun-shugoi.cli.option)
+
 
 (defun get-option-values (options)
   (let ((first-keyword-position (position-if (lambda (v) (keywordp v)) options)))

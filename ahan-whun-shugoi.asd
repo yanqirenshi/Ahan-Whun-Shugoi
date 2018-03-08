@@ -31,9 +31,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :components ((:module "src"
                 :components
                 ((:module "db" :components ((:file "graph")))
-                 (:file "html")
-                 (:module "cli" :components ((:file "config")
-                                             (:file "command")))
+                 (:module "utilities" :components ((:file "html")))
                  (:module "scraping"
                   :components ((:file "package")
                                (:file "util")
@@ -44,6 +42,9 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                                (:file "commands")
                                (:file "sevieces")
                                (:file "aws")))
+                 (:module "cli" :components ((:file "config")
+                                             (:file "option")
+                                             (:file "command")))
                  (:file "package")
                  (:module "services" :components
                           ((:module "ec2" :components ((:file "cmds")
@@ -57,10 +58,6 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                                                         (:file "log-event")))
                            (:module "iam" :components ((:file "cmds")
                                                        (:file "class")))))
-                 (:file "option")
-                 (:file "command")
-                 (:file "service")
-                 (:file "aws-cli-command")
                  (:file "aws"))))
   :description ""
   :long-description
