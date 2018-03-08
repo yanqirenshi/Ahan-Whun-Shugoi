@@ -5,7 +5,7 @@
   (:export #:start
            #:stop
            #:snapshot
-           #:remove-all-files))
+           #:refresh))
 (in-package :ahan-whun-shugoi.db)
 
 (defvar *graph* nil)
@@ -25,6 +25,11 @@
   (when *graph*
     (upanishad:stop *graph*)
     (setf *graph* nil)))
+
+(defun refresh ()
+  (aws.db:stop)
+  (aws.db:remove-all-files)
+  (aws.db:start))
 
 (defun remove-all-files ()
   (mapcar #'delete-file

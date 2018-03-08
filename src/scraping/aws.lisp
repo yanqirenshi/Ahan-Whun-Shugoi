@@ -77,12 +77,8 @@
                    services))))
 
 (defun collect (&key (target :all) (uri (root-uri)) refresh)
-  (when refresh
-    (aws.db:stop)
-    (aws.db:remove-all-files))
+  (when refresh (aws.db:refresh))
   (multiple-value-bind (aws services)
       (find-aws :uri uri)
     (find-services aws
-                   (collect-target-service services target)))
-  (when refresh
-    (aws.db:start)))
+                   (collect-target-service services target))))
