@@ -49,7 +49,7 @@
 (defun id-is-available-services (tag)
   (id-is "available-services" tag))
 
-(defun id-is-available-commands (tag)
+(defun id-is-available-subcommands (tag)
   (id-is "available-commands" tag))
 
 (defun find-description-tag (html)

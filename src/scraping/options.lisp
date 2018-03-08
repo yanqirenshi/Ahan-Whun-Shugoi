@@ -27,22 +27,23 @@
                           'option
                           `((code ,code)))))))
 
-(defun tx-make-r-command-option (graph command option option-data)
-  (shinra:tx-make-edge graph 'r-command2options command option :r
+(defun tx-make-r-subcommand-option (graph subcommand option option-data)
+  (shinra:tx-make-edge graph 'r-subcommand2options
+                       subcommand option :r
                        `((option-type ,(if (getf option-data :require) :required :optional))
                          (value-types ,(getf option-data :value-types))
                          (attributes  ,(getf option-data :attributes)))))
 
-(defun tx-add-option (graph command option-data)
-  "command に option を追加します。
+(defun tx-add-option (graph subcommand option-data)
+  "subcommand に option を追加します。
 option は存在しない場合は新設されます。"
   (let ((option (tx-make-option graph option-data)))
-    (tx-make-r-command-option graph command option option-data)))
+    (tx-make-r-subcommand-option graph subcommand option option-data)))
 
 ;;;
 ;;; ADD-OPTIONS
 ;;;
-(defun add-options (command options)
+(defun add-options (subcommand options)
   (dolist (option-data options)
     (up:execute-transaction
-     (tx-add-option *graph* command option-data))))
+     (tx-add-option *graph* subcommand option-data))))

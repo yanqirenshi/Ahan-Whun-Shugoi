@@ -26,11 +26,11 @@
     (upanishad:stop *graph*)
     (setf *graph* nil)))
 
-(defun refresh ()
-  (aws.db:stop)
-  (aws.db:remove-all-files)
-  (aws.db:start))
-
 (defun remove-all-files ()
   (mapcar #'delete-file
           (fad:list-directory *graph-stor-dir*)))
+
+(defun refresh ()
+  (stop)
+  (remove-all-files)
+  (start))
