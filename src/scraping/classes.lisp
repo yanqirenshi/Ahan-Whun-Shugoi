@@ -14,9 +14,9 @@
    (description :accessor description :initarg :description :initform nil)
    (uri         :accessor uri         :initarg :uri         :initform nil)))
 
-;; service --> commands
+;; service --> subcommands
 ;;         --> options
-(defclass command (shin)
+(defclass subcommand (shin)
   ((code        :accessor code        :initarg :code        :initform nil)
    (description :accessor description :initarg :description :initform nil)
    (synopsis    :accessor synopsis    :initarg :synopsis    :initform nil)
@@ -30,8 +30,8 @@
 
 (defclass r-aws2services (ra) ())
 (defclass r-aws2options (ra) ())
-(defclass r-services2commands (ra) ())
-(defclass r-command2options (ra)
+(defclass r-services2subcommands (ra) ())
+(defclass r-subcommand2options (ra)
   ((option-type :accessor option-type :initarg :option-type :initform :require)
    (value-types :accessor value-types :initarg :value-types :initform nil)
    (attributes  :accessor attributes  :initarg :attributes  :initform nil)))

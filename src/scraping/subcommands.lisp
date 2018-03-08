@@ -3,7 +3,7 @@
 ;;;
 ;;; html
 ;;;
-(defun merge-command-uri (tag uri)
+(defun merge-subcommand-uri (tag uri)
   (let ((uri (quri:uri uri)))
     (setf (quri:uri-path uri)
           (namestring
@@ -11,18 +11,15 @@
                             (quri:uri-path uri))))
     uri))
 
-(defun a-tag2command-plist (tag uri)
+(defun a-tag2subcommand-plist (tag uri)
   (list :code (pt-attrs (first (pt-children tag)))
-        :uri (merge-command-uri tag uri)))
+        :uri (merge-subcommand-uri tag uri)))
 
 
-(defun get-command-html (uri &key (sleep-time 1))
+(defun get-subcommand-html (uri &key (sleep-time 1))
   (let ((html (html2pt uri)))
     (sleep sleep-time)
     html))
-
-(defun find-command-options (html)
-  (find-options-tag html))
 
 ;;;
 ;;; merge-synopsis&options
@@ -65,69 +62,69 @@
 ;;;
 ;;; DB(shinra)
 ;;;
-(defun get-command (&key code (graph *graph*))
+(defun get-subcommand (&key code (graph *graph*))
   (when code
-    (car (find-vertex graph 'command
+    (car (find-vertex graph 'subcommand
                       :slot 'code
                       :value code))))
 
-(defun find-command-options (command &key (graph *graph*))
-  (when command
-    (shinra:find-r-vertex graph 'r-command2options
-                          :from command
+(defun find-subcommand-options (subcommand &key (graph *graph*))
+  (when subcommand
+    (shinra:find-r-vertex graph 'r-subcommand2options
+                          :from subcommand
                           :edge-type :r
                           :vertex-class 'option)))
 
-(defun tx-update-command (graph command html)
+(defun tx-update-subcommand (graph subcommand html)
   (declare (ignore graph html))
-  command)
+  subcommand)
 
 
-(defun %tx-make-command (graph html &key uri)
+(defun %tx-make-subcommand (graph html &key uri)
   (when html
     (let* ((code (get-code-from-h1-tag html))
-           (command (get-command :graph graph :code code)))
-      (if command
-          (tx-update-command graph command html)
+           (subcommand (get-subcommand :graph graph :code code)))
+      (if subcommand
+          (tx-update-subcommand graph subcommand html)
           (tx-make-vertex graph
-                          'command
+                          'subcommand
                           `((code ,code)
                             (uri ,uri)))))))
 
-(defun tx-make-r-service-command (graph service command)
-  (let ((class 'r-services2commands))
-    (or (shinra:get-r graph class :from service command :r)
-        (shinra:tx-make-edge graph class service command :r))))
+(defun tx-make-r-service-subcommand (graph service subcommand)
+  (let ((class 'r-services2subcommands))
+    (or (shinra:get-r graph class :from service subcommand :r)
+        (shinra:tx-make-edge graph class service subcommand :r))))
 
-(defun tx-make-command (graph service command-html)
-  (let ((command (%tx-make-command graph command-html)))
-    (tx-make-r-service-command graph service command)
-    command))
+(defun tx-make-subcommand (graph service subcommand-html)
+  (let ((subcommand (%tx-make-subcommand graph subcommand-html)))
+    (tx-make-r-service-subcommand graph service subcommand)
+    subcommand))
 
-(defun make-command (service command-html &key (graph *graph*))
+(defun make-subcommand (service subcommand-html &key (graph *graph*))
   (up:execute-transaction
-   (tx-make-command graph service command-html)))
+   (tx-make-subcommand graph service subcommand-html)))
 
 ;;;
-;;; find-commands
+;;; find-subcommands
 ;;;
-(defun warn-unmutch-options (command synopsis options)
+(defun warn-unmutch-options (subcommand synopsis options)
   (warn "~2a = ~2a ⇒ ~a : ~a~%"
         (length synopsis)
         (length options)
         (= (length synopsis) (length options))
-        (code command)))
+        (code subcommand)))
 
-(defun find-commands (aws service commands)
+(defun find-subcommands (aws service subcommands)
   (declare (ignore aws))
-  (dolist (command commands)
-    (let* ((uri (getf command :uri))
-           (html (get-command-html uri)))
-      (unless (string= "wait" (getf command :code))
-        (let ((command  (make-command service html))
+  (dolist (subcommand subcommands)
+    (let* ((uri (getf subcommand :uri))
+           (html (get-subcommand-html uri)))
+      (unless (string= "wait" (getf subcommand :code))
+        (let ((subcommand  (make-subcommand service html))
               (synopsis (prse-synopsis (find-synopsis-tag html)))
               (options  (prse-options (find-options-tag html))))
           (if (= (length synopsis) (length options))
-              (add-options command
+              (add-options subcommand
                            (merge-synopsis&options synopsis options))
-              (warn-unmutch-options command synopsis options)))))))
+              (warn-unmutch-options subcommand synopsis options)))))))

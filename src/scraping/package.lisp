@@ -32,9 +32,9 @@
                 #:make-edge)
   (:export #:find-aws-options
            #:get-service
-           #:get-service-command
-           #:find-command-options
-           #:get-command))
+           #:get-service-subcommand
+           #:find-subcommand-options
+           #:collect))
 (in-package :ahan-whun-shugoi.scraping)
 
 (defvar *uri-scheme* "https")

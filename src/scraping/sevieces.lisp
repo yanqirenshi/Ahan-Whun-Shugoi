@@ -15,12 +15,12 @@
     (sleep sleep-time)
     html))
 
-(defun find-service-commands (html uri)
+(defun find-service-subcommands (html uri)
   (let ((section (car (find-tag html
                                 #'is-div
-                                #'id-is-available-commands))))
+                                #'id-is-available-subcommands))))
     (mapcar #'(lambda (tag)
-                (a-tag2command-plist tag uri))
+                (a-tag2subcommand-plist tag uri))
             (find-tag section
                       #'is-a
                       #'class-is-reference
@@ -35,14 +35,14 @@
                       :slot 'code
                       :value code))))
 
-(defun get-service-command (service command-code &key (graph *graph*))
-  (when (and service command-code)
+(defun get-service-subcommand (service subcommand-code &key (graph *graph*))
+  (when (and service subcommand-code)
     (find-if #'(lambda (cmd)
-                 (eq command-code (code cmd)))
-             (shinra:find-r-vertex graph 'r-services2commands
+                 (eq subcommand-code (code cmd)))
+             (shinra:find-r-vertex graph 'r-services2subcommands
                                    :from service
                                    :edge-type :r
-                                   :vertex-class 'command))))
+                                   :vertex-class 'subcommand))))
 
 (defun tx-update-service-by-html (graph server html)
   (declare (ignore html graph))
@@ -81,6 +81,6 @@
            (html (get-service-html uri))
            (service (make-service aws html uri)))
       (unless (string= "wait" (code service))
-        (find-commands aws
-                       service
-                       (find-service-commands html uri))))))
+        (find-subcommands aws
+                          service
+                          (find-service-subcommands html uri))))))

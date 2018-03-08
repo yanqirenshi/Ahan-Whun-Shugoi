@@ -76,7 +76,8 @@
                                   target-list)))
                    services))))
 
-(defun collect (&key (target :all) (uri (root-uri)))
+(defun collect (&key (target :all) (uri (root-uri)) refresh)
+  (when refresh (aws.db:refresh))
   (multiple-value-bind (aws services)
       (find-aws :uri uri)
     (find-services aws

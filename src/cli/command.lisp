@@ -9,9 +9,9 @@
 
 (defun get-master (service-code command-code)
   (let* ((service (get-service :code service-code))
-         (command (get-service-command service command-code))
+         (command (get-service-subcommand service command-code))
          (aws-options (find-aws-options))
-         (comman-options (find-command-options command)))
+         (comman-options (find-subcommand-options command)))
     (assert service)
     (assert command)
     (assert aws-options)
