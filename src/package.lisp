@@ -5,6 +5,7 @@
         #:aws.cli.command)
   (:export :aws)
   (:import-from :aws.scraping
+                #:collect
                 #:find-aws-options
                 #:get-service
                 #:get-service-command

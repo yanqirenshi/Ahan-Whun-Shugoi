@@ -34,7 +34,8 @@
            #:get-service
            #:get-service-command
            #:find-command-options
-           #:get-command))
+           #:get-command
+           #:collect))
 (in-package :ahan-whun-shugoi.scraping)
 
 (defvar *uri-scheme* "https")
