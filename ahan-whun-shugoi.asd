@@ -30,8 +30,10 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :lparallel)
   :components ((:module "src"
                 :components
-                ((:file "html")
-                 (:module "db" :components ((:file "graph")))
+                ((:module "db" :components ((:file "graph")))
+                 (:file "html")
+                 (:module "cli" :components ((:file "config")
+                                             (:file "command")))
                  (:module "scraping"
                   :components ((:file "package")
                                (:file "util")
