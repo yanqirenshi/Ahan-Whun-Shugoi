@@ -101,9 +101,9 @@
     (tx-make-r-command-subcommand graph command subcommand)
     subcommand))
 
-(defun make-subcommand (command subcommand-html &key (graph *graph*))
+(defun make-subcommand (command subcommand-html)
   (up:execute-transaction
-   (tx-make-subcommand graph command subcommand-html)))
+   (tx-make-subcommand *graph* command subcommand-html)))
 
 ;;;
 ;;; find-subcommands
