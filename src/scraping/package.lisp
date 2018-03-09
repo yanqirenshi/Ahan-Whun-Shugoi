@@ -31,8 +31,8 @@
                 #:get-r
                 #:make-edge)
   (:export #:find-aws-options
-           #:get-service
-           #:get-service-subcommand
+           #:get-command
+           #:get-command-subcommand
            #:find-subcommand-options
            #:collect))
 (in-package :ahan-whun-shugoi.scraping)
