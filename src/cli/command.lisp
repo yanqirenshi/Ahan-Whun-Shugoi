@@ -7,15 +7,15 @@
   (:export #:make-aws-cli-command))
 (in-package :ahan-whun-shugoi.cli.command)
 
-(defun get-master (service-code command-code)
-  (let* ((service (get-service :code service-code))
-         (command (get-service-subcommand service command-code))
+(defun get-master (command-code subcommand-code)
+  (let* ((command (get-command :code command-code))
+         (subcommand (get-command-subcommand command subcommand-code))
          (aws-options (find-aws-options))
-         (comman-options (find-subcommand-options command)))
-    (assert service)
+         (comman-options (find-subcommand-options subcommand)))
     (assert command)
+    (assert subcommand)
     (assert aws-options)
-    (values service command (nconc aws-options comman-options))))
+    (values command subcommand (nconc aws-options comman-options))))
 
 (defun get-code (obj &key to-str)
   (let ((code (aws.scraping::code obj)))
@@ -23,10 +23,10 @@
         code
         (string-downcase (symbol-name code)))))
 
-(defun make-aws-cli-command (service-code command-code &optional options_in)
-  (multiple-value-bind (service command options)
-      (get-master service-code command-code)
+(defun make-aws-cli-command (command-code subcommand-code &optional options_in)
+  (multiple-value-bind (command subcommand options)
+      (get-master command-code subcommand-code)
     (format nil "aws ~a ~a~a"
-            (get-code service :to-str t)
             (get-code command :to-str t)
+            (get-code subcommand :to-str t)
             (opt2cmd options_in :master options))))

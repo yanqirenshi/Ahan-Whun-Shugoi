@@ -3,19 +3,19 @@
 ;;;
 ;;; html
 ;;;
-(defun a-tag2service-plist (tag)
+(defun a-tag2command-plist (tag)
   (list :code (pt-attrs (first (pt-children tag)))
         :uri (getf (pt-attrs tag) :href)))
 
-(defun make-service-uri (services)
-  (aws-uri (getf services :uri)))
+(defun make-command-uri (command)
+  (aws-uri (getf command :uri)))
 
-(defun get-service-html (uri &key (sleep-time 1))
+(defun get-command-html (uri &key (sleep-time 1))
   (let ((html (html2pt uri)))
     (sleep sleep-time)
     html))
 
-(defun find-service-subcommands (html uri)
+(defun find-command-subcommands (html uri)
   (let ((section (car (find-tag html
                                 #'is-div
                                 #'id-is-available-subcommands))))
@@ -29,58 +29,58 @@
 ;;;
 ;;; DB(shinra)
 ;;;
-(defun get-service (&key code (graph *graph*))
+(defun get-command (&key code (graph *graph*))
   (when code
-    (car (find-vertex graph 'service
+    (car (find-vertex graph 'command
                       :slot 'code
                       :value code))))
 
-(defun get-service-subcommand (service subcommand-code &key (graph *graph*))
-  (when (and service subcommand-code)
+(defun get-command-subcommand (command subcommand-code &key (graph *graph*))
+  (when (and command subcommand-code)
     (find-if #'(lambda (cmd)
                  (eq subcommand-code (code cmd)))
-             (shinra:find-r-vertex graph 'r-services2subcommands
-                                   :from service
+             (shinra:find-r-vertex graph 'r-command2subcommands
+                                   :from command
                                    :edge-type :r
                                    :vertex-class 'subcommand))))
 
-(defun tx-update-service-by-html (graph server html)
+(defun tx-update-command-by-html (graph command html)
   (declare (ignore html graph))
-  server)
+  command)
 
-(defun tx-make-r-aws-service (graph aws service)
-  (let ((class 'r-aws2services))
-    (or (get-r graph class :from aws service :r)
-        (make-edge graph class aws service :r))))
+(defun tx-make-r-aws-command (graph aws command)
+  (let ((class 'r-aws2commands))
+    (or (get-r graph class :from aws command :r)
+        (make-edge graph class aws command :r))))
 
-(defun tx-html2service (graph uri html)
+(defun tx-html2command (graph uri html)
   (let* ((code (ensure-keyword (get-code-from-h1-tag html)))
-         (service (get-service :code code :graph graph)))
-    (if service
-        (tx-update-service-by-html graph service html)
+         (command (get-command :code code :graph graph)))
+    (if command
+        (tx-update-command-by-html graph command html)
         (progn
-          (shinra:tx-make-vertex graph 'service
+          (shinra:tx-make-vertex graph 'command
                                  `((code ,code)
                                    (uri ,uri)))))))
 
-(defun tx-make-service (graph aws html uri)
-  (let ((service (tx-html2service graph uri html)))
-    (tx-make-r-aws-service graph aws service)
-    service))
+(defun tx-make-command (graph aws html uri)
+  (let ((command (tx-html2command graph uri html)))
+    (tx-make-r-aws-command graph aws command)
+    command))
 
-(defun make-service (aws html uri)
+(defun make-command (aws html uri)
   (up:execute-transaction
-   (tx-make-service *graph* aws html uri)))
+   (tx-make-command *graph* aws html uri)))
 
 ;;;
-;;; FIND-SERVICES
+;;; FIND-COMMAND
 ;;;
-(defun find-services (aws services)
-  (dolist (service services)
-    (let* ((uri (make-service-uri service))
-           (html (get-service-html uri))
-           (service (make-service aws html uri)))
-      (unless (string= "wait" (code service))
+(defun find-command (aws commands)
+  (dolist (command commands)
+    (let* ((uri (make-command-uri command))
+           (html (get-command-html uri))
+           (command (make-command aws html uri)))
+      (unless (string= "wait" (code command))
         (find-subcommands aws
-                          service
-                          (find-service-subcommands html uri))))))
+                          command
+                          (find-command-subcommands html uri))))))

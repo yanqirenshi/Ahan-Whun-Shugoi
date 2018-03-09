@@ -1,6 +1,9 @@
 (in-package :ahan-whun-shugoi.scraping)
 
-(defun find-aws-services (html)
+;;;
+;;; HTML
+;;;
+(defun find-aws-commands (html)
   (find-tag html
             #'is-a
             #'class-is-reference
@@ -51,8 +54,8 @@
 (defun find-aws (&key (uri (root-uri)))
   (let ((html (html2pt uri)))
     (values (make-aws html)
-            (mapcar #'a-tag2service-plist
-                    (find-aws-services (find-available-services-tag html))))))
+            (mapcar #'a-tag2command-plist
+                    (find-aws-commands (find-available-services-tag html))))))
 
 ;;;
 ;;; ???
@@ -67,18 +70,18 @@
 ;;;
 ;;; collect
 ;;;
-(defun collect-target-service (services target)
+(defun collect-target-commands (commands target)
   (if (eq :all target)
-      services
+      commands
       (let ((target-list (alexandria:ensure-list target)))
         (remove-if #'(lambda (rec)
                        (not (find (str2keyword (getf rec :code))
                                   target-list)))
-                   services))))
+                   commands))))
 
 (defun collect (&key (target :all) (uri (root-uri)) refresh)
   (when refresh (aws.db:refresh))
-  (multiple-value-bind (aws services)
+  (multiple-value-bind (aws commands)
       (find-aws :uri uri)
-    (find-services aws
-                   (collect-target-service services target))))
+    (find-command aws
+                  (collect-target-commands commands target))))

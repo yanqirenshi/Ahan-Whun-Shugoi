@@ -7,7 +7,7 @@
   (:import-from :aws.scraping
                 #:collect
                 #:find-aws-options
-                #:get-service)
+                #:get-command)
   ;; db
   (:export #:start
            #:stop

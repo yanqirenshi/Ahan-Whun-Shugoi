@@ -91,19 +91,19 @@
                           `((code ,code)
                             (uri ,uri)))))))
 
-(defun tx-make-r-service-subcommand (graph service subcommand)
-  (let ((class 'r-services2subcommands))
-    (or (shinra:get-r graph class :from service subcommand :r)
-        (shinra:tx-make-edge graph class service subcommand :r))))
+(defun tx-make-r-command-subcommand (graph command subcommand)
+  (let ((class 'r-command2subcommands))
+    (or (shinra:get-r graph class :from command subcommand :r)
+        (shinra:tx-make-edge graph class command subcommand :r))))
 
-(defun tx-make-subcommand (graph service subcommand-html)
+(defun tx-make-subcommand (graph command subcommand-html)
   (let ((subcommand (%tx-make-subcommand graph subcommand-html)))
-    (tx-make-r-service-subcommand graph service subcommand)
+    (tx-make-r-command-subcommand graph command subcommand)
     subcommand))
 
-(defun make-subcommand (service subcommand-html &key (graph *graph*))
+(defun make-subcommand (command subcommand-html &key (graph *graph*))
   (up:execute-transaction
-   (tx-make-subcommand graph service subcommand-html)))
+   (tx-make-subcommand graph command subcommand-html)))
 
 ;;;
 ;;; find-subcommands
@@ -115,13 +115,13 @@
         (= (length synopsis) (length options))
         (code subcommand)))
 
-(defun find-subcommands (aws service subcommands)
+(defun find-subcommands (aws command subcommands)
   (declare (ignore aws))
   (dolist (subcommand subcommands)
     (let* ((uri (getf subcommand :uri))
            (html (get-subcommand-html uri)))
       (unless (string= "wait" (getf subcommand :code))
-        (let ((subcommand  (make-subcommand service html))
+        (let ((subcommand  (make-subcommand command html))
               (synopsis (prse-synopsis (find-synopsis-tag html)))
               (options  (prse-options (find-options-tag html))))
           (if (= (length synopsis) (length options))
