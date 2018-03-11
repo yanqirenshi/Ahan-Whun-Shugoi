@@ -17,7 +17,6 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :author "Satoshi Iwasaki"
   :license "MIT"
   :depends-on (:cl-ppcre
-               :cl-json
                :local-time
                :trivial-shell
                :split-sequence
@@ -47,17 +46,13 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                                              (:file "command")))
                  (:file "package")
                  (:module "services" :components
-                          ((:module "ec2" :components ((:file "cmds")
-                                                       (:file "ec2")))
+                          ((:module "ec2" :components ((:file "ec2")))
                            (:module "elb" :components ((:file "elb")))
                            (:module "s3" :components ((:file "class")
-                                                      (:file "cmds")
-                                                      (:file "s3" :depends-on ("class"))))
-                           (:module "logs" :components ((:file "cmds")
-                                                        (:file "log-group")
+                                                      (:file "s3")))
+                           (:module "logs" :components ((:file "log-group")
                                                         (:file "log-event")))
-                           (:module "iam" :components ((:file "cmds")
-                                                       (:file "class")))))
+                           (:module "iam" :components ((:file "log-user")))))
                  (:file "aws"))))
   :description ""
   :long-description

@@ -1,9 +1,5 @@
 (in-package :ahan-whun-shugoi)
 
-(defun aws-ec2 (&rest option)
-  (remove-if-not #'consp
-                 (first (json:decode-json-from-string (apply #'aws :ec2 option)))))
-
 (defclass ec2-instance ()
   ((instance-id :accessor instance-id
                 :initarg :instance-id)
@@ -77,9 +73,9 @@
 (defmacro sort-instances (fuction instances)
   `(sort ,instances #'(lambda (a b) (string< (,fuction a) (,fuction b)))))
 
-(defun print-all-instances (&key (instances (mapcar #'plist2ec2-instance (aws-ec2 "describe-instances"))))
-  (dolist (instance (sort-instances name instances))
-    (print-instance-1line instance)))
+;; (defun print-all-instances (&key (instances (mapcar #'plist2ec2-instance (aws-ec2 "describe-instances"))))
+;;   (dolist (instance (sort-instances name instances))
+;;     (print-instance-1line instance)))
 
 ;; '(:|OwnerId| "..."
 ;;   :|Groups| NIL
