@@ -2,6 +2,8 @@
 (defpackage ahan-whun-shugoi.cli.option
   (:nicknames :aws.cli.option)
   (:use :cl :aws.scraping)
+  (:import-from :ahan-whun-shugoi.cli.config
+                #:get-config)
   (:export #:opt2cmd))
 (in-package :ahan-whun-shugoi.cli.option)
 
@@ -23,6 +25,16 @@
           option
           (get-master-option (cdr master) option-code)))))
 
+(defun assert-option-values (option-code option-values)
+  (cond ((eq :--profile option-code)
+         (let ((value (first option-values)))
+           (assert (and (= 1 (length option-values))
+                        (stringp value))
+                   (option-values) "値が変じゃない？ values=~S" option-values)
+           (assert (get-config value)
+                   (option-code) "~S は存在しませんよ。" value)))
+        (t t)))
+
 (defun %opt2cmd (options master)
   (when options
     (let* ((option-code (car options))
@@ -33,6 +45,7 @@
               (option-code)
               "Cannot find master ~S." option-code)
       (let ((option-values (get-option-values (cdr options))))
+        (assert-option-values option-code option-values)
         (concatenate 'string
                      (if (eq :test option-code)
                          ""

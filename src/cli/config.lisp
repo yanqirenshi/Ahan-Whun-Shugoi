@@ -5,7 +5,8 @@
   (:import-from :alexandria
                 #:if-let)
   (:import-from :cl-ppcre
-                #:scan-to-strings))
+                #:scan-to-strings)
+  (:export #:get-config))
 (in-package :ahan-whun-shugoi.cli.config)
 
 (defun header-line-regex () "^\\[([\\S\\s]+)\\]$")
@@ -32,3 +33,6 @@
   "return (:defult () :profile () ....)"
   (with-open-file (s aws-config-file)
     (%read-aws-config-file s)))
+
+(defun get-config (config-name)
+  (cadr (assoc config-name (read-aws-config-file) :test 'equal)))
