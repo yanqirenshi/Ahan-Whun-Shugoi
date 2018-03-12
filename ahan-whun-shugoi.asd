@@ -52,7 +52,9 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                                                       (:file "s3")))
                            (:module "logs" :components ((:file "log-group")
                                                         (:file "log-event")))
-                           (:module "iam" :components ((:file "log-user")))))
+                           (:module "iam" :components ((:file "log-user")))
+                           (:module "cloudwatch" :components ((:file "class")
+                                                              (:file "list-metrics")))))
                  (:file "aws"))))
   :description ""
   :long-description
