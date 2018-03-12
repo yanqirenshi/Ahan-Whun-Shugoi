@@ -79,9 +79,15 @@
                                   target-list)))
                    commands))))
 
-(defun collect (&key (target :all) (uri (root-uri)) refresh)
+(defun under-the-paving-stone-the-beach (&key (target :all) (uri (root-uri)) refresh)
   (when refresh (aws.db:refresh))
   (multiple-value-bind (aws commands)
       (find-aws :uri uri)
     (find-command aws
                   (collect-target-commands commands target))))
+
+(defun upsb (&key (target :all) (uri (root-uri)) refresh)
+  (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh))
+
+(defun collect (&key (target :all) (uri (root-uri)) refresh)
+  (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh))
