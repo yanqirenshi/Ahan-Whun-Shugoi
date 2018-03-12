@@ -1,9 +1,5 @@
 (in-package :ahan-whun-shugoi)
 
-(defun unix-time2timestamp (unix-time)
-  (when unix-time
-    (local-time:unix-to-timestamp (floor unix-time 10000))))
-
 (defun plist2log-event (plist)
   (make-instance 'log-event
                  :log-stream-name (getf plist :|logStreamName|)

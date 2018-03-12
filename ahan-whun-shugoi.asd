@@ -55,7 +55,8 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                                                         (:file "describe-metric-filters")))
                            (:module "iam" :components ((:file "log-user")))
                            (:module "cloudwatch" :components ((:file "class")
-                                                              (:file "list-metrics")))))
+                                                              (:file "list-metrics")
+                                                              (:file "describe-alarms")))))
                  (:file "aws"))))
   :description ""
   :long-description
