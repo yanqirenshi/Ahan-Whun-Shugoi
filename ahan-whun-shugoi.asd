@@ -31,7 +31,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                 :components
                 ((:module "db" :components ((:file "graph")))
                  (:module "utilities" :components ((:file "html")))
-                 (:module "scraping"
+                 (:module "beach"
                   :components ((:file "package")
                                (:file "util")
                                (:file "classes")
