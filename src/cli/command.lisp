@@ -12,9 +12,9 @@
          (subcommand (get-command-subcommand command subcommand-code))
          (aws-options (find-aws-options))
          (comman-options (find-subcommand-options subcommand)))
-    (assert command)
-    (assert subcommand)
-    (assert aws-options)
+    (assert command (command-code) "コマンド ~S は存在しません。" command-code)
+    (assert subcommand (subcommand) "サブコマンド ~S は存在しません。" subcommand-code)
+    (assert aws-options (aws-options) "サブコマンド ~S にオプションが存在しません。" subcommand)
     (values command subcommand (nconc aws-options comman-options))))
 
 (defun get-code (obj &key to-str)
