@@ -52,7 +52,7 @@
                           :vertex-class 'option)))
 
 (defun find-aws (&key (uri (root-uri)))
-  (let ((html (html2pt uri)))
+  (let ((html (uri2pt uri)))
     (values (make-aws html)
             (mapcar #'a-tag2command-plist
                     (find-aws-commands (find-available-services-tag html))))))

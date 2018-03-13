@@ -22,6 +22,19 @@ nil にするとコマンドを出力しない。")
   (format t "<values>~% ~a~%" values))
 
 ;;;
+;;; split-options
+;;;
+(defun split-options (options)
+  (let ((aws-options (copy-list options))
+        (other-options nil))
+    (setf other-options
+          (list :test (getf options :test)
+                :format (getf options :format)))
+    (remf aws-options :test)
+    (remf aws-options :format)
+    (values aws-options other-options)))
+
+;;;
 ;;; test mode
 ;;;
 (defun aws-test-mode ()
@@ -30,21 +43,24 @@ nil にするとコマンドを出力しない。")
 ;;;
 ;;; submit mode
 ;;;
-(defun aws-submit-mode (cmd)
+(defun aws-submit-mode (cmd &key (format :plist))
   (multiple-value-bind (values output error-output exit-status)
       (trivial-shell:shell-command cmd)
-    (if (= 0 error-output)
-        (jojo:parse values)
-        (aws-faild values output error-output exit-status))))
+    (if (/= 0 error-output)
+        (aws-faild values output error-output exit-status)
+        (cond ((eq :json format) values)
+              ((eq :plist format) (jojo:parse values))
+              ;;((eq :object format) (jojo:parse values))
+              (t (error "この format は対応していません。format=~S" format))))))
 
 ;;;
 ;;; AWS CLI
 ;;;
 (defun aws (command subcommand &rest options)
-  (let* ((cmd (make-aws-cli-command command
-                                    subcommand
-                                    options)))
-    (aws-print-command cmd)
-    (if (getf options :test)
-        (aws-test-mode)
-        (aws-submit-mode cmd))))
+  (multiple-value-bind (aws-options other-options)
+      (split-options options)
+    (let ((cmd (make-aws-cli-command command subcommand aws-options)))
+      (aws-print-command cmd)
+      (if (getf other-options :test)
+          (aws-test-mode)
+          (aws-submit-mode cmd)))))

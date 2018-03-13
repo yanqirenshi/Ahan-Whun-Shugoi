@@ -11,7 +11,7 @@
   (aws-uri (getf command :uri)))
 
 (defun get-command-html (uri &key (sleep-time 1))
-  (let ((html (html2pt uri)))
+  (let ((html (uri2pt uri)))
     (sleep sleep-time)
     html))
 

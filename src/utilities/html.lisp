@@ -11,6 +11,8 @@
                 #:pt-children
                 #:pt-parent)
   (:export #:html2pt
+           #:uri2pt
+           #:pt2html
            #:pt-classes
            #:find-tag-target-tag-p
            #:find-tag
@@ -26,8 +28,15 @@
            #:class-is))
 (in-package :ahan-whun-shugoi.html)
 
-(defun html2pt (uri)
-  (chtml:parse (dex:get uri) (chtml:make-pt-builder)))
+
+(defun html2pt (html)
+  (chtml:parse html (chtml:make-pt-builder)))
+
+(defun uri2pt (uri)
+  (html2pt (dex:get uri)))
+
+(defun pt2html (pt)
+  (chtml:serialize-pt pt (chtml:make-string-sink)))
 
 (defun pt-classes (tag)
   (let ((classes (getf (pt-attrs tag) :class)))

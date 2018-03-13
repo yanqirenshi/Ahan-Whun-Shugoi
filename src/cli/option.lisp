@@ -47,7 +47,8 @@
       (let ((option-values (get-option-values (cdr options))))
         (assert-option-values option-code option-values)
         (concatenate 'string
-                     (if (eq :test option-code)
+                     (if (or (eq :test option-code)
+                             (null (remove nil option-values))) ;; 値が nil のものは無視する。
                          ""
                          (format nil " ~(~a~) ~{\"~a\"~}" option-code option-values))
                      (%opt2cmd (subseq options (+ 1 (length option-values))) master))))))
