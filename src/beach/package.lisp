@@ -27,7 +27,9 @@
                 #:shin
                 #:ra
                 #:find-vertex
+                #:find-r-vertex
                 #:tx-make-vertex
+                #:tx-make-edge
                 #:get-r
                 #:make-edge)
   (:export #:find-aws-options

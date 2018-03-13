@@ -28,11 +28,11 @@
                           `((code ,code)))))))
 
 (defun tx-make-r-subcommand-option (graph subcommand option option-data)
-  (shinra:tx-make-edge graph 'r-subcommand2options
-                       subcommand option :r
-                       `((option-type ,(if (getf option-data :require) :required :optional))
-                         (value-types ,(getf option-data :value-types))
-                         (attributes  ,(getf option-data :attributes)))))
+  (tx-make-edge graph 'r-subcommand2options
+                subcommand option :r
+                `((option-type ,(if (getf option-data :require) :required :optional))
+                  (value-types ,(getf option-data :value-types))
+                  (attributes  ,(getf option-data :attributes)))))
 
 (defun tx-add-option (graph subcommand option-data)
   "subcommand に option を追加します。

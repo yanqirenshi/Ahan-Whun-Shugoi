@@ -16,16 +16,14 @@
   (car (find-vertex *graph* 'aws :slot 'code :value code)))
 
 (defun %tx-make-aws (graph html)
-  (declare (ignore html))
   (tx-make-vertex graph
                   'aws
                   `((code :aws)
-                    ;; (description ,(find-description-tag html))
-                    ;; (synopsis    ,(find-synopsis-tag html))
-                    )))
+                    (description ,(pt2html (find-description-tag html)))
+                    (synopsis    ,(pt2html (find-synopsis-tag html))))))
 
 (defun tx-make-r-aws-option (graph aws option)
-  (shinra:tx-make-edge graph 'r-aws2options aws option :r))
+  (tx-make-edge graph 'r-aws2options aws option :r))
 
 (defun tx-add-aws-options (graph aws options)
   (when options
@@ -46,10 +44,10 @@
 
 (defun find-aws-options (&key (aws (get-aws)) (graph aws.db::*graph*))
   (when aws
-    (shinra:find-r-vertex graph 'r-aws2options
-                          :from aws
-                          :edge-type :r
-                          :vertex-class 'option)))
+    (find-r-vertex graph 'r-aws2options
+                   :from aws
+                   :edge-type :r
+                   :vertex-class 'option)))
 
 (defun find-aws (&key (uri (root-uri)))
   (let ((html (uri2pt uri)))

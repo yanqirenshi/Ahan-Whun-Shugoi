@@ -70,10 +70,10 @@
 
 (defun find-subcommand-options (subcommand &key (graph *graph*))
   (when subcommand
-    (shinra:find-r-vertex graph 'r-subcommand2options
-                          :from subcommand
-                          :edge-type :r
-                          :vertex-class 'option)))
+    (find-r-vertex graph 'r-subcommand2options
+                   :from subcommand
+                   :edge-type :r
+                   :vertex-class 'option)))
 
 (defun tx-update-subcommand (graph subcommand html)
   (declare (ignore graph html))
@@ -89,12 +89,14 @@
           (tx-make-vertex graph
                           'subcommand
                           `((code ,code)
+                            (description ,(pt2html (find-description-tag html)))
+                            (synopsis    ,(pt2html (find-synopsis-tag html)))
                             (uri ,uri)))))))
 
 (defun tx-make-r-command-subcommand (graph command subcommand)
   (let ((class 'r-command2subcommands))
-    (or (shinra:get-r graph class :from command subcommand :r)
-        (shinra:tx-make-edge graph class command subcommand :r))))
+    (or (get-r graph class :from command subcommand :r)
+        (tx-make-edge graph class command subcommand :r))))
 
 (defun tx-make-subcommand (graph command subcommand-html)
   (let ((subcommand (%tx-make-subcommand graph subcommand-html)))

@@ -39,10 +39,10 @@
   (when (and command subcommand-code)
     (find-if #'(lambda (cmd)
                  (eq subcommand-code (code cmd)))
-             (shinra:find-r-vertex graph 'r-command2subcommands
-                                   :from command
-                                   :edge-type :r
-                                   :vertex-class 'subcommand))))
+             (find-r-vertex graph 'r-command2subcommands
+                            :from command
+                            :edge-type :r
+                            :vertex-class 'subcommand))))
 
 (defun tx-update-command-by-html (graph command html)
   (declare (ignore html graph))
@@ -59,9 +59,10 @@
     (if command
         (tx-update-command-by-html graph command html)
         (progn
-          (shinra:tx-make-vertex graph 'command
-                                 `((code ,code)
-                                   (uri ,uri)))))))
+          (tx-make-vertex graph 'command
+                          `((code ,code)
+                            (description ,(pt2html (find-description-tag html)))
+                            (uri ,uri)))))))
 
 (defun tx-make-command (graph aws html uri)
   (let ((command (tx-html2command graph uri html)))
