@@ -35,6 +35,20 @@ WEBからDBにデータを取り込む。(1〜2時間くらい)
        (time (collect)))))
 ```
 
+## Requirement
+
+- cl-ppcre
+- local-time
+- trivial-shell
+- split-sequence
+- jonathan
+- closure-html
+- quri
+- dexador
+- lparallel
+- upanishad
+- shinrabanshou
+
 ## Author
 
 * Satoshi Iwasaki (yanqirenshi@gmail.com)
