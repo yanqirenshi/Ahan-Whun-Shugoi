@@ -19,7 +19,7 @@
    (first-event-timestamp :accessor first-event-timestamp :initarg :first-event-timestamp :initform nil)))
 
 (defclass log-event ()
-  ((log-stream-name :accessor log-stream-name :initarg :log-stream-name:initform nil)
+  ((log-stream-name :accessor log-stream-name :initarg :log-stream-name :initform nil)
    (event-id :accessor event-id :initarg :event-id :initform nil)
    (message :accessor message :initarg :message :initform nil)
    (timestamp :accessor timestamp :initarg :timestamp :initform nil)
