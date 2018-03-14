@@ -43,24 +43,40 @@ nil にするとコマンドを出力しない。")
 ;;;
 ;;; submit mode
 ;;;
-(defun aws-submit-mode (cmd &key (format :plist))
+(defun aws-submit-mode (cmd)
   (multiple-value-bind (values output error-output exit-status)
       (trivial-shell:shell-command cmd)
     (if (/= 0 error-output)
         (aws-faild values output error-output exit-status)
         (cond ((eq :json format) values)
               ((eq :plist format) (jojo:parse values))
-              ;;((eq :object format) (jojo:parse values))
+              ((eq :object format) (values2objects values))
               (t (error "この format は対応していません。format=~S" format))))))
 
 ;;;
-;;; AWS CLI
+;;; format response values
+;;;
+(defun values2objects (command subcommand values)
+  (declare (ignore command subcommand))
+  (warn "format :object は実装中です。:json として処理します。")
+  values)
+
+(defun format-values (command subcommand values &optional (format :plist))
+  (cond ((eq :json format) values)
+        ((eq :plist format) (jojo:parse values))
+        ((eq :object format) (values2objects command subcommand values))
+        (t (error "この format は対応していません。format=~S" format))))
+
+;;;
+;;; AWS CLI main
 ;;;
 (defun aws (command subcommand &rest options)
   (multiple-value-bind (aws-options other-options)
       (split-options options)
     (let ((cmd (make-aws-cli-command command subcommand aws-options)))
       (aws-print-command cmd)
-      (if (getf other-options :test)
-          (aws-test-mode)
-          (aws-submit-mode cmd)))))
+      (cond ((getf other-options :test) (aws-test-mode))
+            ((getf other-options :help) (warn ":help は実装中です。処理をスキップします。"))
+            (t (format-values command subcommand
+                              (aws-submit-mode cmd)
+                              (getf other-options :format)))))))
