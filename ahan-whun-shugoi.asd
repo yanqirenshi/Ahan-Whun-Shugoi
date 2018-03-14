@@ -28,6 +28,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :dexador
                :lparallel)
   :components ((:module "src"
+                :serial t
                 :components
                 ((:module "db" :components ((:file "graph")))
                  (:module "utilities" :components ((:file "html")
@@ -35,7 +36,12 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                  (:module "beach"
                   :components ((:file "package")
                                (:file "util")
-                               (:file "classes")
+                               (:module "class" :components ((:file "sand")
+                                                             (:file "aws")
+                                                             (:file "command")
+                                                             (:file "subcommand")
+                                                             (:file "option")
+                                                             (:file "relashonship")))
                                (:file "options")
                                (:file "parser-synopsis")
                                (:file "parser-options")

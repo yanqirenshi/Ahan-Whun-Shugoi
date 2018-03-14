@@ -37,17 +37,16 @@ WEBからDBにデータを取り込む。(1〜2時間くらい)
 
 ## Requirement
 
-- cl-ppcre
-- local-time
-- trivial-shell
-- split-sequence
-- jonathan
-- closure-html
-- quri
-- dexador
-- lparallel
-- upanishad
-- shinrabanshou
+- [cl-ppcre](https://edicl.github.io/cl-ppcre/)
+- [local-time](https://github.com/dlowe-net/local-time)
+- [trivial-shell](https://github.com/gwkkwg/trivial-shell)
+- [split-sequence](https://github.com/sharplispers/split-sequence)
+- [closure-html](https://common-lisp.net/project/closure/closure-html/)
+- [jonathan](https://github.com/Rudolph-Miller/jonathan)
+- [quri](https://github.com/fukamachi/quri)
+- [dexador](https://github.com/fukamachi/dexador)
+- [lparallel](https://github.com/lmj/lparallel)
+- [shinrabanshou](https://github.com/yanqirenshi/shinrabanshou)
 
 ## Author
 
