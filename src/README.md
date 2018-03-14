@@ -28,6 +28,7 @@ AWS CLI のオプション以外に、この aws コマンド自体のオプシ�
 |---------|---------|----------------------|------------------------------------------------------|
 | :format | keyword | :json :plist :object | 返すデータのタイプを指定する。                       |
 | :test   | boolean | t nil                | t の場合テストモードとしてコマンドは実行されません。 |
+| :help   | なし    | なし                 | AWS、コマンド、サブコマンド のヘルプ的なものを表示する。     |
 
 ### Description
 
@@ -37,11 +38,9 @@ AWS CLI のオプション以外に、この aws コマンド自体のオプシ�
 
 このディレクトリは以下のような内訳になっています。
 
-| type      | name         | description                        |
-|-----------|--------------|------------------------------------|
-| directory | cli          | aws cli のコマンドを作成するコード |
-| directory | db           | DB 関連のコード                    |
-| directory | scraping     |                                    |
-| directory | services     |                                    |
-| file      | package.lisp |                                    |
-| file      | aws.lisp     |                                    |
+| type      | name       | description                                 |
+|-----------|------------|---------------------------------------------|
+| directory | cli        | aws cli のコマンドを作成するコード          |
+| directory | db         | DB 関連のコード                             |
+| directory | beach      | AWS Cli の情報をWEB上からDBに取り込むコード |
+| directory | subcommand | 各サブコマンド毎のコードを配置する。        |
