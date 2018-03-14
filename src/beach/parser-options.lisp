@@ -1,4 +1,32 @@
 (in-package :ahan-whun-shugoi.scraping)
+#|
+各WEBページの Option セクションからコマンドのオプションを取得するコードです。
+
+2018-03-15 (木) 時点で以下のサブコマンドは取得ロジックに問題があり取得出来ていません。
+ロジックの修正が必要なので。。。そのうち。。。
+
+<問題ありリスト>
+ 0  = 8  ⇒ NIL : create-subscription
+ 0  = 8  ⇒ NIL : update-subscription
+ 0  = 1  ⇒ NIL : get
+ 0  = 2  ⇒ NIL : set
+ 14 = 16 ⇒ NIL : update-item
+ 12 = 13 ⇒ NIL : copy-snapshot
+ 11 = 13 ⇒ NIL : describe-environments
+ 31 = 34 ⇒ NIL : create-cluster
+ 7  = 9  ⇒ NIL : start-face-detection
+ 3  = 7  ⇒ NIL : set-sms-attributes
+ 8  = 9  ⇒ NIL : send-message
+ 9  = 15 ⇒ NIL : count-closed-workflow-executions
+ 7  = 10 ⇒ NIL : count-open-workflow-executions
+ 14 = 20 ⇒ NIL : list-closed-workflow-executions
+ 12 = 15 ⇒ NIL : list-open-workflow-executions
+ 4  = 5  ⇒ NIL : record-activity-task-heartbeat
+ 4  = 5  ⇒ NIL : respond-activity-task-canceled
+ 4  = 5  ⇒ NIL : respond-activity-task-completed
+ 5  = 6  ⇒ NIL : respond-activity-task-failed
+ 5  = 6  ⇒ NIL : respond-decision-task-completed
+|#
 
 (defun find-options-option-name (option-tag)
   "この関数は廃止予定です。
@@ -84,25 +112,3 @@
            (mapcar #'(lambda (option-tag)
                        (make-option-data option-tag value-type))
                    (find-option-tags options-tag)))))
-
-;; 問題ありリスト
-;; 0  = 8  ⇒ NIL : create-subscription
-;; 0  = 8  ⇒ NIL : update-subscription
-;; 0  = 1  ⇒ NIL : get
-;; 0  = 2  ⇒ NIL : set
-;; 14 = 16 ⇒ NIL : update-item
-;; 12 = 13 ⇒ NIL : copy-snapshot
-;; 11 = 13 ⇒ NIL : describe-environments
-;; 31 = 34 ⇒ NIL : create-cluster
-;; 7  = 9  ⇒ NIL : start-face-detection
-;; 3  = 7  ⇒ NIL : set-sms-attributes
-;; 8  = 9  ⇒ NIL : send-message
-;; 9  = 15 ⇒ NIL : count-closed-workflow-executions
-;; 7  = 10 ⇒ NIL : count-open-workflow-executions
-;; 14 = 20 ⇒ NIL : list-closed-workflow-executions
-;; 12 = 15 ⇒ NIL : list-open-workflow-executions
-;; 4  = 5  ⇒ NIL : record-activity-task-heartbeat
-;; 4  = 5  ⇒ NIL : respond-activity-task-canceled
-;; 4  = 5  ⇒ NIL : respond-activity-task-completed
-;; 5  = 6  ⇒ NIL : respond-activity-task-failed
-;; 5  = 6  ⇒ NIL : respond-decision-task-completed
