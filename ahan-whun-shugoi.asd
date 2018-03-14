@@ -45,7 +45,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                                              (:file "option")
                                              (:file "command")))
                  (:file "package")
-                 (:module "services" :components
+                 (:module "subcommands" :components
                           ((:file "util")
                            (:module "ec2" :components ((:file "ec2")))
                            (:module "elb" :components ((:file "elb")))
