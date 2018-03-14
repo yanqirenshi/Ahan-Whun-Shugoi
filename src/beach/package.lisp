@@ -1,7 +1,7 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi.scraping
   (:nicknames :aws.scraping)
-  (:use :cl :ahan-whun-shugoi.html)
+  (:use :cl :ahan-whun-shugoi.util.html)
   (:export #:collect)
   (:import-from :split-sequence
                 #:split-sequence)

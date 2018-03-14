@@ -1,6 +1,6 @@
 (in-package :cl-user)
-(defpackage ahan-whun-shugoi.html
-  (:nicknames :aws.html)
+(defpackage ahan-whun-shugoi.util.html
+  (:nicknames :aws.util.html)
   (:use :cl)
   (:import-from :alexandria
                 #:when-let)
@@ -26,7 +26,7 @@
            #:is-pcdata
            #:id-is
            #:class-is))
-(in-package :ahan-whun-shugoi.html)
+(in-package :ahan-whun-shugoi.util.html)
 
 
 (defun html2pt (html)
