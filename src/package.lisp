@@ -4,7 +4,7 @@
   (:use #:cl
         #:aws.cli.command)
   (:export :aws)
-  (:import-from :aws.scraping
+  (:import-from :aws.beach
                 #:collect
                 #:find-aws-options
                 #:get-command)

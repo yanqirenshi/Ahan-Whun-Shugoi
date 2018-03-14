@@ -2,7 +2,7 @@
 (defpackage ahan-whun-shugoi.cli.command
   (:nicknames :aws.cli.command)
   (:use #:cl
-        #:ahan-whun-shugoi.scraping
+        #:aws.beach
         #:ahan-whun-shugoi.cli.option)
   (:export #:make-aws-cli-command))
 (in-package :ahan-whun-shugoi.cli.command)
@@ -18,7 +18,8 @@
     (values command subcommand (nconc aws-options comman-options))))
 
 (defun get-code (obj &key to-str)
-  (let ((code (aws.scraping::code obj)))
+  "TODO:これは aws.beach のコードじゃないかな。"
+  (let ((code (aws.beach::code obj)))
     (if (not to-str)
         code
         (string-downcase (symbol-name code)))))

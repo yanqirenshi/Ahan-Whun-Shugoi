@@ -1,7 +1,7 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi.cli.option
   (:nicknames :aws.cli.option)
-  (:use :cl :aws.scraping)
+  (:use :cl :aws.beach)
   (:import-from :ahan-whun-shugoi.cli.config
                 #:get-config)
   (:export #:opt2cmd))
@@ -21,7 +21,7 @@
 (defun get-master-option (master option-code)
   (when master
     (let ((option (car master)))
-      (if (eq option-code (aws.scraping::code option))
+      (if (eq option-code (aws.beach::code option))
           option
           (get-master-option (cdr master) option-code)))))
 

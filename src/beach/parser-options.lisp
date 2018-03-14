@@ -1,4 +1,4 @@
-(in-package :ahan-whun-shugoi.scraping)
+(in-package :aws.beach)
 #|
 各WEBページの Option セクションからコマンドのオプションを取得するコードです。
 

@@ -1,4 +1,4 @@
-(in-package :ahan-whun-shugoi.scraping)
+(in-package :aws.beach)
 
 (defclass aws (shin)
   ((code        :accessor code        :initarg :code        :initform nil)

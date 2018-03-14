@@ -1,6 +1,6 @@
 (in-package :cl-user)
-(defpackage ahan-whun-shugoi.scraping
-  (:nicknames :aws.scraping)
+(defpackage ahan-whun-shugoi.beach
+  (:nicknames :aws.beach)
   (:use :cl :ahan-whun-shugoi.util.html)
   (:export #:collect)
   (:import-from :split-sequence
@@ -37,7 +37,7 @@
            #:get-command-subcommand
            #:find-subcommand-options
            #:collect))
-(in-package :ahan-whun-shugoi.scraping)
+(in-package :ahan-whun-shugoi.beach)
 
 (defvar *uri-scheme* "https")
 (defvar *uri-host* "docs.aws.amazon.com")
