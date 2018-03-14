@@ -48,10 +48,7 @@ nil にするとコマンドを出力しない。")
       (trivial-shell:shell-command cmd)
     (if (/= 0 error-output)
         (aws-faild values output error-output exit-status)
-        (cond ((eq :json format) values)
-              ((eq :plist format) (jojo:parse values))
-              ((eq :object format) (values2objects values))
-              (t (error "この format は対応していません。format=~S" format))))))
+        values)))
 
 ;;;
 ;;; format response values
@@ -62,8 +59,10 @@ nil にするとコマンドを出力しない。")
   values)
 
 (defun format-values (command subcommand values &optional (format :plist))
-  (cond ((eq :json format) values)
-        ((eq :plist format) (jojo:parse values))
+  (cond ((or (null format)
+             (eq :plist format))
+         (jojo:parse values))
+        ((eq :json format) values)
         ((eq :object format) (values2objects command subcommand values))
         (t (error "この format は対応していません。format=~S" format))))
 
