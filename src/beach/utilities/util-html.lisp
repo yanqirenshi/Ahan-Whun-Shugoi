@@ -1,4 +1,30 @@
-(in-package :aws.beach)
+(in-package :cl-user)
+(defpackage ahan-whun-shugoi.beach.util.html
+  (:nicknames :aws.beach.util.html)
+  (:use #:cl
+        #:aws.beach.util
+        #:aws.util.html)
+  (:import-from :chtml
+                #:pt-attrs
+                #:pt-children)
+  (:export #:class-is-section
+           #:class-is-reference
+           #:class-is-internal
+           #:id-is-description
+           #:id-is-synopsis
+           #:id-is-options
+           #:id-is-examples
+           #:id-is-output
+           #:id-is-available-services
+           #:id-is-available-subcommands
+           #:find-description-tag
+           #:find-synopsis-tag
+           #:find-options-tag
+           #:find-available-services-tag
+           #:find-examples-tag
+           #:find-output-tag
+           #:get-code-from-h1-tag))
+(in-package :ahan-whun-shugoi.beach.util.html)
 
 (defun class-is-section (tag)
   (class-is "section" tag))

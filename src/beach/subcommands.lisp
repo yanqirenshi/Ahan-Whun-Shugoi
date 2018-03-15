@@ -92,7 +92,7 @@
                             (description ,(pt2html (find-description-tag html)))
                             (synopsis    ,(pt2html (find-synopsis-tag html)))
                             (uri ,uri)
-                            (lock ,(aws.beach.lock:subcommand-default-lock-p code))))))))
+                            (lock ,(subcommand-default-lock-p code))))))))
 
 (defun tx-make-r-command-subcommand (graph command subcommand)
   (let ((class 'r-command2subcommands))

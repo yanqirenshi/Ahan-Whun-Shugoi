@@ -1,10 +1,10 @@
 (in-package :cl-user)
-(defpackage ahan-whun-shugoi.beach.lock
-  (:nicknames :aws.beach.lock)
+(defpackage ahan-whun-shugoi.beach.util.lock
+  (:nicknames :aws.beach.util.lock)
   (:use :cl)
   (:export #:collect)
   (:export #:subcommand-default-lock-p))
-(in-package :ahan-whun-shugoi.beach.lock)
+(in-package :ahan-whun-shugoi.beach.util.lock)
 
 (defun get-subcommand-code-header-token (subcommand-code)
   (let* ((name (symbol-name subcommand-code))

@@ -1,7 +1,11 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi.beach
   (:nicknames :aws.beach)
-  (:use :cl :ahan-whun-shugoi.util.html)
+  (:use #:cl
+        #:aws.util.html
+        #:aws.beach.util
+        #:aws.beach.util.html
+        #:aws.beach.util.lock)
   (:export #:collect)
   (:import-from :split-sequence
                 #:split-sequence)
