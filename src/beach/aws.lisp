@@ -87,5 +87,17 @@
 (defun upsb (&key (target :all) (uri (root-uri)) refresh)
   (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh))
 
-(defun collect (&key (target :all) (uri (root-uri)) refresh)
-  (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh))
+(defun collect (&key (target :all) (uri (root-uri)) refresh thread)
+  (if (not thread)
+      ;; non thread
+      (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh)
+      ;; thread
+      (setf *aws-beach-collect*
+            (bordeaux-threads:make-thread
+             #'(lambda ()
+                 (let ((start (local-time:now)))
+                   (collect :target target :uri uri :refresh refresh)
+                   (aws.db:snapshot)
+                   (break "Finished collect!~%Start= ~a~%End  = ~a~%"
+                          start (local-time:now))))
+             :name "aws-beach-collect"))))
