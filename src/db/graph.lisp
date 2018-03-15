@@ -18,8 +18,8 @@
   (setf *graph*
         (shinra:make-banshou 'shinra:banshou *graph-stor-dir*)))
 
-(defun snapshot ()
-  (up:snapshot *graph*))
+(defun snapshot (&key (graph *graph*))
+  (up:snapshot graph))
 
 (defun stop ()
   (when *graph*

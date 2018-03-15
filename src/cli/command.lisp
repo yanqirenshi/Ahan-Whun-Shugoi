@@ -26,8 +26,8 @@
 
 (defun assert-lock-subcommand (subcommand force)
   (let ((lock (aws.beach::lock subcommand)))
-    (assert (not (or (null lock)
-                     (and lock (null force))))
+    (assert (or (null lock)
+                (and lock (null force)))
             (subcommand)
             "このコマンド ~a は Lock されています。Lock を解除するか、:force オプションを追加して実行してください。"
             subcommand)))
