@@ -42,6 +42,7 @@
 (defvar *uri-scheme* "https")
 (defvar *uri-host* "docs.aws.amazon.com")
 (defvar *uri-base-path* "/ja_jp/cli/latest/reference/")
+(defvar *get-uri-interval-time* 1)
 
 (defun aws-uri (path)
   (quri:render-uri

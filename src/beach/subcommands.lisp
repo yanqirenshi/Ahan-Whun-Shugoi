@@ -16,7 +16,7 @@
         :uri (merge-subcommand-uri tag uri)))
 
 
-(defun get-subcommand-html (uri &key (sleep-time 1))
+(defun get-subcommand-html (uri &key (sleep-time *get-uri-interval-time*))
   (let ((html (uri2pt uri)))
     (sleep sleep-time)
     html))
@@ -91,7 +91,8 @@
                           `((code ,code)
                             (description ,(pt2html (find-description-tag html)))
                             (synopsis    ,(pt2html (find-synopsis-tag html)))
-                            (uri ,uri)))))))
+                            (uri ,uri)
+                            (lock ,(aws.beach.lock:subcommand-default-lock-p code))))))))
 
 (defun tx-make-r-command-subcommand (graph command subcommand)
   (let ((class 'r-command2subcommands))

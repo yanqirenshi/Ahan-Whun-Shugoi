@@ -36,6 +36,8 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                  (:module "beach"
                   :components ((:file "package")
                                (:file "util")
+                               (:file "util-html")
+                               (:file "locker")
                                (:module "class" :components ((:file "sand")
                                                              (:file "aws")
                                                              (:file "command")

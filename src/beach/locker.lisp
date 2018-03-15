@@ -1,37 +1,25 @@
-(in-package :aws.beach)
+(in-package :cl-user)
+(defpackage ahan-whun-shugoi.beach.lock
+  (:nicknames :aws.beach.lock)
+  (:use :cl)
+  (:export #:collect)
+  (:export #:subcommand-default-lock-p))
+(in-package :ahan-whun-shugoi.beach.lock)
 
-;;;
-;;; etc
-;;;
-(defun trim (v)
-  (string-trim '(#\Space #\Tab #\Newline) v))
+(defun get-subcommand-code-header-token (subcommand-code)
+  (let* ((name (symbol-name subcommand-code))
+         (pos (position #\- name)))
+    (if (null pos)
+        name
+        (subseq name 0 pos))))
 
-(defun split-str-token (str delimiter)
-  (mapcar #'trim
-          (split-sequence delimiter str)))
-
-(defun str2keyword (str)
-  (alexandria:make-keyword (string-upcase str)))
-
-(defun ensure-keyword (v)
-  (cond ((keywordp v) v)
-        ((stringp v) (str2keyword v))
-        (t (error v))))
-
-;;;
-;;; plist 2 data
-;;;
-;;; lock
-(defun find-lock-target-prefix ()
+(defun find-lock-target-prefix (subcommand-code-list)
   "*commands-prefix* を作成するための作業用オペレータ。
 subcommand の先頭の一覧を返す。"
   (format t "~{~a~%~}"
           (sort (remove-duplicates
-                 (mapcar #'(lambda (subcommand)
-                             (let* ((name (symbol-name (code subcommand)))
-                                    (pos (position #\- name)))
-                               (subseq name 0 pos)))
-                         (find-vertex *graph* 'subcommand)) :test 'equal)
+                 (mapcar #'get-subcommand-code-header-token subcommand-code-list)
+                 :test 'equal)
                 #'string<)))
 
 (defvar *commands-prefix*
@@ -52,7 +40,13 @@ subcommand の先頭の一覧を返す。"
            "SUGGEST" "SUSPEND" "SWAP" "SYNC" "SYNTHESIZE" "TERMINATE" "TEST" "TRANSFER" "TRANSLATE" "UNARCHIVE"
            "UNASSIGN" "UNINSTALL" "UNLINK" "UNMONITOR" "UNPEER" "UNSUBSCRIBE" "UNTAG" "UPDATE" "UPGRADE"
            "UPLOAD" "VALIDATE" "VERIFY")
-    :??? ("DISCOVER" "EXPORT" "FILTER" "HEAD" "MONITOR" "OPT" "PACKAGE" "POLL" "PREVIEW" "REPORT" "RETRIEVE"
+    :??? ("DISCOVER" "EXPORT" "HEAD" "MONITOR" "OPT" "PACKAGE" "POLL" "PREVIEW" "REPORT" "RETRIEVE"
           "SCAN" "SHOW" "TAG" "VIEW" "WEBSITE")
     :active ("ACKNOWLEDGE" "COUNT" "DESCRIBE" "DOWNLOAD" "GET" "LIST" "LOOKUP" "LS" "QUERY" "READ" "SEARCH"
-             "SELECT")))
+             "SELECT" "FILTER"))
+  "2018-03-15 (木) に yanqirenshi が憶測で作成")
+
+(defun subcommand-default-lock-p (subcommand-code)
+  (let ((header-token (get-subcommand-code-header-token subcommand-code)))
+    (if (find header-token (getf *commands-prefix* :active) :test 'equal)
+        t nil)))

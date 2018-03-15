@@ -10,7 +10,7 @@
 (defun make-command-uri (command)
   (aws-uri (getf command :uri)))
 
-(defun get-command-html (uri &key (sleep-time 1))
+(defun get-command-html (uri &key (sleep-time *get-uri-interval-time*))
   (let ((html (uri2pt uri)))
     (sleep sleep-time)
     html))
