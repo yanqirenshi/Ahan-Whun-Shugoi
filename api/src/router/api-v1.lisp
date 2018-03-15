@@ -15,11 +15,34 @@
 (defvar *api-v1* (make-instance '<router>))
 (clear-routing-rules *api-v1*)
 
+(defun graph () aws.db::*graph*)
+
 ;;;;;
 ;;;;; Routing rules
 ;;;;;
 (defroute "/" ()
-  "api-v1")
+  (render-json (list 1 2 3)))
+
+(defroute "/aws" ()
+  (render-json (shinra:find-vertex (graph) 'aws.beach::aws)))
+
+(defroute "/aws/options" ()
+  (render-json (list 1 2 3)))
+
+(defroute "/commands/:_id" ()
+  (render-json (list 1 2 3)))
+
+(defroute "/commands/:_id/subcommands" ()
+  (render-json (list 1 2 3)))
+
+(defroute "/subcommands/:_id" ()
+  (render-json (list 1 2 3)))
+
+(defroute "/subcommands/:_id/options" ()
+  (render-json (list 1 2 3)))
+
+(defroute "/options/:_id" ()
+  (render-json (list 1 2 3)))
 
 ;;;;;
 ;;;;; Error pages
