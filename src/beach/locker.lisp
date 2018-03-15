@@ -49,4 +49,4 @@ subcommand の先頭の一覧を返す。"
 (defun subcommand-default-lock-p (subcommand-code)
   (let ((header-token (get-subcommand-code-header-token subcommand-code)))
     (if (find header-token (getf *commands-prefix* :active) :test 'equal)
-        t nil)))
+        nil t)))

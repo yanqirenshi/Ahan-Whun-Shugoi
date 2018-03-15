@@ -25,12 +25,16 @@ nil にするとコマンドを出力しない。")
 ;;; split-options
 ;;;
 (defun split-options (options)
+  "TODO: あれ、これマズくない？ 値無しの option があった場合正しく動かないな。
+plist -> alist に変換してとかかな。"
   (let ((aws-options (copy-list options))
         (other-options nil))
     (setf other-options
           (list :test (getf options :test)
-                :format (getf options :format)))
+                :format (getf options :format)
+                :force (getf options :force)))
     (remf aws-options :test)
+    (remf aws-options :force )
     (remf aws-options :format)
     (values aws-options other-options)))
 
@@ -72,7 +76,8 @@ nil にするとコマンドを出力しない。")
 (defun aws (command subcommand &rest options)
   (multiple-value-bind (aws-options other-options)
       (split-options options)
-    (let ((cmd (make-aws-cli-command command subcommand aws-options)))
+    (let ((cmd (make-aws-cli-command command subcommand aws-options
+                                     :force (getf other-options :force))))
       (aws-print-command cmd)
       (cond ((getf other-options :test) (aws-test-mode))
             ((getf other-options :help) (warn ":help は実装中です。処理をスキップします。"))
