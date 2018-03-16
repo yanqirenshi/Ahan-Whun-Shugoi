@@ -11,7 +11,7 @@ class Vanilla_Ajax {
      * }
      */
     constructor(params) {
-        this.protcol = params.scheme;
+        this.protcol = params.protcol;
         this.host = params.host;
         this.port = params.port;
         this.cors = params.cors ? params.cors : false;

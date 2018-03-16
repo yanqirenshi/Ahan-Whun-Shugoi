@@ -4,26 +4,25 @@
   (:use :cl)
   (:import-from #:ahan-whun-shugoi-api.config
                 #:config)
-  (:export #:page-root))
+  (:export #:get-aws
+           #:get-command-at-%id
+           #:get-subcommand-at-%id
+           #:get-option-at-%id))
 (in-package :ahan-whun-shugoi-api.controller)
 
-(defun find-edges-at (graph edge-class to-vertexs)
-  (apply #'append
-         (mapcar #'(lambda (option)
-                     (shinra:find-r-edge graph
-                                         edge-class
-                                         :to option))
-                 to-vertexs)))
+(defun graph () aws.db::*graph*)
 
-(defun page-root (graph)
-  (let* ((aws    (car (shinra:find-vertex graph 'aws.beach::aws)))
-         (commands    (shinra:find-vertex graph 'aws.beach::command))
-         (subcoomands (shinra:find-vertex graph 'aws.beach::subcommand))
-         (options     (shinra:find-vertex graph 'aws.beach::option)))
-    (list :vertex (list :aws aws
-                        :commands commands
-                        :subcoomands subcoomands
-                        :options options)
-          :edge (append (find-edges-at graph 'aws.beach::r-subcommand2options  options)
-                        (find-edges-at graph 'aws.beach::r-command2subcommands subcoomands)
-                        (find-edges-at graph 'aws.beach::r-aws2commands        commands)))))
+(defun get-aws ()
+  (car (shinra:find-vertex (graph) 'aws.beach::aws)))
+
+(defun get-vertex-at-%id (class &optional %id)
+  (shinra:get-vertex-at (graph) class :%id %id))
+
+(defun get-command-at-%id (%id)
+  (get-vertex-at-%id 'aws.beach::command %id))
+
+(defun get-subcommand-at-%id (%id)
+  (get-vertex-at-%id 'aws.beach::subcommand %id))
+
+(defun get-option-at-%id (%id)
+  (get-vertex-at-%id 'aws.beach::option %id))

@@ -2,6 +2,11 @@ riot.tag2('app', '<network-graph nodes="{_NODES}" edges="{_LINKS}"></network-gra
      window.addEventListener('resize', function (event) {
          this.update();
      }.bind(this));
+
+     ACTIONS.fetchAws();
+     ACTIONS.fetchCommand(31);
+     ACTIONS.fetchSubcommand(316);
+     ACTIONS.fetchOption(312);
 });
 
 riot.tag2('network-graph', '<svg ref="svg"></svg>', 'network-graph { width: 100%; height: 100%; display: block; background: rgba(252, 226, 196, 0.33); }', 'ref="self"', function(opts) {

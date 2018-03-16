@@ -1,6 +1,7 @@
 class Reducer extends Simple_Redux_Reducer {
     isMergeActionTypes (action_type) {
-        return ['MOVE-PAGE'].find(function (v) {
+        return ['MOVE-PAGE', 'FETCHED-SUBCOMMAND', 'FETCHED-COMMAND',
+                'FETCHED-AWS', 'FETCHED-OPTION'].find(function (v) {
                     return v==action_type;
                 }) ;
     }

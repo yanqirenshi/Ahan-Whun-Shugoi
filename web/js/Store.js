@@ -4,6 +4,11 @@ class Store extends Simple_Redux_Store {
     }
     init () {
         this._contents = {
+            aws: null,
+            commands: [],
+            subcommands: [],
+            options: [],
+            r: []
         };
         return this;
     }

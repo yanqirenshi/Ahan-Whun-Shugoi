@@ -1,10 +1,10 @@
 const _CONFIG = {
     api : {
-        scheme: 'http',
+        protcol: 'http',
         host: 'localhost',
-        port: '55556',
+        port: '8080',
         path: {
-            prefix: '/aws'
+            prefix: '/aws/api/v1'
         }
     }
 };

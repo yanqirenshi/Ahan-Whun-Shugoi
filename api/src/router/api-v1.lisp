@@ -1,10 +1,11 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi-api.api-v1
-  (:use :cl
-        :caveman2
-        :lack.middleware.validation
-        :ahan-whun-shugoi-api.config
-        :ahan-whun-shugoi-api.render)
+  (:use #:cl
+        #:caveman2
+        #:lack.middleware.validation
+        #:ahan-whun-shugoi-api.config
+        #:ahan-whun-shugoi-api.render
+        #:aws-api.controller)
   (:export #:*api-v1*))
 (in-package :ahan-whun-shugoi-api.api-v1)
 
@@ -23,26 +24,30 @@
 (defroute "/" ()
   (render-json (list 1 2 3)))
 
-(defroute "/aws" ()
-  (render-json (shinra:find-vertex (graph) 'aws.beach::aws)))
+(defroute "/vertex/aws" ()
+  (render-json (get-aws)))
+
+(defroute "/vertex/commands/:_id" (&key _id)
+  (let ((_id (validation _id :integer :require t)))
+    (render-json (get-command-at-%id _id))))
+
+(defroute "/vertex/subcommands/:_id" (&key _id)
+  (let ((_id (validation _id :integer :require t)))
+    (render-json (get-subcommand-at-%id _id))))
+
+(defroute "/vertex/options/:_id" (&key _id)
+  (let ((_id (validation _id :integer :require t)))
+    (render-json (get-option-at-%id _id))))
 
 (defroute "/aws/options" ()
-  (render-json (list 1 2 3)))
-
-(defroute "/commands/:_id" ()
   (render-json (list 1 2 3)))
 
 (defroute "/commands/:_id/subcommands" ()
   (render-json (list 1 2 3)))
 
-(defroute "/subcommands/:_id" ()
-  (render-json (list 1 2 3)))
-
 (defroute "/subcommands/:_id/options" ()
   (render-json (list 1 2 3)))
 
-(defroute "/options/:_id" ()
-  (render-json (list 1 2 3)))
 
 ;;;;;
 ;;;;; Error pages
