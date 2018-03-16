@@ -31,6 +31,11 @@ let Metronome = new Vanilla_metronome({
     tick: function (count) {}
 });
 
+/* ************* */
+/*  NetworkGrap  */
+/* ************* */
+var GraphUtil = new NetworkGraphUtil();
+
 /* ****** */
 /*  main  */
 /* ****** */
