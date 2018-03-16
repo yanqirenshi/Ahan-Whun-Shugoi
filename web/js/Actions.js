@@ -72,8 +72,20 @@ class Actions extends Simple_Redux_Actions {
         };
     }
 
-    fetchAws_options (aws) {}
+    fetchAws_options (aws) {
+        let self = this;
+        API.get('/aws/options', function (response) {
+            STORE.dispatch(self.fetchedAws_options(response));
+        });
+    }
     fetchedAws_options (response) {}
+    fetchAws_commands (aws) {
+        let self = this;
+        API.get('/aws/commands', function (response) {
+            STORE.dispatch(self.fetchedAws_commands(response));
+        });
+    }
+    fetchedAws_commands (response) {}
     fetchCommand_subcommands (command) {}
     fetchedCommand_subcommands (response) {}
     fetchSubcommand_options (subcommand_id) {}

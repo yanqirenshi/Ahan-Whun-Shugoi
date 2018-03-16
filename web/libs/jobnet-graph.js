@@ -9,6 +9,7 @@ class NetworkGraph {
         this.h = h ? h : 0;
         this.scale = 1;
         this.drag = null;
+        this.callbacks = {};
     }
     setSize (w,h) {
         this.w = w ? w : 0;
@@ -152,6 +153,12 @@ class NetworkGraph {
                    if (self.callbacks.saveNodePosition)
                        self.callbacks.saveNodePosition(d);
                }));
+
+        svg.selectAll('g.node').on("dblclick", function(node_data) {
+            if (self.callbacks.doubleClickNode)
+                self.callbacks.doubleClickNode(node_data);
+        });
+
     }
     defEdgeMarker (svg) {
         var marker = svg.append("defs")

@@ -31,23 +31,23 @@
 (defun get-option-at-%id (%id)
   (get-vertex-at-%id 'aws.beach::option %id))
 
-(defun find-to-vertexs-relashonships (graph from-vertex to-class)
+(defun find-to-vertexs-relationship (graph from-vertex to-class)
   (let ((vertexs nil)
-        (relashonships nil))
+        (relationship nil))
     (dolist (plist (shinra:find-r graph to-class :from from-vertex))
       (print (getf plist :vertex))
       (push (getf plist :vertex) vertexs)
-      (push (getf plist :edge) relashonships))
-    (values vertexs relashonships)))
+      (push (getf plist :edge) relationship))
+    (list :nodes vertexs :relationships relationship)))
 
 (defun find-aws-options (aws)
-  (find-to-vertexs-relashonships (graph) aws 'aws.beach::r-aws2options))
+  (find-to-vertexs-relationship (graph) aws 'aws.beach::r-aws2options))
 
 (defun find-aws-commands (aws)
-  (find-to-vertexs-relashonships (graph) aws 'aws.beach::r-aws2commands))
+  (find-to-vertexs-relationship (graph) aws 'aws.beach::r-aws2commands))
 
 (defun find-command-subcommands (command)
-  (find-to-vertexs-relashonships (graph) command 'aws.beach::r-command2subcommands))
+  (find-to-vertexs-relationship (graph) command 'aws.beach::r-command2subcommands))
 
 (defun find-subcommand-options (subcommand)
-  (find-to-vertexs-relashonships (graph) subcommand 'aws.beach::r-subcommand2options))
+  (find-to-vertexs-relationship (graph) subcommand 'aws.beach::r-subcommand2options))

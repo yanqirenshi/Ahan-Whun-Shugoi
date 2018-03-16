@@ -48,11 +48,13 @@ plist -> alist に変換してとかかな。"
 ;;; submit mode
 ;;;
 (defun aws-submit-mode (cmd)
-  (multiple-value-bind (values output error-output exit-status)
-      (trivial-shell:shell-command cmd)
-    (if (/= 0 error-output)
-        (aws-faild values output error-output exit-status)
-        values)))
+  (handler-case
+      (multiple-value-bind (values output error-output exit-status)
+          (trivial-shell:shell-command cmd)
+        (if (/= 0 error-output)
+            (aws-faild values output error-output exit-status)
+            values))
+    (error (e) (format t "~a" e))))
 
 ;;;
 ;;; format response values
