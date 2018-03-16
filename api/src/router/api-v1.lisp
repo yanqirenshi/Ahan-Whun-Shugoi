@@ -40,14 +40,18 @@
     (render-json (get-option-at-%id _id))))
 
 (defroute "/aws/options" ()
-  (render-json (list 1 2 3)))
+  (render-json (find-aws-options (get-aws))))
 
-(defroute "/commands/:_id/subcommands" ()
-  (render-json (list 1 2 3)))
+(defroute "/aws/commands" ()
+  (render-json (find-aws-commands (get-aws))))
 
-(defroute "/subcommands/:_id/options" ()
-  (render-json (list 1 2 3)))
+(defroute "/commands/:_id/subcommands" (&key _id)
+  (let ((command (get-command-at-%id _id)))
+    (render-json (find-command-subcommands command))))
 
+(defroute "/subcommands/:_id/options" (&key _id)
+  (let ((subcommand (get-subcommand-at-%id _id)))
+    (render-json (find-subcommand-options subcommand))))
 
 ;;;;;
 ;;;;; Error pages

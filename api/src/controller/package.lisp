@@ -7,7 +7,11 @@
   (:export #:get-aws
            #:get-command-at-%id
            #:get-subcommand-at-%id
-           #:get-option-at-%id))
+           #:get-option-at-%id
+           #:find-aws-options
+           #:find-aws-commands
+           #:find-command-subcommands
+           #:find-subcommand-options))
 (in-package :ahan-whun-shugoi-api.controller)
 
 (defun graph () aws.db::*graph*)
@@ -26,3 +30,24 @@
 
 (defun get-option-at-%id (%id)
   (get-vertex-at-%id 'aws.beach::option %id))
+
+(defun find-to-vertexs-relashonships (graph from-vertex to-class)
+  (let ((vertexs nil)
+        (relashonships nil))
+    (dolist (plist (shinra:find-r graph to-class :from from-vertex))
+      (print (getf plist :vertex))
+      (push (getf plist :vertex) vertexs)
+      (push (getf plist :edge) relashonships))
+    (values vertexs relashonships)))
+
+(defun find-aws-options (aws)
+  (find-to-vertexs-relashonships (graph) aws 'aws.beach::r-aws2options))
+
+(defun find-aws-commands (aws)
+  (find-to-vertexs-relashonships (graph) aws 'aws.beach::r-aws2commands))
+
+(defun find-command-subcommands (command)
+  (find-to-vertexs-relashonships (graph) command 'aws.beach::r-command2subcommands))
+
+(defun find-subcommand-options (subcommand)
+  (find-to-vertexs-relashonships (graph) subcommand 'aws.beach::r-subcommand2options))
