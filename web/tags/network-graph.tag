@@ -23,10 +23,13 @@
 
      this.graph = new NetworkGraph();
      this.graph.setCallbacks({
-         saveNodePosition: function () { dump('move!'); },
+         saveNodePosition: function () {
+             dump('move!');
+         },
          doubleClickNode: function (data) {
              ACTIONS.fetchAws_options(data._id);
              ACTIONS.fetchAws_commands(data._id);
+             d3.event.stopPropagation();
          }
      })
 

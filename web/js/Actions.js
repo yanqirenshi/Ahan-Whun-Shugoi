@@ -78,14 +78,34 @@ class Actions extends Simple_Redux_Actions {
             STORE.dispatch(self.fetchedAws_options(response));
         });
     }
-    fetchedAws_options (response) {}
+    fetchedAws_options (response) {
+        let old_options = STORE.state().options;
+        let old_r = STORE.state().r;
+        return {
+            type: 'FETCHED-AWS_OPTIONS',
+            data: {
+                options: old_options.concat(response.NODES),
+                r: old_r.concat(response.RELATIONSHIPS)
+            }
+        };
+    }
     fetchAws_commands (aws) {
         let self = this;
         API.get('/aws/commands', function (response) {
             STORE.dispatch(self.fetchedAws_commands(response));
         });
     }
-    fetchedAws_commands (response) {}
+    fetchedAws_commands (response) {
+        let old_commands = STORE.state().commands;
+        let old_r = STORE.state().r;
+        return {
+            type: 'FETCHED-AWS_OPTIONS',
+            data: {
+                commands: old_commands.concat(response.NODES),
+                r: old_r.concat(response.RELATIONSHIPS)
+            }
+        };
+    }
     fetchCommand_subcommands (command) {}
     fetchedCommand_subcommands (response) {}
     fetchSubcommand_options (subcommand_id) {}
