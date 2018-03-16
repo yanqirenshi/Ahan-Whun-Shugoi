@@ -10,7 +10,7 @@
 
 (defun get-option-values (options)
   "options から値を取得する。
-`(:key1 "v1" "v2" :key2 "v3" ...)` こんなリストだと `("v1" "v2" :key2 "v3" ...)`が引数で渡される。"
+ `(:key1 \"v1\" \"v2\" :key2 \"v3\" ...)` こんなリストだと `(\"v1\" \"v2\" :key2 \"v3\" ...)`が引数で渡される。"
   (let ((first-keyword-position (position-if (lambda (v) (keywordp v)) options)))
     (if (null first-keyword-position)
         options
