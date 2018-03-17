@@ -21,4 +21,5 @@
     (jojo:write-key-value "code"        (slot-value obj 'code))
     (jojo:write-key-value "description" (slot-value obj 'description))
     (jojo:write-key-value "uri"         (slot-value obj 'uri))
-    (jojo:write-key-value "lock"        (slot-value obj 'lock))))
+    (jojo:write-key-value "lock"        (slot-value obj 'lock))
+    (jojo:write-key-value "_class"      "SUBCOMMAND")))
