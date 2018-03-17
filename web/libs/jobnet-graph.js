@@ -158,7 +158,6 @@ class NetworkGraph {
             if (self.callbacks.doubleClickNode)
                 self.callbacks.doubleClickNode(node_data);
         });
-
     }
     defEdgeMarker (svg) {
         var marker = svg.append("defs")
