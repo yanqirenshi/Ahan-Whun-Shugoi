@@ -46,12 +46,12 @@
   (render-json (find-aws-commands (get-aws))))
 
 (defroute "/commands/:_id/subcommands" (&key _id)
-  (let ((command (get-command-at-%id _id)))
-    (render-json (find-command-subcommands command))))
+  (let ((_id (validation _id :integer :require t)))
+    (render-json (find-command-subcommands (get-command-at-%id _id)))))
 
 (defroute "/subcommands/:_id/options" (&key _id)
-  (let ((subcommand (get-subcommand-at-%id _id)))
-    (render-json (find-subcommand-options subcommand))))
+  (let ((_id (validation _id :integer :require t)))
+    (render-json (find-subcommand-options (get-subcommand-at-%id _id)))))
 
 ;;;;;
 ;;;;; Error pages
