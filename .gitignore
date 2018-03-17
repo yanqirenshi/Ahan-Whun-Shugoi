@@ -11,3 +11,5 @@ transaction.xml
 transaction-*.xml
 snapshot.xml
 snapshot-*.xml
+web/config.js
+web/js/tags.js
