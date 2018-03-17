@@ -75,17 +75,15 @@ class Actions extends Simple_Redux_Actions {
     fetchAws_options (aws) {
         let self = this;
         API.get('/aws/options', function (response) {
-            STORE.dispatch(self.fetchedAws_options(response));
+            // STORE.dispatch(self.fetchedAws_options(response));
         });
     }
     fetchedAws_options (response) {
-        let old_options = STORE.state().options;
-        let old_r = STORE.state().r;
         return {
             type: 'FETCHED-AWS_OPTIONS',
             data: {
-                options: old_options.concat(response.NODES),
-                r: old_r.concat(response.RELATIONSHIPS)
+                options: GraphUtil.marge(STORE.state().options, response.NODES),
+                r: GraphUtil.marge(STORE.state().r, response.RELATIONSHIPS)
             }
         };
     }
@@ -96,18 +94,29 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     fetchedAws_commands (response) {
-        let old_commands = STORE.state().commands;
-        let old_r = STORE.state().r;
         return {
             type: 'FETCHED-AWS_OPTIONS',
             data: {
-                commands: old_commands.concat(response.NODES),
-                r: old_r.concat(response.RELATIONSHIPS)
+                commands: GraphUtil.marge(STORE.state().commands, response.NODES),
+                r: GraphUtil.marge(STORE.state().r, response.RELATIONSHIPS)
             }
         };
     }
-    fetchCommand_subcommands (command) {}
-    fetchedCommand_subcommands (response) {}
+    fetchCommand_subcommands (command) {
+        let self = this;
+        API.get('/commands/' + command._id + '/subcommands', function (response) {
+            STORE.dispatch(self.fetchedCommand_subcommands(response));
+        });
+    }
+    fetchedCommand_subcommands (response) {
+        return {
+            type: 'FETCHED-COMMAND_SUBCOMMANDS',
+            data: {
+                subcommands: GraphUtil.marge(STORE.state().subcommands, response.NODES),
+                r: GraphUtil.marge(STORE.state().r, response.RELATIONSHIPS)
+            }
+        };
+    }
     fetchSubcommand_options (subcommand_id) {}
     fetchedSubcommand_options (response) {}
 }

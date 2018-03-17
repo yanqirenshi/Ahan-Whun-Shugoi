@@ -11,34 +11,30 @@
     </style>
 
     <script>
-     this.resizeSvg = function () {
-         let self = this.refs.self;
-         let svg = this.refs.svg;
-
-         this.graph.setSize(self.clientWidth, self.clientHeight);
-
-         svg.setAttribute('height', self.clientHeight + 'px');
-         svg.setAttribute('width',  self.clientWidth  + 'px');
-     };
-
      this.graph = new NetworkGraph();
      this.graph.setCallbacks({
-         saveNodePosition: function () {
-             dump('move!');
-         },
+         saveNodePosition: function () {},
          doubleClickNode: function (data) {
-             ACTIONS.fetchAws_options(data._id);
-             ACTIONS.fetchAws_commands(data._id);
+             if (data._class=='AWS') {
+                 ACTIONS.fetchAws_options(data._id);
+                 ACTIONS.fetchAws_commands(data._id);
+             } else if (data._class=='COMMAND') {
+                 ACTIONS.fetchCommand_subcommands(data);
+             }
              d3.event.stopPropagation();
          }
      })
 
      this.on('mount', function () {
          var svg = d3.select("network-graph svg");
+
          if (!svg) return;
 
          this.graph.setSvg(svg);
-         this.resizeSvg();
+         this.graph.resizeSvg(this.refs.svg,
+                              this.refs.self.clientWidth,
+                              this.refs.self.clientHeight)
+         this.graph.initViewBox(this.refs.svg);
 
          if ((!this.opts.nodes || this.opts.nodes.length==0) &&
              !this.opts.edges || this.opts.edges.length==0)
