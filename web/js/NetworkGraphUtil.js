@@ -3,69 +3,33 @@ class NetworkGraphUtil {
         return Math.floor((Math.random() - 0.5) * 1000);
         // return (Math.random() - 0.5) * 1e-6 * 100;
     }
-    makeNodeDataAWS (aws) {
-        let out = [];
-        if (aws) {
-            out.push({
-                _id: aws._id,
-                name: aws.code,
-                description: aws.description,
-                x: 0,
-                y: 0,
-                _class: aws._class
-            });
-        }
-        return out;
+    initCommans (aws, commands) {
+        return commands.map(function (node) {
+            node = this.setDefaultPoint(node);
+            node._parent = aws;
+            return node;
+        }.bind(this));
     }
-    makeNodeDataCommands (commands) {
-        let out = [];
-        for (var i in commands) {
-            let command = commands[i];
-            out.push({
-                _id: command._id,
-                name: command.code,
-                description: command.description,
-                x: this.jiggle(),
-                y: this.jiggle(),
-                _class: command._class
-            });
-        }
-        return out;
+    initSubcommands (command, subcommands) {
+        let aws = command._parent;
+        let vec = {x: command.x - aws.x, y:command.y - aws.y};
+        return subcommands.map(function (node) {
+            if (node.x==0) node.x = vec.x + command.x;
+            if (node.y==0) node.y = vec.y + command.y;
+            node._parent = command;
+            return node;
+        }.bind(this));
     }
-    makeNodeDataSubcommands (subcommands) {
-        let out = [];
-        for (var i in subcommands) {
-            let subcommand = subcommands[i];
-            out.push({
-                _id: subcommand._id,
-                name: subcommand.code,
-                description: subcommand.description,
-                x: this.jiggle(),
-                y: this.jiggle(),
-                _class: subcommand._class
-            });
+    setDefaultPoint (node) {
+        if (node.x == 0 && node.y == 0 && node.z == 0) {
+            node.x = this.jiggle();
+            node.y = this.jiggle();
+            node.z = this.jiggle();
         }
-        return out;
-    }
-    makeNodeDataOptions (options) {
-        let out = [];
-        for (var i in options) {
-            let option = options[i];
-            out.push({
-                _id: option._id,
-                name: option.code,
-                description: '',
-                x: this.jiggle(),
-                y: this.jiggle(),
-                _class: options._class
-            });
-        }
-        return out;
-    }
-    makeEdgeData (vertex) {
+        return node;
     }
     marge (old_list, new_list)  {
-        let sorter = function (a, b) { return a._id < b._id; };
+        let sorter = function (a, b) { return b._id - a._id; };
         let old_list_sorted = old_list.sort(sorter);
         let new_list_sorted = new_list.sort(sorter);
 
@@ -81,14 +45,16 @@ class NetworkGraphUtil {
                 old_data = old_list_sorted.pop();
             } else if (old_data && new_data) {
                 if (old_data._id == new_data._id) {
-                    out.push(new_data);
+                    for (var k in new_data)
+                        if (!(k=='x' || k=='y' || k=='z'))
+                            old_data[k] = new_data[k];
                     out.push(old_data);
                     new_data = new_list_sorted.pop();
                     old_data = old_list_sorted.pop();
                 } else if (old_data._id < new_data._id) {
                     out.push(new_data);
                     new_data = new_list_sorted.pop();
-                } else if (old_data._id < new_data._id) {
+                } else if (old_data._id > new_data._id) {
                     out.push(old_data);
                     old_data = old_list_sorted.pop();
                 }

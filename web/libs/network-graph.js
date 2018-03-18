@@ -3,13 +3,17 @@ class NetworkGraph {
         this.svg = null;
         this.nodes = [];
         this.edges = [];
+        this.drag = null;
+        this.callbacks = {};
+
         this.x = x ? x : 0;
         this.y = y ? y : 0;
         this.w = w ? w : 0;
         this.h = h ? h : 0;
         this.scale = 1;
-        this.drag = null;
-        this.callbacks = {};
+        // まだ利用していない。そのうちこれに移行する。
+        this._svg = new NetworkGraphSvg(x, y, w, h);
+
     }
     setSize (w,h) {
         this.w = w ? w : 0;
@@ -63,6 +67,14 @@ class NetworkGraph {
             this.callbacks = {};
     }
     /**
+     * 単純な setter
+     */
+    setNodes (data) { this.nodes=data; }
+    /**
+     * 単純な setter
+     */
+    setEdges (data) { this.edges=data; }
+    /**
      * こんな感じで使うよ。 setSvg(d3.select("network-graph svg"));
      */
     setSvg (svg) {
@@ -103,14 +115,6 @@ class NetworkGraph {
         this.refreshViewBox();
     }
     /**
-     * 単純な setter
-     */
-    setNodes (data) { this.nodes=data; }
-    /**
-     * 単純な setter
-     */
-    setEdges (data) { this.edges=data; }
-    /**
      * _id で node を取得する。
      */
     getNode (id) {
@@ -122,13 +126,7 @@ class NetworkGraph {
     /**
      * node を移動する処理だったと思う。
      */
-    moveNode (node) {
-        d3.select(node).attr("transform", function(d,i){
-            return 'translate(' + [ d.x,d.y ] + ')';
-        });
-        this.moveNode_redrawEd();
-    }
-    moveNode_redrawEd () {
+    moveNode_redrawEdge () {
         var self = this;
         d3.selectAll('line.edge')
             .attr('x1', function (d) { return self.getNode(d['from-id']).x; })
@@ -156,127 +154,41 @@ class NetworkGraph {
                 return "translate(" + x + "," + y + ")";
             });
     }
-    /**
-     * Edge の描画しとる。 Node のは無いのな。
-     */
-    defEdgeMarker (svg) {
-        var marker = svg.append("defs")
-                .append("marker")
-                .attr('id', "arrowhead")
-                .attr('refX', 15)
-                .attr('refY', 2)
-                .attr('markerWidth', 8)
-                .attr('markerHeight', 8)
-                .attr('orient', 'auto');
-        marker.append("path")
-            .attr('d', "M 0,0 V 4 L4,2 Z")
-            .attr('fill', "#bbb");
-    }
     draw() {
         this.drawEdges(this.svg);
         this.drawNods(this.svg);
     }
     drawNods (svg) {
-        var g = svg
-                .selectAll('g.node')
-                .data(this.nodes)
-                .enter()
-                .append('g')
-                .attr('class', 'node')
-                .attr("transform", function (d) {
-                    return "translate(" + d.x + "," + d.y + ")";
-                });
+        let node = new NetworkGraphNode();
 
-        g.append('circle')
-            .attr('r', function (d) {return 30;})
-            .attr('fill', '#fff')
-            .attr("stroke-width", 5)
-            .attr("stroke","#eee");
+        let g = node.drawGtags(svg, this.nodes);
 
-        g.append('text')
-            .text(function (d) {
-                return d._id + ': ' + d.name;
-            })
-            .attr('text-anchor', "middle")
-            .attr('dy', '.35em')
-            .attr('fill', 'black');
-
-        var self = this;
-        g.call(d3.drag()
-               .on("drag", function (d, i) {
-                   d.x += d3.event.dx;
-                   d.y += d3.event.dy;
-                   self.moveNode(this);
-               })
-               .on('start', function () {
-               })
-               .on('end', function (d, i) {
-                   if (self.callbacks.saveNodePosition)
-                       self.callbacks.saveNodePosition(d);
-               }));
-
-        svg.selectAll('g.node').on("dblclick", function(node_data) {
-            if (self.callbacks.doubleClickNode)
-                self.callbacks.doubleClickNode(node_data);
-        });
+        node.drawCircle(g)
+            .drawText(g)
+            .settingDblClick(g, this.callbacks)
+            .settingGrabMoveNode(g, {
+                saveNodePosition: this.callbacks.saveNodePosition,
+                saveNodePosition: this.callbacks.saveNodePosition,
+                moveNode: function (node_tag) {
+                    d3.select(node_tag).attr("transform", node.moveNode);
+                    this.moveNode_redrawEdge();
+                }.bind(this)
+            });
     }
     drawEdges (svg) {
-        var getNode = function(id) {
+        let edge = new NetworkGraphEdge();
+        let getNode = function(id) {
             for (var i in this.nodes)
                 if (this.nodes[i]._id == id)
                     return this.nodes[i];
             return null;
         }.bind(this);
 
-        this.defEdgeMarker(svg);
+        var g = edge.drawGtags(svg, this.edges);
 
-        var g = svg
-                .selectAll('g.edge')
-                .data(this.edges)
-                .enter()
-                .append('g')
-                .attr('class', 'edge');
+        edge.drawDefs(svg)
+            .drawLine(g, getNode)
+            .drawText(g, getNode);
 
-
-        g.append('line')
-            .attr('class','edge')
-            .attr('x1', function (d) { return getNode(d['from-id']).x; })
-            .attr('x2', function (d) { return getNode(d['to-id']).x; })
-            .attr('y1', function (d) { return getNode(d['from-id']).y; })
-            .attr('y2', function (d) { return getNode(d['to-id']).y; })
-            .attr('stroke', '#ccc')
-            .attr('stroke-width', '3')
-            .attr('stroke-dasharray', function (d) {
-                var x1 = getNode(d['from-id']).x;
-                var y1 = getNode(d['from-id']).y;
-                var x2 = getNode(d['to-id']).x;
-                var y2 =getNode(d['to-id']).y;
-                var r = 30;
-                var v = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-                return '0, ' + r + ', ' + (Math.floor(v) - r*2) + ', ' + r;
-            })
-            .attr('stroke-dashoffset', 0)
-            .attr('marker-end', "url(#arrowhead)");
-
-        g.append('text')
-            .text(function (d) {
-                let type = d['edge-type'] ? ':' + d['edge-type'] : '';
-                let relation = d['relation'] ? d['relation'] : '';
-                let sep = (type.length > 0 && relation.length > 0) ? ', ' : '';
-                return type + sep + relation;
-            })
-            .attr('class','edge')
-            .attr('text-anchor', "middle")
-            .attr('dy', '.35em')
-            .attr('fill', '#333')
-            .attr("transform", function (d) {
-                var x1 = getNode(d['from-id']).x;
-                var y1 = getNode(d['from-id']).y;
-                var x2 = getNode(d['to-id']).x;
-                var y2 =getNode(d['to-id']).y;
-                var x = (x2 - x1)/2 + x1;
-                var y = (y2 - y1)/2 + y1;
-                return "translate(" + x + "," + y + ")";
-            });
     }
 }

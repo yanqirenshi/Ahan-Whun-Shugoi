@@ -90,14 +90,15 @@ class Actions extends Simple_Redux_Actions {
     fetchAws_commands (aws) {
         let self = this;
         API.get('/aws/commands', function (response) {
-            STORE.dispatch(self.fetchedAws_commands(response));
+            STORE.dispatch(self.fetchedAws_commands(response, aws));
         });
     }
-    fetchedAws_commands (response) {
+    fetchedAws_commands (response, aws) {
         return {
             type: 'FETCHED-AWS_OPTIONS',
             data: {
-                commands: GraphUtil.marge(STORE.state().commands, response.NODES),
+                commands: GraphUtil.marge(STORE.state().commands,
+                                          GraphUtil.initCommans(aws, response.NODES)),
                 r: GraphUtil.marge(STORE.state().r, response.RELATIONSHIPS)
             }
         };
@@ -105,14 +106,15 @@ class Actions extends Simple_Redux_Actions {
     fetchCommand_subcommands (command) {
         let self = this;
         API.get('/commands/' + command._id + '/subcommands', function (response) {
-            STORE.dispatch(self.fetchedCommand_subcommands(response));
+            STORE.dispatch(self.fetchedCommand_subcommands(response, command));
         });
     }
-    fetchedCommand_subcommands (response) {
+    fetchedCommand_subcommands (response, command) {
         return {
             type: 'FETCHED-COMMAND_SUBCOMMANDS',
             data: {
-                subcommands: GraphUtil.marge(STORE.state().subcommands, response.NODES),
+                subcommands: GraphUtil.marge(STORE.state().subcommands,
+                                             GraphUtil.initSubcommands(command, response.NODES)),
                 r: GraphUtil.marge(STORE.state().r, response.RELATIONSHIPS)
             }
         };

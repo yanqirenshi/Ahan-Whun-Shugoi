@@ -7,10 +7,11 @@
      }.bind(this));
 
      this.nodes = function () {
-         return GraphUtil.makeNodeDataAWS(STORE.state().aws)
-                         .concat(GraphUtil.makeNodeDataOptions(STORE.state().options))
-                         .concat(GraphUtil.makeNodeDataCommands(STORE.state().commands))
-                         .concat(GraphUtil.makeNodeDataSubcommands(STORE.state().subcommands));
+         let aws = STORE.state().aws ? [STORE.state().aws] : [];
+
+         return aws.concat(STORE.state().options)
+                   .concat(STORE.state().commands)
+                   .concat(STORE.state().subcommands);
      }
 
      this.links = function () {

@@ -23,5 +23,4 @@
      nil)
  :session
  :validation
- (:mount "/api/v1" *api-v1*)
- *route*)
+ *api-v1*)

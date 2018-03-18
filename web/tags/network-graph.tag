@@ -16,8 +16,8 @@
          saveNodePosition: function () {},
          doubleClickNode: function (data) {
              if (data._class=='AWS') {
-                 ACTIONS.fetchAws_options(data._id);
-                 ACTIONS.fetchAws_commands(data._id);
+                 ACTIONS.fetchAws_options(data);
+                 ACTIONS.fetchAws_commands(data);
              } else if (data._class=='COMMAND') {
                  ACTIONS.fetchCommand_subcommands(data);
              }
