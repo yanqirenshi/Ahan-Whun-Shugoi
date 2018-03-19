@@ -121,4 +121,13 @@ class Actions extends Simple_Redux_Actions {
     }
     fetchSubcommand_options (subcommand_id) {}
     fetchedSubcommand_options (response) {}
+
+    switchSelector (data) {
+        return {
+            type: 'SWITCH-SELECTOR',
+            data: {
+                selector: { display: !STORE.state().selector.display }
+            }
+        };
+    }
 }

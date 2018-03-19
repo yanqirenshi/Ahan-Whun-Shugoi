@@ -8,7 +8,11 @@ class Store extends Simple_Redux_Store {
             commands: [],
             subcommands: [],
             options: [],
-            r: []
+            r: [],
+            selector: {
+                display: false,
+                title: 'Selector'
+            }
         };
         return this;
     }

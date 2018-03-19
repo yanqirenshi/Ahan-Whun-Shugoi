@@ -1,5 +1,6 @@
 <app>
     <network-graph nodes={this.nodes()} edges={this.links()}></network-graph>
+    <selector></selector>
 
     <script>
      window.addEventListener('resize', function (event) {

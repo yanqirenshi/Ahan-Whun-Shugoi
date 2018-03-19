@@ -14,6 +14,9 @@
      this.graph = new NetworkGraph();
      this.graph.setCallbacks({
          saveNodePosition: function () {},
+         clickNode: function (data) {
+             STORE.dispatch(ACTIONS.switchSelector(data));
+         },
          doubleClickNode: function (data) {
              if (data._class=='AWS') {
                  ACTIONS.fetchAws_options(data);

@@ -7,7 +7,8 @@ class Reducer extends Simple_Redux_Reducer {
             'FETCHED-AWS',
             'FETCHED-OPTION',
             'FETCHED-AWS_OPTIONS',
-            'FETCHED-COMMAND_SUBCOMMANDS'
+            'FETCHED-COMMAND_SUBCOMMANDS',
+            'SWITCH-SELECTOR'
         ].find(function (v) {
             return v==action_type;
         }) ;
