@@ -16,20 +16,6 @@
 
 (defun graph () aws.db::*graph*)
 
-(defun get-aws ()
-  (car (shinra:find-vertex (graph) 'aws.beach::aws)))
-
-(defun get-vertex-at-%id (class &optional %id)
-  (shinra:get-vertex-at (graph) class :%id %id))
-
-(defun get-command-at-%id (%id)
-  (get-vertex-at-%id 'aws.beach::command %id))
-
-(defun get-subcommand-at-%id (%id)
-  (get-vertex-at-%id 'aws.beach::subcommand %id))
-
-(defun get-option-at-%id (%id)
-  (get-vertex-at-%id 'aws.beach::option %id))
 
 (defun find-to-vertexs-relationship (graph from-vertex to-class)
   (let ((vertexs nil)
@@ -51,3 +37,27 @@
 
 (defun find-subcommand-options (subcommand)
   (find-to-vertexs-relationship (graph) subcommand 'aws.beach::r-subcommand2options))
+
+
+
+(defun get-aws ()
+  (let ((aws (car (shinra:find-vertex (graph) 'aws.beach::aws))))
+    (list :aws aws
+          :commands (find-aws-commands aws)
+          :options (find-aws-options aws))))
+
+(defun get-vertex-at-%id (class &optional %id)
+  (shinra:get-vertex-at (graph) class :%id %id))
+
+(defun get-command-at-%id (%id)
+  (let ((command (get-vertex-at-%id 'aws.beach::command %id)))
+    (list :command command
+          :subcommands (find-command-subcommands command))))
+
+(defun get-subcommand-at-%id (%id)
+  (let ((subcommand (get-vertex-at-%id 'aws.beach::subcommand %id)))
+    (list :subcommand subcommand
+          :options (find-subcommand-options subcommand))))
+
+(defun get-option-at-%id (%id)
+  (get-vertex-at-%id 'aws.beach::option %id))
