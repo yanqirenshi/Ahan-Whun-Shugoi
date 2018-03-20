@@ -9,7 +9,6 @@
 
      this.nodes = function () {
          let aws = STORE.state().aws ? [STORE.state().aws] : [];
-
          return aws.concat(STORE.state().options)
                    .concat(STORE.state().commands)
                    .concat(STORE.state().subcommands);

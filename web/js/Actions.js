@@ -16,7 +16,11 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'FETCHED-AWS',
             data: {
-                aws: response
+                aws: response.AWS,
+                commands: response.COMMANDS.NODES,
+                options: response.OPTIONS.NODES,
+                r: [].concat(response.COMMANDS.RELATIONSHIPS,
+                             response.OPTIONS.RELATIONSHIPS)
             }
         };
     }
