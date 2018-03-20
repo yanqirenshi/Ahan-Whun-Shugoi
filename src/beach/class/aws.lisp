@@ -27,6 +27,6 @@
     (jojo:write-key-value "x"           (slot-value obj 'x))
     (jojo:write-key-value "y"           (slot-value obj 'y))
     (jojo:write-key-value "z"           (slot-value obj 'z))
-    (jojo:write-key-value "dipslay"     (slot-value obj 'dipslay))
+    (jojo:write-key-value "display"     (let ((v (slot-value obj 'display))) (or v :false)))
     (jojo:write-key-value "stroke"      (slot-value obj 'stroke))
     (jojo:write-key-value "_class"      "AWS")))

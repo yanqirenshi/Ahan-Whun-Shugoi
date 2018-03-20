@@ -2,9 +2,7 @@
 
 ## Usage
 
-> **aws** _command_ &rest _options_ => _list_
-
-### Expamples
+こんな感じで利用できます。
 
 ```lisp
 ;; コマンドの一覧を表示

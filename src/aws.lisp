@@ -16,10 +16,19 @@ nil にするとコマンドを出力しない。")
 
 (defun aws-faild (values output error-output exit-status)
   "aws cli 実行時エラー時の情報を出力する。"
-  (format t "~%<error-output>~% ~a~%" error-output)
-  (format t "<output>~% ~a~%" output)
-  (format t "<exit-status>~% ~a~%~%" exit-status)
-  (format t "<values>~% ~a~%" values))
+  (error (concatenate 'string
+                      "# error-output~%"
+                      " ~a~%"
+                      "# output~%"
+                      " ~a~%"
+                      "# exit-status~%"
+                      " ~a~%"
+                      "# values~%"
+                      " ~a~%")
+         error-output
+         output
+         exit-status
+         values))
 
 ;;;
 ;;; split-options
@@ -32,10 +41,12 @@ plist -> alist に変換してとかかな。"
     (setf other-options
           (list :test (getf options :test)
                 :format (getf options :format)
-                :force (getf options :force)))
+                :force (getf options :force)
+                :thread (getf options :thread)))
     (remf aws-options :test)
     (remf aws-options :force )
     (remf aws-options :format)
+    (remf aws-options :thread)
     (values aws-options other-options)))
 
 ;;;
@@ -87,3 +98,36 @@ plist -> alist に変換してとかかな。"
             (t (format-values command subcommand
                               (aws-submit-mode cmd)
                               (getf other-options :format)))))))
+
+
+(defun aws-run (command subcommand cmd other-options)
+  (aws-print-command cmd)
+  (cond ((getf other-options :test) (aws-test-mode))
+        ((getf other-options :help) (warn ":help は実装中です。処理をスキップします。"))
+        (t (format-values command subcommand
+                          (aws-submit-mode cmd)
+                          (getf other-options :format)))))
+
+(defvar *aws-thread-output* nil)
+
+(defun aws-run-thread (command subcommand cmd other-options)
+  (let ((thread-name (format nil "aws-~a-~a_~a" command subcommand (local-time:now))))
+    (bordeaux-threads:make-thread
+     #'(lambda ()
+         (let ((start (local-time:now)))
+           (push (list :code thread-name
+                       :results (aws-run command subcommand cmd other-options))
+                 *aws-thread-output*)
+           (break "完了しました。~%~6a= ~a~%~6a=~a~%"
+                  "start" start
+                  "end"   (local-time:now))))
+     :name thread-name)))
+
+(defun aws (command subcommand &rest options)
+  (multiple-value-bind (aws-options other-options)
+      (split-options options)
+    (let ((cmd (make-aws-cli-command command subcommand aws-options
+                                     :force (getf other-options :force))))
+      (if (not (getf other-options :thread))
+          (aws-run command subcommand cmd other-options)
+          (aws-run-thread command subcommand cmd other-options)))))

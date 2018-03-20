@@ -9,13 +9,13 @@
 
      this.nodes = function () {
          let aws = STORE.state().aws ? [STORE.state().aws] : [];
-         return aws.concat(STORE.state().options)
-                   .concat(STORE.state().commands)
-                   .concat(STORE.state().subcommands);
+         return aws.concat(GraphUtil.filterElements(STORE.state().options.list))
+                   .concat(GraphUtil.filterElements(STORE.state().commands.list))
+                   .concat(GraphUtil.filterElements(STORE.state().subcommands.list));
      }
 
      this.links = function () {
-         return STORE.state().r;
+         return GraphUtil.filterElements(STORE.state().r.list);
      };
 
      ACTIONS.fetchAws();

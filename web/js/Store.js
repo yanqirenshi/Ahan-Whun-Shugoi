@@ -5,10 +5,10 @@ class Store extends Simple_Redux_Store {
     init () {
         this._contents = {
             aws: null,
-            commands: [],
-            subcommands: [],
-            options: [],
-            r: [],
+            commands: { list: [], ht: {}},
+            subcommands: { list: [], ht: {}},
+            options: { list: [], ht: {}},
+            r: { list: [], ht: {}},
             selector: {
                 display: false,
                 title: 'Selector'

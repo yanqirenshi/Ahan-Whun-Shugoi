@@ -59,7 +59,7 @@
                      (if (or (eq :test option-code)
                              (null (remove nil option-values))) ;; 値が nil のものは無視する。
                          ""
-                         (format nil " ~(~a~) ~{\"~a\"~}" option-code option-values))
+                         (format nil " ~(~a~) ~{~S~}" option-code option-values))
                      (%opt2cmd (subseq options (+ 1 (length option-values))) master))))))
 
 (defun opt2cmd (options &key master)

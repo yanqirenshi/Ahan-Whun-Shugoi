@@ -13,14 +13,39 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     fetchedAws (response) {
+        let aws = response.AWS;
+        let ht_commands = GraphUtil.node_list2ht(response.COMMANDS.NODES, {});
+        let ht_options  = GraphUtil.node_list2ht(response.OPTIONS.NODES, {});
+
+        let r_list = [].concat(response.COMMANDS.RELATIONSHIPS,
+                               response.OPTIONS.RELATIONSHIPS);
+        let ht_r = {};
+
+        ht_r = GraphUtil.edge_list2ht(aws,
+                                      ht_commands,
+                                      response.COMMANDS.RELATIONSHIPS,
+                                      ht_r);
+        ht_r = GraphUtil.edge_list2ht(aws,
+                                      ht_options,
+                                      response.OPTIONS.RELATIONSHIPS,
+                                      ht_r);
+
         return {
             type: 'FETCHED-AWS',
             data: {
-                aws: response.AWS,
-                commands: response.COMMANDS.NODES,
-                options: response.OPTIONS.NODES,
-                r: [].concat(response.COMMANDS.RELATIONSHIPS,
-                             response.OPTIONS.RELATIONSHIPS)
+                aws: aws,
+                commands: {
+                    list: response.COMMANDS.NODES,
+                    ht: ht_commands
+                },
+                options: {
+                    list: response.OPTIONS.NODES,
+                    ht: ht_options
+                },
+                r: {
+                    list: r_list,
+                    ht: ht_r
+                }
             }
         };
     }

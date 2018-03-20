@@ -62,4 +62,25 @@ class NetworkGraphUtil {
         } while(old_data || new_data);
         return out;
     }
+    node_list2ht (list, ht) {
+        for (var i in list) {
+            let key = list[i]._id;
+            ht[key] = list[i];
+        }
+        return ht;
+    }
+    edge_list2ht (parent_node, child_nodes_ht, edges, ht_r) {
+        for (var i in edges) {
+            let edge = edges[i];
+            let child_node = child_nodes_ht[edge['to-id']];
+            ht_r[edge._id] = edge;
+            edge.display = parent_node.display && child_node.display;
+        }
+        return ht_r;
+    }
+    filterElements (elements) {
+        return elements.filter(function (element) {
+            return element.display;
+        });
+    }
 }
