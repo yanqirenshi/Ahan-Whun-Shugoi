@@ -4,10 +4,20 @@
 
 > **aws** _command_ &rest _options_ => _list_
 
-## EC2
+### Expamples
 
 ```lisp
-(aws :ec2 :describe-instances :--profile "")
+;; コマンドの一覧を表示
+(aws :help)
+
+;; コマンド:ec2 のサブコマンドの一覧を表示
+(aws :ec2 :help)
+
+;; サブコマンド:describe-instances のオプションの一覧を表示
+(aws :ec2 :describe-instances :help)
+
+;; サブコマンド:describe-instances を実行
+(aws :ec2 :describe-instances :--profile "your profile name")
 ```
 
 ## Installation
