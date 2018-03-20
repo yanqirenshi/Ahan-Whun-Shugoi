@@ -11,6 +11,7 @@ class Store extends Simple_Redux_Store {
             r: { list: [], ht: {}},
             selector: {
                 display: false,
+                element: null,
                 title: 'Selector'
             }
         };

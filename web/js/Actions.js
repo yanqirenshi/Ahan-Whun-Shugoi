@@ -155,7 +155,10 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'SWITCH-SELECTOR',
             data: {
-                selector: { display: !STORE.state().selector.display }
+                selector: {
+                    display: !STORE.state().selector.display,
+                    element: data
+                }
             }
         };
     }

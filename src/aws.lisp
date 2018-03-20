@@ -108,16 +108,15 @@ plist -> alist に変換してとかかな。"
                           (aws-submit-mode cmd)
                           (getf other-options :format)))))
 
-(defvar *aws-thread-output* nil)
+(defvar *aws-thread-output* (make-hash-table :test 'equal))
 
 (defun aws-run-thread (command subcommand cmd other-options)
   (let ((thread-name (format nil "aws-~a-~a_~a" command subcommand (local-time:now))))
     (bordeaux-threads:make-thread
      #'(lambda ()
          (let ((start (local-time:now)))
-           (push (list :code thread-name
-                       :results (aws-run command subcommand cmd other-options))
-                 *aws-thread-output*)
+           (setf (gethash thread-name *aws-thread-output*)
+                 (aws-run command subcommand cmd other-options))
            (break "完了しました。~%~6a= ~a~%~6a=~a~%"
                   "start" start
                   "end"   (local-time:now))))
