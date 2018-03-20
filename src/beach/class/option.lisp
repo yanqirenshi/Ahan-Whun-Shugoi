@@ -1,7 +1,8 @@
 (in-package :aws.beach)
 
 (defclass option (sand)
-  ((stroke :accessor stroke :initarg :stroke :initform '(:color (:r 217 :g 51 :b 63 :a 0.1) :width 5)))
+ ((display :accessor display :initarg :display :initform nil)
+  (stroke  :accessor stroke  :initarg :stroke  :initform '(:color (:r 217 :g 51 :b 63 :a 0.1) :width 5)))
   (:documentation "コマンドを現わすクラスです。
 
 # Relashonship
@@ -21,5 +22,6 @@
     (jojo:write-key-value "x"           (slot-value obj 'x))
     (jojo:write-key-value "y"           (slot-value obj 'y))
     (jojo:write-key-value "z"           (slot-value obj 'z))
+    (jojo:write-key-value "dipslay"     (slot-value obj 'dipslay))
     (jojo:write-key-value "stroke"      (slot-value obj 'stroke))
     (jojo:write-key-value "_class" "OPTION")))

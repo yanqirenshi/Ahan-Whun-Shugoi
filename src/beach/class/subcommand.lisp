@@ -6,6 +6,7 @@
    (output   :accessor output   :initarg :output   :initform nil)
    (uri      :accessor uri      :initarg :uri      :initform nil)
    (lock     :accessor lock     :initarg :lock     :initform t)
+   (display  :accessor display  :initarg :display  :initform nil)
    (stroke   :accessor stroke   :initarg :stroke   :initform '(:color (:r 217 :g 51 :b 63 :a 0.5) :width 5)))
   (:documentation "コマンドを現わすクラスです。
 
@@ -27,5 +28,6 @@
     (jojo:write-key-value "x"           (slot-value obj 'x))
     (jojo:write-key-value "y"           (slot-value obj 'y))
     (jojo:write-key-value "z"           (slot-value obj 'z))
+    (jojo:write-key-value "dipslay"     (slot-value obj 'dipslay))
     (jojo:write-key-value "stroke"      (slot-value obj 'stroke))
     (jojo:write-key-value "_class"      "SUBCOMMAND")))
