@@ -49,6 +49,13 @@
   (let ((_id (validation _id :integer :require t)))
     (render-json (find-command-subcommands (get-command-at-%id _id)))))
 
+(defroute "/commands/:_id/display/:value" (&key _id value)
+  (let ((_id (validation _id :integer :require t))
+        (value (cond ((string= "false" value) nil)
+                     ((string= "true" value) t)
+                     (t (throw-code 401)))))
+    (render-json (update-command-display _id value))))
+
 (defroute "/subcommands/:_id/options" (&key _id)
   (let ((_id (validation _id :integer :require t)))
     (render-json (find-subcommand-options (get-subcommand-at-%id _id)))))
