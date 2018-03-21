@@ -16,6 +16,8 @@
          saveNodePosition: function (data) {
              if (data._class=='COMMAND')
                  ACTIONS.updateCommandLocation(data._id, data.location);
+             if (data._class=='SUBCOMMAND')
+                 ACTIONS.updateSubcommandLocation(data._id, data.location);
          },
          clickNode: function (data) {
              STORE.dispatch(ACTIONS.switchSelector(data));

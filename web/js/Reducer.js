@@ -2,6 +2,8 @@ class Reducer extends Simple_Redux_Reducer {
     isMergeActionTypes (action_type) {
         return [
             'MOVE-PAGE',
+            'FETCHED-COMMANDS',
+            'FETCHED-SUBCOMMANDS',
             'FETCHED-SUBCOMMAND',
             'FETCHED-COMMAND',
             'FETCHED-AWS',
@@ -9,7 +11,8 @@ class Reducer extends Simple_Redux_Reducer {
             'FETCHED-AWS_OPTIONS',
             'FETCHED-COMMAND_SUBCOMMANDS',
             'SWITCH-SELECTOR',
-            'UPDATED-COMMAND-DISPLAY'
+            'UPDATED-COMMAND-DISPLAY',
+            'FETCHED-COMMAND-4-SELECTOR'
         ].find(function (v) {
             return v==action_type;
         }) ;

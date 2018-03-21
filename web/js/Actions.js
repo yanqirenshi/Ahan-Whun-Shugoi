@@ -6,13 +6,13 @@ class Actions extends Simple_Redux_Actions {
         };
     }
 
-    fetchAws () {
+    fetchAws (from) {
         let self = this;
         API.get('/vertex/aws', function (response) {
-            STORE.dispatch(self.fetchedAws(response));
+            STORE.dispatch(self.fetchedAws(response, from));
         });
     }
-    fetchedAws (response) {
+    fetchedAws (response, from) {
         let aws = response.AWS;
         let ht_commands = GraphUtil.node_list2ht(response.COMMANDS.NODES, {});
         let ht_options  = GraphUtil.node_list2ht(response.OPTIONS.NODES, {});
@@ -31,6 +31,7 @@ class Actions extends Simple_Redux_Actions {
                                       ht_r);
 
         return {
+            from: from,
             type: 'FETCHED-AWS',
             data: {
                 aws: aws,
@@ -50,124 +51,107 @@ class Actions extends Simple_Redux_Actions {
         };
     }
 
-    fetchCommand (_id) {
+    /*
+     * fetch all
+     */
+    fetchCommands (from) {
         let self = this;
-        API.get('/vertex/commands/' + _id, function (response) {
-            STORE.dispatch(self.fetchedCommand(response));
+        API.get('/vertex/commands', function (response) {
+            STORE.dispatch(self.fetchedCommands(response, from));
         });
     }
-    fetchedCommand (response) {
-        let new_commands = STORE.state().commands.concat();
-        new_commands.push(response);
+    fetchedCommands (response, from) {
+        let state = STORE.state();
         return {
-            type: 'FETCHED-COMMAND',
+            from: from,
+            type: 'FETCHED-COMMANDS',
             data: {
-                commands: new_commands
+                commands: GraphUtil.marge2(state.commands,
+                                           response.nodes),
+                subcommands: GraphUtil.marge2(state.subcommands,
+                                             response.RELATIONSHIPS.NODES),
+                r: GraphUtil.marge2(state.r,
+                                    response.RELATIONSHIPS.EDGES)
+            }
+        };
+    }
+    fetchSubcommands (from) {
+        let self = this;
+        API.get('/vertex/subcommands', function (response) {
+            STORE.dispatch(self.fetchedSubcommands(response, from));
+        });
+    }
+    fetchedSubcommands (response, from) {
+        let state = STORE.state();
+        return {
+            from: from,
+            type: 'FETCHED-SUBCOMMANDS',
+            data: {
+                subcommands: GraphUtil.marge2(state.subcommands,
+                                              response.nodes),
+                options: GraphUtil.marge2(state.options,
+                                          response.RELATIONSHIPS.NODES),
+                r: GraphUtil.marge2(state.r,
+                                    response.RELATIONSHIPS.EDGES)
             }
         };
     }
 
-    fetchSubcommand (_id) {
-        let self = this;
-        API.get('/vertex/subcommands/' + _id, function (response) {
-            STORE.dispatch(self.fetchedSubcommand(response));
-        });
-    }
-    fetchedSubcommand (response) {
-        let new_subcommands = STORE.state().subcommands.concat();
-        new_subcommands.push(response);
-        return {
-            type: 'FETCHED-SUBCOMMAND',
-            data: {
-                subcommands: new_subcommands
-            }
-        };
-    }
-
-    fetchOption (_id) {
-        let self = this;
-        API.get('/vertex/options/' + _id, function (response) {
-            STORE.dispatch(self.fetchedOption(response));
-        });
-    }
-    fetchedOption (response) {
-        let new_options = STORE.state().options.concat();
-        new_options.push(response);
-        return {
-            type: 'FETCHED-OPTION',
-            data: {
-                options: new_options
-            }
-        };
-    }
-
-    fetchAws_options (aws) {
-        let self = this;
-        API.get('/aws/options', function (response) {
-            // STORE.dispatch(self.fetchedAws_options(response));
-        });
-    }
-    fetchedAws_options (response) {
-        return {
-            type: 'FETCHED-AWS_OPTIONS',
-            data: {
-                options: GraphUtil.marge(STORE.state().options, response.NODES),
-                r: GraphUtil.marge(STORE.state().r, response.RELATIONSHIPS)
-            }
-        };
-    }
-    fetchAws_commands (aws) {
-        let self = this;
-        API.get('/aws/commands', function (response) {
-            STORE.dispatch(self.fetchedAws_commands(response, aws));
-        });
-    }
-    fetchedAws_commands (response, aws) {
-        return {
-            type: 'FETCHED-AWS_OPTIONS',
-            data: {
-                commands: GraphUtil.marge(STORE.state().commands,
-                                          GraphUtil.initCommans(aws, response.NODES)),
-                r: GraphUtil.marge(STORE.state().r, response.RELATIONSHIPS)
-            }
-        };
-    }
-    fetchCommand_subcommands (command) {
-        let self = this;
-        API.get('/commands/' + command._id + '/subcommands', function (response) {
-            STORE.dispatch(self.fetchedCommand_subcommands(response, command));
-        });
-    }
-    fetchedCommand_subcommands (response, command) {
-        return {
-            type: 'FETCHED-COMMAND_SUBCOMMANDS',
-            data: {
-                subcommands: GraphUtil.marge(STORE.state().subcommands,
-                                             GraphUtil.initSubcommands(command, response.NODES)),
-                r: GraphUtil.marge(STORE.state().r, response.RELATIONSHIPS)
-            }
-        };
-    }
-    fetchSubcommand_options (subcommand_id) {}
-    fetchedSubcommand_options (response) {}
-
+    /*
+     * selector
+     */
     switchSelector (data) {
+        let display = !STORE.state().selector.display;
+
+        if (display && data._class=='COMMAND')
+            this.fetchCommand4selector(data);
+
         return {
             type: 'SWITCH-SELECTOR',
             data: {
                 selector: {
-                    display: !STORE.state().selector.display,
+                    display: display,
                     element: data
                 }
             }
         };
     }
 
+    /*
+     * fetchCommand4selector
+     */
+    fetchCommand4selector (data) {
+        let self = this;
+        API.get('/vertex/commands/' + data._id, function (response) {
+            STORE.dispatch(self.fetchedCommand4selector(response));
+        });
+    }
+    fetchedCommand4selector (response) {
+        let state = STORE.state();
+        return {
+            type: 'FETCHED-COMMAND-4-SELECTOR',
+            data: {
+                subcommands: GraphUtil.marge2(state.subcommands,
+                                              response.RELATIONSHIPS.NODES),
+                r: GraphUtil.marge2(state.r,
+                                    response.RELATIONSHIPS.EDGES)
+            }
+        };
+    }
+
+    /*
+     * changeNodeDisplay
+     */
     changeNodeDisplay (node_class, _id, value) {
         if (node_class=='COMMAND')
             this.updateCommandDisplay(_id, value);
+        if (node_class=='SUBCOMMAND')
+            this.updateSubcommandDisplay(_id, value);
     }
 
+    /*
+     * updateCommandXXX
+     */
     updateCommandDisplay(_id, value) {
         let self = this;
         API.get('/commands/' +_id + '/display/' + value, function (response) {
@@ -189,6 +173,34 @@ class Actions extends Simple_Redux_Actions {
             type: 'UPDATED-COMMAND-DISPLAY',
             data: {
                 commands: state.commands,
+                r: state.r
+            }
+        };
+    }
+
+    updateSubcommandDisplay(_id, value) {
+        let self = this;
+        API.get('/subcommands/' +_id + '/display/' + value, function (response) {
+            STORE.dispatch(self.updatedSubcommandDisplay(response));
+        });
+    }
+    updatedSubcommandDisplay(response) {
+        let state = STORE.state();
+
+        let child_node = response.NODE;
+        let parent_node = response.RELASHONSHIP.NODE;
+        let to_parent_edge = response.RELASHONSHIP.EDGE;
+
+        GraphUtil.setObjectValues(child_node, state.subcommands.ht[child_node._id]);
+
+        GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
+                                 state.commands.ht[parent_node._id],
+                                 state.subcommands.ht[child_node._id]);
+
+        return {
+            type: 'UPDATED-SUBCOMMAND-DISPLAY',
+            data: {
+                subcommands: state.subcommands,
                 r: state.r
             }
         };
@@ -216,6 +228,34 @@ class Actions extends Simple_Redux_Actions {
 
         return {
             type: 'UPDATED-COMMAND-LOCATION',
+            data: {
+                commands: state.commands
+            }
+        };
+    }
+
+    updateSubcommandLocation(_id, location) {
+        let self = this;
+        let data = {
+            X: location.X,
+            Y: location.Y,
+            Z: location.Z
+        };
+        API.post('/subcommands/' +_id + '/location', data ,
+                 function (response) {
+                     STORE.dispatch(self.updatedSubcommandLocation(response));
+                 });
+    }
+    updatedSubcommandLocation(response) {
+        let state = STORE.state();
+
+        let new_subcommand = response;
+        let to_node = state.subcommands.ht[new_subcommand._id];
+
+        GraphUtil.setObjectValues(new_subcommand, to_node);
+
+        return {
+            type: 'UPDATED-SUBCOMMAND-LOCATION',
             data: {
                 commands: state.commands
             }

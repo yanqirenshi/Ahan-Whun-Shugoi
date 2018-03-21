@@ -49,8 +49,8 @@
      };
      this.changeDisplay = function (e) {
          ACTIONS.changeNodeDisplay(e.target.getAttribute('_class'),
-                               e.target.getAttribute('_id'),
-                               e.target.checked);
+                                   e.target.getAttribute('_id'),
+                                   e.target.checked);
      };
      this.elementsLabel = function () {
          if (!STORE.state().selector.display)
@@ -63,17 +63,31 @@
 
          return '';
      };
-     this.elements = function () {
+     this.elements = () => {
          if (!STORE.state().selector.display)
              return [];
 
-         if (STORE.state().selector.element._class == "AWS")
+         let node = STORE.state().selector.element;
+
+         if (node._class == "AWS")
              return STORE.state().commands.list;
 
+         if (node._class == "COMMAND") {
+             let r_list = STORE.state().r.list;
+             let subommands = STORE.state().subcommands.ht;
+             let out = [];
+             for (var i in r_list) {
+                 let r = r_list[i]
+                 if (r['from-id']==node._id)
+                     out.push(subommands[r['to-id']])
+             }
+             return out;
+         }
          return [];
      };
      STORE.subscribe(function (action) {
-         if (action.type!='SWITCH-SELECTOR')
+         if (!(action.type=='SWITCH-SELECTOR' ||
+               action.type=='FETCHED-COMMAND-4-SELECTOR'))
              return;
 
          this.update();

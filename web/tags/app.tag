@@ -18,25 +18,31 @@
          return GraphUtil.filterElements(STORE.state().r.list);
      };
 
-     ACTIONS.fetchAws();
 
      STORE.subscribe(function (action) {
          if (action.type=='FETCHED-AWS')
              this.update();
      }.bind(this));
 
+     // LOAD FIRST
+     ACTIONS.fetchAws('APP');
+     STORE.subscribe(function (action) {
+         if (action.type=='FETCHED-AWS' && action.from=='APP')
+             return ACTIONS.fetchCommands('APP');
+
+         if (action.type=='FETCHED-COMMANDS' && action.from=='APP')
+             return ACTIONS.fetchSubcommands('APP');
+
+         if (action.type=='FETCHED-SUBCOMMANDS' && action.from=='APP')
+             return this.update();
+     }.bind(this))
+
      STORE.subscribe(function (action) {
          let update = [
-             'FETCHED-SUBCOMMAND',
-             'FETCHED-COMMAND',
-             'FETCHED-AWS',
-             'FETCHED-OPTION',
-             'FETCHED-AWS_OPTIONS',
-             'FETCHED-COMMAND_SUBCOMMANDS',
              'UPDATED-COMMAND-DISPLAY'
          ].find(function (v) { return v==action.type; }) ;
          if (update)
              this.update();
-     }.bind(this))
+     }.bind(this));
     </script>
 </app>

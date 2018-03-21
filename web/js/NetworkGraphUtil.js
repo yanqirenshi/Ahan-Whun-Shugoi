@@ -28,6 +28,26 @@ class NetworkGraphUtil {
         }
         return node;
     }
+    marge2 (state, add_list) {
+        let state_ht = state.ht;
+        let state_list = state.list;
+        for (var i in add_list) {
+            let data = add_list[i];
+
+            let state_data = state_ht[data._id];
+
+            if (state_data) {
+                this.setObjectValues(data, state_data);
+            } else {
+                state_ht[data._id] = data;
+                state_list.push(data);
+            }
+        }
+        return {
+            ht: state_ht,
+            list: state_list
+        };
+    }
     marge (old_list, new_list)  {
         let sorter = function (a, b) { return b._id - a._id; };
         let old_list_sorted = old_list.sort(sorter);
@@ -46,8 +66,7 @@ class NetworkGraphUtil {
             } else if (old_data && new_data) {
                 if (old_data._id == new_data._id) {
                     for (var k in new_data)
-                        if (!(k=='x' || k=='y' || k=='z'))
-                            old_data[k] = new_data[k];
+                        old_data[k] = new_data[k];
                     out.push(old_data);
                     new_data = new_list_sorted.pop();
                     old_data = old_list_sorted.pop();
@@ -87,9 +106,12 @@ class NetworkGraphUtil {
         edge.display = (from_node.display && to_node.display);
         return edge;
     }
-    setCommandValues (from, target) {
+    setObjectValues (from, target) {
         for (var key in from)
             target[key] = from[key];
         return target;
+    }
+    setCommandValues (from, target) {
+        this.setObjectValues(from, target);
     }
 }

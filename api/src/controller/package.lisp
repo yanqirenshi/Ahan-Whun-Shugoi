@@ -12,6 +12,10 @@
            #:find-aws-commands
            #:find-command-subcommands
            #:find-subcommand-options)
-  (:export #:update-command-display
-           #:update-command-location))
+  (:export #:get-command
+           #:update-node-display
+           #:update-node-location
+           #:find-commands
+           #:get-subcommand
+           #:find-subcommands))
 (in-package :ahan-whun-shugoi-api.controller)
