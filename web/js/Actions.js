@@ -139,7 +139,18 @@ class Actions extends Simple_Redux_Actions {
             }
         };
     }
+    switchSelectorTab (data) {
+        let tabs = STORE.state().selector.tabs;
+        for (var i in tabs)
+            tabs[i].display = (tabs[i].code == data);
 
+        return {
+            type: 'SWITCH-SELECTOR-TAB',
+            data: {
+                selector: { tabs: tabs }
+            }
+        };
+    }
     /*
      * fetchCommand4selector
      */
