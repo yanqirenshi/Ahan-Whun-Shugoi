@@ -23,7 +23,12 @@
                 :components
                 ((:file "config")
                  (:module "controller"
-                  :components ((:file "package")))
+                  :components ((:file "package")
+                               (:file "util")
+                               (:file "aws")
+                               (:file "commands")
+                               (:file "subcommands")
+                               (:file "options")))
                  (:file "render")
                  (:module "router"
                   :components ((:file "route")
