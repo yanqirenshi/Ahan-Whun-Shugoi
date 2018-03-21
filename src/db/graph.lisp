@@ -2,7 +2,8 @@
 (defpackage ahan-whun-shugoi.db
   (:nicknames :aws.db)
   (:use :cl)
-  (:export #:start
+  (:export #:*graph*
+           #:start
            #:stop
            #:snapshot
            #:refresh))

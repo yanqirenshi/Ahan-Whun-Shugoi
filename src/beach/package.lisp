@@ -40,7 +40,13 @@
            #:get-command
            #:get-command-subcommand
            #:find-subcommand-options
-           #:collect))
+           #:collect)
+  (:export #:command
+           #:display
+           #:r-aws2commands
+           #:r-aws2options
+           #:r-command2subcommands
+           #:r-subcommand2options))
 (in-package :ahan-whun-shugoi.beach)
 
 (defvar *uri-scheme* "https")
