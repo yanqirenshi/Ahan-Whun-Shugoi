@@ -19,9 +19,7 @@
     (jojo:write-key-value "code"        (slot-value obj 'code))
     (jojo:write-key-value "name"        (slot-value obj 'code)) ;; web/ での表示用
     (jojo:write-key-value "description" "") ;; web/ での表示用
-    (jojo:write-key-value "x"           (slot-value obj 'x))
-    (jojo:write-key-value "y"           (slot-value obj 'y))
-    (jojo:write-key-value "z"           (slot-value obj 'z))
+    (jojo:write-key-value "location"    (slot-value obj 'location))
     (jojo:write-key-value "display"     (let ((v (slot-value obj 'display))) (or v :false)))
     (jojo:write-key-value "stroke"      (slot-value obj 'stroke))
     (jojo:write-key-value "_class" "OPTION")))
