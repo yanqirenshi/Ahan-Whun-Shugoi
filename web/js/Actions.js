@@ -162,4 +162,36 @@ class Actions extends Simple_Redux_Actions {
             }
         };
     }
+
+    changeNodeDisplay (node_class, _id, value) {
+        if (node_class=='COMMAND')
+            this.updateCommandDisplay(_id, value);
+    }
+
+    updateCommandDisplay(_id, value) {
+        let self = this;
+        API.get('/commands/' +_id + '/display/' + value, function (response) {
+            STORE.dispatch(self.updatedCommandDisplay(response));
+        });
+    }
+    updatedCommandDisplay(response) {
+        let state = STORE.state();
+
+        let new_command = response.NODE;
+        let to_node = state.commands.ht[new_command._id];
+        let from_node = state.aws;
+        let edge = state.r.ht[response.RELASHONSHIP.EDGE._id];
+
+        GraphUtil.setCommandValues(new_command, to_node);
+        GraphUtil.setEdgeDisplay(edge, from_node, to_node);
+
+        return {
+            type: 'UPDATED-COMMAND-DISPLAY',
+            data: {
+                commands: state.commands,
+                r: state.r
+            }
+        };
+    }
+
 }

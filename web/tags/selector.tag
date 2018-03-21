@@ -23,6 +23,7 @@
             <input type="checkbox"
                    checked={display ? 'checked' : ''}
                    onchange={changeDisplay}
+                   _class={_class}
                    _id={_id}>
             {code}
         </label>
@@ -47,7 +48,9 @@
          return STORE.state().selector;
      };
      this.changeDisplay = function (e) {
-         let _id = e.target.getAttribute('_id');
+         ACTIONS.changeNodeDisplay(e.target.getAttribute('_class'),
+                               e.target.getAttribute('_id'),
+                               e.target.checked);
      };
      this.elementsLabel = function () {
          if (!STORE.state().selector.display)

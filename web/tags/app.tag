@@ -32,7 +32,8 @@
              'FETCHED-AWS',
              'FETCHED-OPTION',
              'FETCHED-AWS_OPTIONS',
-             'FETCHED-COMMAND_SUBCOMMANDS'
+             'FETCHED-COMMAND_SUBCOMMANDS',
+             'UPDATED-COMMAND-DISPLAY'
          ].find(function (v) { return v==action.type; }) ;
          if (update)
              this.update();

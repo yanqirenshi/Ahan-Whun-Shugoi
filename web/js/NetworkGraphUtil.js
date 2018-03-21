@@ -83,4 +83,14 @@ class NetworkGraphUtil {
             return element.display;
         });
     }
+    setEdgeDisplay (edge, from_node, to_node) {
+        edge.display = (from_node.display && to_node.display);
+        return edge;
+    }
+    setCommandValues (from, target) {
+        for (var key in from)
+            if (!(key=='x' && key=='y' && key=='z'))
+                target[key] = from[key];
+        return target;
+    }
 }
