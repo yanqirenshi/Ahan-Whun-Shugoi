@@ -12,10 +12,10 @@ class NetworkGraphUtil {
     }
     initSubcommands (command, subcommands) {
         let aws = command._parent;
-        let vec = {x: command.x - aws.x, y:command.y - aws.y};
+        let vec = {x: command.location.x - aws.location.x, y:command.location.y - aws.location.y};
         return subcommands.map(function (node) {
-            if (node.x==0) node.x = vec.x + command.x;
-            if (node.y==0) node.y = vec.y + command.y;
+            if (node.x==0) node.location.x = vec.x + command.location.x;
+            if (node.y==0) node.location.y = vec.y + command.location.y;
             node._parent = command;
             return node;
         }.bind(this));
@@ -89,8 +89,7 @@ class NetworkGraphUtil {
     }
     setCommandValues (from, target) {
         for (var key in from)
-            if (!(key=='x' && key=='y' && key=='z'))
-                target[key] = from[key];
+            target[key] = from[key];
         return target;
     }
 }

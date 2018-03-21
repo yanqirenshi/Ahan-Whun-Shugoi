@@ -23,3 +23,11 @@
     (list :node command
           :relashonship (list :node (getf relashonship :vertex)
                               :edge (getf relashonship :edge)))))
+
+(defun update-command-location (command location)
+  (up:execute-transaction
+   (up:tx-change-object-slots *graph*
+                              'aws.beach:command
+                              (up:%id command)
+                              `((aws.beach::location ,location))))
+  command)

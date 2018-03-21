@@ -194,4 +194,31 @@ class Actions extends Simple_Redux_Actions {
         };
     }
 
+    updateCommandLocation(_id, location) {
+        let self = this;
+        let data = {
+                     X: location.X,
+                     Y: location.Y,
+                     Z: location.Z
+        };
+        API.post('/commands/' +_id + '/location', data ,
+                 function (response) {
+                     STORE.dispatch(self.updatedCommandLocation(response));
+                 });
+    }
+    updatedCommandLocation(response) {
+        let state = STORE.state();
+
+        let new_command = response;
+        let to_node = state.commands.ht[new_command._id];
+
+        GraphUtil.setCommandValues(new_command, to_node);
+
+        return {
+            type: 'UPDATED-COMMAND-LOCATION',
+            data: {
+                commands: state.commands
+            }
+        };
+    }
 }

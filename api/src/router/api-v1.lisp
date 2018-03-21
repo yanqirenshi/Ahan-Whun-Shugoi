@@ -45,6 +45,9 @@
 (defroute "/aws/commands" ()
   (render-json (find-aws-commands (get-aws))))
 
+;;;;;
+;;;;; COMMANDS
+;;;;;
 (defroute "/commands/:_id/subcommands" (&key _id)
   (let ((_id (validation _id :integer :require t)))
     (render-json (find-command-subcommands (get-command-at-%id _id)))))
@@ -56,6 +59,17 @@
                      (t (throw-code 401)))))
     (render-json (update-command-display _id value))))
 
+(defroute ("/commands/:_id/location" :method :POST) (&key _id _parsed)
+  (let* ((_id (validation _id :integer :require t))
+         (location (jojo:parse (caar _parsed)))
+         (command (or (aws-api.controller::get-command :%id _id)
+                      (throw-code 404))))
+    (render-json
+     (update-command-location command location))))
+
+;;;;;
+;;;;; SUBCOMMANDS
+;;;;;
 (defroute "/subcommands/:_id/options" (&key _id)
   (let ((_id (validation _id :integer :require t)))
     (render-json (find-subcommand-options (get-subcommand-at-%id _id)))))

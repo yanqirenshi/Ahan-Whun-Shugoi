@@ -13,17 +13,14 @@
     <script>
      this.graph = new NetworkGraph();
      this.graph.setCallbacks({
-         saveNodePosition: function () {},
+         saveNodePosition: function (data) {
+             if (data._class=='COMMAND')
+                 ACTIONS.updateCommandLocation(data._id, data.location);
+         },
          clickNode: function (data) {
              STORE.dispatch(ACTIONS.switchSelector(data));
          },
          doubleClickNode: function (data) {
-             if (data._class=='AWS') {
-                 ACTIONS.fetchAws_options(data);
-                 ACTIONS.fetchAws_commands(data);
-             } else if (data._class=='COMMAND') {
-                 ACTIONS.fetchCommand_subcommands(data);
-             }
              d3.event.stopPropagation();
          }
      })
