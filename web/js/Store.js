@@ -12,7 +12,12 @@ class Store extends Simple_Redux_Store {
             selector: {
                 display: false,
                 element: null,
-                title: 'Selector'
+                title: 'Selector',
+                tabs: [
+                    {code: 'elements', display: true, label: ''},
+                    {code: 'options',  display: true, label: ''},
+                    {code: 'basic',    display: true, label: ''}
+                ]
             }
         };
         return this;

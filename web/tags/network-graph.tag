@@ -12,7 +12,11 @@
 
     <script>
      this.graph = new NetworkGraph();
+
      this.graph.setCallbacks({
+         clickSvg: function () {
+             STORE.dispatch(ACTIONS.switchSelector(null));
+         },
          saveNodePosition: function (data) {
              if (data._class=='COMMAND')
                  ACTIONS.updateCommandLocation(data._id, data.location);
@@ -21,6 +25,7 @@
          },
          clickNode: function (data) {
              STORE.dispatch(ACTIONS.switchSelector(data));
+             d3.event.stopPropagation();
          },
          doubleClickNode: function (data) {
              d3.event.stopPropagation();

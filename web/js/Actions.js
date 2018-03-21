@@ -111,7 +111,20 @@ class Actions extends Simple_Redux_Actions {
      * selector
      */
     switchSelector (data) {
-        let display = !STORE.state().selector.display;
+        let state = STORE.state().selector;
+        let display = state.display;
+        if (data) {
+            if (display) {
+                if (state.element._class==data._class)
+                    display = false;
+                else
+                    display = true;
+            } else {
+                display = true;
+            }
+        } else {
+            display = false;
+        }
 
         if (display && data._class=='COMMAND')
             this.fetchCommand4selector(data);
@@ -121,7 +134,7 @@ class Actions extends Simple_Redux_Actions {
             data: {
                 selector: {
                     display: display,
-                    element: data
+                    element: display ? data : {_class:null}
                 }
             }
         };
