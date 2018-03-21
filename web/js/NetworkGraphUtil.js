@@ -102,6 +102,16 @@ class NetworkGraphUtil {
             return element.display;
         });
     }
+    setEdgesDisplay (edges, fron_nodes, to_nodes) {
+        for (var i in edges) {
+            let edge = edges[i];
+            let from_node = fron_nodes.ht[edge['from-id']];
+            let to_node = to_nodes.ht[edge['to-id']];
+            if (from_node && to_node)
+                this.setEdgeDisplay(edge,from_node,to_node);
+        }
+        return edges;
+    }
     setEdgeDisplay (edge, from_node, to_node) {
         edge.display = (from_node.display && to_node.display);
         return edge;

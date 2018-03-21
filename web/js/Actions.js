@@ -62,16 +62,21 @@ class Actions extends Simple_Redux_Actions {
     }
     fetchedCommands (response, from) {
         let state = STORE.state();
+        let commands = GraphUtil.marge2(state.commands,
+                                        response.nodes);
+        let subcommands = GraphUtil.marge2(state.subcommands,
+                                           response.RELATIONSHIPS.NODES);
+        let r = GraphUtil.marge2(state.r,
+                                 GraphUtil.setEdgesDisplay(response.RELATIONSHIPS.EDGES,
+                                                           commands,
+                                                           subcommands));
         return {
             from: from,
             type: 'FETCHED-COMMANDS',
             data: {
-                commands: GraphUtil.marge2(state.commands,
-                                           response.nodes),
-                subcommands: GraphUtil.marge2(state.subcommands,
-                                             response.RELATIONSHIPS.NODES),
-                r: GraphUtil.marge2(state.r,
-                                    response.RELATIONSHIPS.EDGES)
+                commands: commands,
+                subcommands: subcommands,
+                r: r
             }
         };
     }
@@ -83,16 +88,21 @@ class Actions extends Simple_Redux_Actions {
     }
     fetchedSubcommands (response, from) {
         let state = STORE.state();
+        let subcommands = GraphUtil.marge2(state.subcommands,
+                                           response.nodes);
+        let options = GraphUtil.marge2(state.options,
+                                       response.RELATIONSHIPS.NODES);
+        let r = GraphUtil.marge2(state.r,
+                                 GraphUtil.setEdgesDisplay(response.RELATIONSHIPS.EDGES,
+                                                           subcommands,
+                                                           options));
         return {
             from: from,
             type: 'FETCHED-SUBCOMMANDS',
             data: {
-                subcommands: GraphUtil.marge2(state.subcommands,
-                                              response.nodes),
-                options: GraphUtil.marge2(state.options,
-                                          response.RELATIONSHIPS.NODES),
-                r: GraphUtil.marge2(state.r,
-                                    response.RELATIONSHIPS.EDGES)
+                subcommands: subcommands,
+                options: options,
+                r: r
             }
         };
     }
