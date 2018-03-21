@@ -13,3 +13,7 @@ snapshot.xml
 snapshot-*.xml
 web/config.js
 web/js/tags.js
+network-graph-edge.js
+network-graph-node.js
+network-graph-svg.js
+network-graph.js

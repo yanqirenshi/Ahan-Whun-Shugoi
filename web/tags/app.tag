@@ -18,7 +18,6 @@
          return GraphUtil.filterElements(STORE.state().r.list);
      };
 
-
      STORE.subscribe(function (action) {
          if (action.type=='FETCHED-AWS')
              this.update();
@@ -39,7 +38,8 @@
 
      STORE.subscribe(function (action) {
          let update = [
-             'UPDATED-COMMAND-DISPLAY'
+             'UPDATED-COMMAND-DISPLAY',
+             'UPDATED-SUBCOMMAND-DISPLAY'
          ].find(function (v) { return v==action.type; }) ;
          if (update)
              this.update();

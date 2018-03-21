@@ -1,11 +1,13 @@
 <selector class="{state().display ? '' : 'hide'}">
     <div class="panel">
-        <p class="panel-heading">
+        <p class="panel-heading" style="border-color: rgba(217, 51, 63, 0.3);">
             {state().title}
         </p>
         <div class="panel-block">
             <p class="control has-icons-left">
-                <input class="input is-small" type="text" placeholder="search">
+                <input class="input is-small"
+                       type="text"
+                       placeholder="search">
                 <span class="icon is-small is-left">
                     <i class="fas fa-search"></i>
                 </span>
@@ -33,14 +35,27 @@
      selector.hide { display: none; }
      selector {
          display: block;
-         padding: 5px;
+         padding: 8px;
          position: fixed;
          left: 0;
          top: 0;
      }
-     selector > div.panel {
+     selector div.panel {
          background: #ffffff;
      }
+     selector p.panel-heading {
+         background: rgba(217, 51, 63, 0.6);
+         border-color: rgba(217, 51, 63, 0.3);
+         color: #fff;
+         font-weight: bold;
+     }
+     selector .panel-tabs a { border-bottom-color: rgba(217, 51, 63, 0.3); }
+     selector .panel-tabs a.is-active {  border-bottom-color: rgba(217, 51, 63, 1); }
+     selector div.panel,
+     selector div.panel-block,
+     selector div.panel-block input,
+     selector p.panel-tabs,
+     selector label.panel-block { border-color: rgba(217, 51, 63, 0.3); }
     </style>
 
     <script>
