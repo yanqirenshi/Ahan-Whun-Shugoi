@@ -13,40 +13,29 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     fetchedAws (response, from) {
+        let state = STORE.state();
+
         let aws = response.AWS;
-        let ht_commands = GraphUtil.node_list2ht(response.COMMANDS.NODES, {});
-        let ht_options  = GraphUtil.node_list2ht(response.OPTIONS.NODES, {});
+        let commands = GraphUtil.marge2(state.commands,
+                                        response.COMMANDS.NODES);
+        let options = GraphUtil.marge2(state.options,
+                                       response.OPTIONS.NODES);
 
-        let r_list = [].concat(response.COMMANDS.RELATIONSHIPS,
-                               response.OPTIONS.RELATIONSHIPS);
-        let ht_r = {};
-
-        ht_r = GraphUtil.edge_list2ht(aws,
-                                      ht_commands,
-                                      response.COMMANDS.RELATIONSHIPS,
-                                      ht_r);
-        ht_r = GraphUtil.edge_list2ht(aws,
-                                      ht_options,
-                                      response.OPTIONS.RELATIONSHIPS,
-                                      ht_r);
+        let aws_state = { ht: {}, list: [aws]};
+        aws_state[aws._id] = aws;
+        let r = GraphUtil.marge2(state.r,
+                                 [].concat(
+                                     GraphUtil.setEdgesDisplay(response.COMMANDS.RELATIONSHIPS, aws_state, commands),
+                                     GraphUtil.setEdgesDisplay(response.OPTIONS.RELATIONSHIPS, aws_state, options)));
 
         return {
             from: from,
             type: 'FETCHED-AWS',
             data: {
                 aws: aws,
-                commands: {
-                    list: response.COMMANDS.NODES,
-                    ht: ht_commands
-                },
-                options: {
-                    list: response.OPTIONS.NODES,
-                    ht: ht_options
-                },
-                r: {
-                    list: r_list,
-                    ht: ht_r
-                }
+                commands: commands,
+                options: options,
+                r: r
             }
         };
     }
@@ -195,13 +184,14 @@ class Actions extends Simple_Redux_Actions {
     updatedCommandDisplay(response) {
         let state = STORE.state();
 
-        let new_command = response.NODE;
-        let to_node = state.commands.ht[new_command._id];
-        let from_node = state.aws;
-        let edge = state.r.ht[response.RELASHONSHIP.EDGE._id];
+        let child_node = response.NODE;
+        let parent_node = response.RELASHONSHIP.NODE;
+        let to_parent_edge = response.RELASHONSHIP.EDGE;
 
-        GraphUtil.setCommandValues(new_command, to_node);
-        GraphUtil.setEdgeDisplay(edge, from_node, to_node);
+        GraphUtil.setObjectValues(child_node, state.commands.ht[child_node._id]);
+        GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
+                                 state.aws,
+                                 state.commands.ht[child_node._id]);
 
         return {
             type: 'UPDATED-COMMAND-DISPLAY',
@@ -226,7 +216,6 @@ class Actions extends Simple_Redux_Actions {
         let to_parent_edge = response.RELASHONSHIP.EDGE;
 
         GraphUtil.setObjectValues(child_node, state.subcommands.ht[child_node._id]);
-
         GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
                                  state.commands.ht[parent_node._id],
                                  state.subcommands.ht[child_node._id]);
@@ -243,9 +232,9 @@ class Actions extends Simple_Redux_Actions {
     updateCommandLocation(_id, location) {
         let self = this;
         let data = {
-                     X: location.X,
-                     Y: location.Y,
-                     Z: location.Z
+            X: location.X,
+            Y: location.Y,
+            Z: location.Z
         };
         API.post('/commands/' +_id + '/location', data ,
                  function (response) {

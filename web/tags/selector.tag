@@ -24,7 +24,7 @@
 
         <div class="panel-block {STORE.state().selector.tabs[0].display ? '' : 'hidden'}">
             <selector-elements data={this.elements()}
-                               onchange={changeDisplay}></selector-elements>
+                               change-display={changeDisplay}></selector-elements>
         </div>
 
         <div class="panel-block {STORE.state().selector.tabs[1].display ? '' : 'hidden'}">
