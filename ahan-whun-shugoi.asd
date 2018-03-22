@@ -69,6 +69,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                            (:module "cloudwatch" :components ((:file "class")
                                                               (:file "list-metrics")
                                                               (:file "describe-alarms")))))
+                 (:file "help")
                  (:file "aws"))))
   :description ""
   :long-description

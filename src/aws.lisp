@@ -42,11 +42,13 @@ plist -> alist に変換してとかかな。"
           (list :test (getf options :test)
                 :format (getf options :format)
                 :force (getf options :force)
-                :thread (getf options :thread)))
+                :thread (getf options :thread)
+                :help (getf options :help)))
     (remf aws-options :test)
     (remf aws-options :force )
     (remf aws-options :format)
     (remf aws-options :thread)
+    (remf aws-options :hepl)
     (values aws-options other-options)))
 
 ;;;
@@ -87,23 +89,9 @@ plist -> alist に変換してとかかな。"
 ;;;
 ;;; AWS CLI main
 ;;;
-(defun aws (command subcommand &rest options)
-  (multiple-value-bind (aws-options other-options)
-      (split-options options)
-    (let ((cmd (make-aws-cli-command command subcommand aws-options
-                                     :force (getf other-options :force))))
-      (aws-print-command cmd)
-      (cond ((getf other-options :test) (aws-test-mode))
-            ((getf other-options :help) (warn ":help は実装中です。処理をスキップします。"))
-            (t (format-values command subcommand
-                              (aws-submit-mode cmd)
-                              (getf other-options :format)))))))
-
-
 (defun aws-run (command subcommand cmd other-options)
   (aws-print-command cmd)
   (cond ((getf other-options :test) (aws-test-mode))
-        ((getf other-options :help) (warn ":help は実装中です。処理をスキップします。"))
         (t (format-values command subcommand
                           (aws-submit-mode cmd)
                           (getf other-options :format)))))
@@ -122,11 +110,14 @@ plist -> alist に変換してとかかな。"
                   "end"   (local-time:now))))
      :name thread-name)))
 
-(defun aws (command subcommand &rest options)
-  (multiple-value-bind (aws-options other-options)
-      (split-options options)
-    (let ((cmd (make-aws-cli-command command subcommand aws-options
-                                     :force (getf other-options :force))))
-      (if (not (getf other-options :thread))
-          (aws-run command subcommand cmd other-options)
-          (aws-run-thread command subcommand cmd other-options)))))
+(defun aws (command &optional subcommand &rest options)
+  (cond ((eq :help command) (print-aws-help))
+        ((eq :help subcommand) (print-command-help command))
+        ((eq :help (car options)) (print-subcommand-help subcommand))
+        (t (multiple-value-bind (aws-options other-options)
+               (split-options options)
+             (let ((cmd (make-aws-cli-command command subcommand aws-options
+                                              :force (getf other-options :force))))
+               (if (not (getf other-options :thread))
+                   (aws-run command subcommand cmd other-options)
+                   (aws-run-thread command subcommand cmd other-options)))))))
