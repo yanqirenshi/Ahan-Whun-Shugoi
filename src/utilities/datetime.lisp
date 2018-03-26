@@ -5,6 +5,8 @@
   (:export #:unix2timestamp
            #:timestamp2unix
            #:timestamp2YYYYMMDD_HHMMSS
+           #:one-day-ago
+           #:two-days-ago
            #:one-week-ago
            #:one-month-ago
            #:2timestamp
@@ -29,6 +31,12 @@
                   #\Space
                   (:HOUR 2) #\: (:MIN 2) #\: (:SEC 2))))
     (local-time:format-timestring nil timestamp :format format)))
+
+(defun one-day-ago ()
+  (local-time:timestamp- (local-time:today) 1 :day))
+
+(defun two-days-ago ()
+  (local-time:timestamp- (local-time:today) 2 :day))
 
 (defun one-week-ago (&optional (timestamp (local-time:today)))
   (local-time:timestamp- timestamp 7 :day))
