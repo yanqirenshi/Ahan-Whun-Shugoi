@@ -3,8 +3,8 @@
 ;;;
 ;;; DB(shinra)
 ;;;
-(defun get-option (&key code)
-  (car (find-vertex *graph*
+(defun get-option (&key code (graph *graph*))
+  (car (find-vertex graph
                     'option
                     :slot 'code
                     :value code)))
@@ -20,7 +20,7 @@
 "
   (when plist
     (let* ((code (ensure-keyword (getf plist :code)))
-           (option (get-option :code code)))
+           (option (get-option :code code :graph graph)))
       (if option
           (tx-update-option graph option plist)
           (tx-make-vertex graph
