@@ -51,7 +51,7 @@
 (defun tx-make-r-aws-command (graph aws command)
   (let ((class 'r-aws2commands))
     (or (get-r graph class :from aws command :r)
-        (make-edge graph class aws command :r))))
+        (tx-make-edge graph class aws command :r))))
 
 (defun tx-html2command (graph uri html)
   (let* ((code (ensure-keyword (get-code-from-h1-tag html)))
