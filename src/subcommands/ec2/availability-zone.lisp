@@ -4,10 +4,10 @@
 ;;;;; Command⇒ aws ec2 describe-availability-zones
 (defvar *sample-ec2_availability-zone*
   '(:|AvailabilityZones|
-    ((:|RegionName| "ap-northeast-1"
+    ((:|RegionName| ""
       :|Messages| NIL
-      :|ZoneName| "ap-northeast-1a"
-      :|State| "available"))))
+      :|ZoneName| ""
+      :|State| ""))))
 
 (defvar *columns_ec2_availability-zone*
   '((:code :|RegionName| :slot RegionName :set-value set-value-simple)

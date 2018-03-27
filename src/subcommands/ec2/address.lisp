@@ -1,7 +1,7 @@
 (in-package :ahan-whun-shugoi)
 
-;;;;; AWS> (aws :ec2 :describe-addresses :--profile "tatta-developer")
-;;;;; Command⇒ aws ec2 describe-addresses --profile "tatta-developer"
+;;;;; AWS> (aws :ec2 :describe-addresses)
+;;;;; Command⇒ aws ec2 describe-addresses
 (defvar *sample-ec2_describe-addresses*
   '(:|Addresses|
     ((:|PrivateIpAddress| ""
@@ -12,7 +12,7 @@
       :|NetworkInterfaceId| ""
       :|Domain| ""))))
 
-(defvar *columns-ec2-address*
+(defvar *columns_ec2_address*
   '((:code :|PrivateIpAddress| :slot PrivateIpAddress :set-value set-value-simple)
     (:code :|AllocationId| :slot AllocationId :set-value set-value-simple)
     (:code :|PublicIp| :slot PublicIp :set-value set-value-simple)

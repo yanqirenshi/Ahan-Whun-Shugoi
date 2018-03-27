@@ -5,15 +5,15 @@
 (defvar *sample-ec2-describe-subnets*
   '(:|Subnets|
     ((:|AssignIpv6AddressOnCreation| NIL
-      :|CidrBlock| "172.31.16.0/20"
-      :|SubnetId| "subnet-9087f8e7"
+      :|CidrBlock| ""
+      :|SubnetId| ""
       :|MapPublicIpOnLaunch| T
-      :|State| "available"
-      :|VpcId| "vpc-6036af05"
+      :|State| ""
+      :|VpcId| ""
       :|Ipv6CidrBlockAssociationSet| NIL
       :|DefaultForAz| T
       :|AvailableIpAddressCount| 4091
-      :|AvailabilityZone| "ap-northeast-1a"))))
+      :|AvailabilityZone| ""))))
 
 (defvar *columns_ec2_describe-subnets*
   '((:code :|AssignIpv6AddressOnCreation| :slot AssignIpv6AddressOnCreation :set-value set-value-simple)
