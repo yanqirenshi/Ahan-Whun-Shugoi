@@ -3,25 +3,32 @@
 ;;;
 ;;; util
 ;;;
+(defun kyeword-sorter (a b)
+  (string< (symbol-name a)
+           (symbol-name b)))
+
 (defun print-target (label target)
   (format t "~a: ~a~2%" label (aws-beach::CODE target)))
 
 (defun print-elements (label elements)
   (format t " ~a ~%=============~%" label)
-  (format t "~{- ~a~%~}~%" (mapcar #'aws-beach::CODE elements)))
+  (format t "~{- ~a~%~}~%"
+          (sort (mapcar #'aws-beach::CODE elements)
+                #'kyeword-sorter)))
 
 (defun print-options (label elements)
   (format t " ~a ~%=============~%" label)
-  (format t "~{ ~a~%~}~%" (mapcar #'aws-beach::CODE elements)))
-
+  (format t "~{ ~a~%~}~%"
+          (sort (mapcar #'aws-beach::CODE elements)
+                #'kyeword-sorter)))
 
 ;;;
 ;;; main
 ;;;
 (defun print-aws-help ()
   (let* ((aws (aws-beach::get-aws))
-         (commands (shinra:find-vertex aws.db:*graph* 'aws-beach::command))
-         (options (shinra:find-r-vertex aws.db:*graph*
+         (commands (shinra:find-vertex aws-beach.db:*graph* 'aws-beach::command))
+         (options (shinra:find-r-vertex aws-beach.db:*graph*
                                         'aws-beach:r-aws2options
                                         :from aws)))
     (print-target "Aws" aws)
@@ -34,7 +41,7 @@
 
 (defun print-command-help (command-code)
   (let* ((command (aws-beach:get-command :code command-code))
-         (subcommands (shinra:find-r-vertex aws.db:*graph*
+         (subcommands (shinra:find-r-vertex aws-beach.db:*graph*
                                             'aws-beach:r-command2subcommands
                                             :from command)))
     (assert command)
@@ -47,7 +54,7 @@
 
 (defun print-subcommand-help (subcommand-code)
   (let* ((subcommand (aws-beach::get-subcommand :code subcommand-code))
-        (options (shinra:find-r-vertex aws.db:*graph*
+        (options (shinra:find-r-vertex aws-beach.db:*graph*
                                        'aws-beach:r-subcommand2options
                                        :from subcommand)))
     (assert subcommand)
