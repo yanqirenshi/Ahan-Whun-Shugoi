@@ -37,6 +37,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                  (:module "cli" :components ((:file "config")
                                              (:file "option")
                                              (:file "command")))
+                 (:module "help" :components ((:file "help")))
                  (:file "package")
                  (:module "subcommands" :components
                           ((:file "util")
@@ -53,7 +54,6 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                            (:module "cloudwatch" :components ((:file "class")
                                                               (:file "list-metrics")
                                                               (:file "describe-alarms")))))
-                 (:module "help" :components ((:file "help")))
                  (:file "aws"))))
   :description ""
   :long-description
