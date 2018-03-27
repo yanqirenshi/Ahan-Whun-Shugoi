@@ -12,7 +12,8 @@ class Reducer extends Simple_Redux_Reducer {
             'FETCHED-COMMAND_SUBCOMMANDS',
             'SWITCH-SELECTOR',
             'UPDATED-COMMAND-DISPLAY',
-            'FETCHED-COMMAND-4-SELECTOR'
+            'FETCHED-COMMAND-4-SELECTOR',
+            'UPDATE-SELECTOR-SERCH-WORKD-4-COMMANDS'
         ].find(function (v) {
             return v==action_type;
         }) ;

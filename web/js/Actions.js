@@ -140,6 +140,24 @@ class Actions extends Simple_Redux_Actions {
             }
         };
     }
+    updateSelectorSerchWorkd4Commands (search_keyword) {
+        if (search_keyword && search_keyword.length==0)
+            search_keyword = null;
+
+        let tabs = STORE.state().selector.tabs;
+
+        tabs[0].search = search_keyword;
+
+        return {
+            type: 'UPDATE-SELECTOR-SERCH-WORKD-4-COMMANDS',
+            data: {
+                selector: {
+                    tabs: tabs
+                }
+            }
+
+        };
+    }
     /*
      * fetchCommand4selector
      */

@@ -8,7 +8,8 @@
             <p class="control has-icons-left">
                 <input class="input is-small"
                        type="text"
-                       placeholder="search">
+                       placeholder="search"
+                       ref="search_keyword">
                 <span class="icon is-small is-left">
                     <i class="fas fa-search"></i>
                 </span>
@@ -78,6 +79,11 @@
     </style>
 
     <script>
+     this.on('mount', () => {
+         this.refs.search_keyword.oninput = function (e) {
+             STORE.dispatch(ACTIONS.updateSelectorSerchWorkd4Commands(e.target.value));
+         };
+     })
      this.tabs = () => {
          let tabs = this.state().tabs;
          let _class = this.state().element._class;
@@ -175,7 +181,8 @@
      STORE.subscribe(function (action) {
          if (!(action.type=='SWITCH-SELECTOR' ||
                action.type=='FETCHED-COMMAND-4-SELECTOR' ||
-               action.type=='SWITCH-SELECTOR-TAB'))
+               action.type=='SWITCH-SELECTOR-TAB' ||
+               action.type=='UPDATE-SELECTOR-SERCH-WORKD-4-COMMANDS'))
              return;
 
          this.update();
