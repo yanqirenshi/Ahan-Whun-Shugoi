@@ -6,11 +6,31 @@
   :version "0.1.0"
   :author ""
   :license ""
-  :depends-on ()
+  :depends-on (:cl-ppcre
+               :local-time
+               :upanishad
+               :shinrabanshou
+               :closure-html
+               :dexador)
   :components ((:module "src"
                 :components
-                ((:file "package")
-                 (:file "graph"))))
+                ((:file "graph")
+                 (:module "utilities" :components ((:file "util")
+                                                   (:file "util-html")
+                                                   (:file "locker")))
+                 (:file "package")
+                 (:module "class" :components ((:file "sand")
+                                               (:file "aws")
+                                               (:file "command")
+                                               (:file "subcommand")
+                                               (:file "option")
+                                               (:file "relashonship")))
+                 (:file "options")
+                 (:module "parser" :components ((:file "synopsis")
+                                                (:file "options")))
+                 (:file "subcommands")
+                 (:file "commands")
+                 (:file "aws"))))
   :description ""
   :long-description
   #.(read-file-string

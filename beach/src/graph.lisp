@@ -1,13 +1,13 @@
 (in-package :cl-user)
-(defpackage ahan-whun-shugoi.beach.db
-  (:nicknames :aws.beach.db)
+(defpackage ahan-whun-shugoi-beach.db
+  (:nicknames :aws-beach.db)
   (:use :cl)
   (:export #:*graph*
            #:start
            #:stop
            #:snapshot
            #:refresh))
-(in-package :ahan-whun-shugoi.beach.db)
+(in-package :ahan-whun-shugoi-beach.db)
 
 (defvar *graph* nil)
 
