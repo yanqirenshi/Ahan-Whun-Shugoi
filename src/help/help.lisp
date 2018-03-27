@@ -1,4 +1,11 @@
-(in-package :ahan-whun-shugoi)
+(in-package :cl-user)
+(defpackage ahan-whun-shugoi.help
+  (:nicknames :aws.help)
+  (:use #:cl)
+  (:export #:print-aws-help
+           #:print-command-help
+           #:print-subcommand-help))
+(in-package :ahan-whun-shugoi.help)
 
 ;;;
 ;;; util

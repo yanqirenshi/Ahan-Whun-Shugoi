@@ -2,7 +2,8 @@
 (defpackage ahan-whun-shugoi
   (:nicknames :aws)
   (:use #:cl
-        #:aws.cli.command)
+        #:aws.cli.command
+        #:aws.help)
   (:export :aws)
   (:import-from :aws-beach
                 #:collect
