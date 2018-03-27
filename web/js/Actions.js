@@ -22,7 +22,7 @@ class Actions extends Simple_Redux_Actions {
                                        response.OPTIONS.NODES);
 
         let aws_state = { ht: {}, list: [aws]};
-        aws_state[aws._id] = aws;
+        aws_state.ht[aws._id] = aws;
         let r = GraphUtil.marge2(state.r,
                                  [].concat(
                                      GraphUtil.setEdgesDisplay(response.COMMANDS.RELATIONSHIPS, aws_state, commands),

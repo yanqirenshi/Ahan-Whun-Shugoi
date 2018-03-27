@@ -8,6 +8,7 @@
   :license ""
   :depends-on (:cl-ppcre
                :local-time
+               :jonathan
                :upanishad
                :shinrabanshou
                :closure-html

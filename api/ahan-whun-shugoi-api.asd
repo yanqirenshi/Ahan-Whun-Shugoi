@@ -19,7 +19,8 @@
                :upanishad
                :shinrabanshou
                :sephirothic
-               :ahan-whun-shugoi)
+               :ahan-whun-shugoi
+               :ahan-whun-shugoi-beach)
   :components ((:module "src"
                 :components
                 ((:file "config")
@@ -33,6 +34,7 @@
                  (:file "render")
                  (:module "router"
                   :components ((:file "route")
+                               (:file "beach")
                                (:file "api-v1")))
                  (:file "main"))))
   :description ""
