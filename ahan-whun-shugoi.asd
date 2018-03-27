@@ -26,7 +26,8 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :closure-html
                :quri
                :dexador
-               :lparallel)
+               :lparallel
+               :ahan-whun-shugoi-beach)
   :components ((:module "src"
                 :serial t
                 :components

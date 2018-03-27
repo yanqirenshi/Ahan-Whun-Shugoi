@@ -18,7 +18,8 @@
                ;; Database
                :upanishad
                :shinrabanshou
-               :sephirothic)
+               :sephirothic
+               :ahan-whun-shugoi)
   :components ((:module "src"
                 :components
                 ((:file "config")
