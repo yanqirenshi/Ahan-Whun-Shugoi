@@ -1,6 +1,6 @@
 <selector2-commands class="panel-block">
 
-    <div class="panel-block">
+    <div class="panel-block" style="display:block;">
         <p class="control has-icons-left">
             <input class="input is-small" type="text" placeholder="search">
             <span class="icon is-small is-left">
@@ -26,7 +26,7 @@
 
     <style>
      selector2-commands.panel-block {
-         align-items:stretch;
+         align-items: stretch;
          flex-grow: 1;
          flex-direction: column;
          padding: 0px;
