@@ -42,7 +42,7 @@
       (execute-transaction
        (tx-make-aws *graph* html))))
 
-(defun find-aws-options (&key (aws (get-aws)) (graph aws.db::*graph*))
+(defun find-aws-options (&key (aws (get-aws)) (graph aws-beach.db::*graph*))
   (when aws
     (find-r-vertex graph 'r-aws2options
                    :from aws
@@ -78,7 +78,7 @@
                    commands))))
 
 (defun under-the-paving-stone-the-beach (&key (target :all) (uri (root-uri)) refresh)
-  (when refresh (aws.db:refresh))
+  (when refresh (aws-beach.db:refresh))
   (multiple-value-bind (aws commands)
       (find-aws :uri uri)
     (find-command aws
@@ -97,7 +97,7 @@
              #'(lambda ()
                  (let ((start (local-time:now)))
                    (collect :target target :uri uri :refresh refresh)
-                   (aws.db:snapshot)
+                   (aws-beach.db:snapshot)
                    (break "Finished collect!~%Start= ~a~%End  = ~a~%"
                           start (local-time:now))))
              :name "aws-beach-collect"))))

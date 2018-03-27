@@ -1,7 +1,8 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi.cli.option
   (:nicknames :aws.cli.option)
-  (:use :cl :aws.beach)
+  (:use #:cl
+        #:aws-beach)
   (:import-from :ahan-whun-shugoi.cli.config
                 #:get-config)
   (:export #:opt2cmd))
@@ -24,7 +25,7 @@
   "option-code で master の中から option を探す。"
   (when master
     (let ((option (car master)))
-      (if (eq option-code (aws.beach::code option))
+      (if (eq option-code (aws-beach::code option))
           option
           (get-master-option (cdr master) option-code)))))
 

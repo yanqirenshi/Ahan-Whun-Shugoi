@@ -11,11 +11,13 @@
                :upanishad
                :shinrabanshou
                :closure-html
-               :dexador)
+               :dexador
+               :lparallel)
   :components ((:module "src"
                 :components
                 ((:file "graph")
                  (:module "utilities" :components ((:file "util")
+                                                   (:file "html-common")
                                                    (:file "util-html")
                                                    (:file "locker")))
                  (:file "package")

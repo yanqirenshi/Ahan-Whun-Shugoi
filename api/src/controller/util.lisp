@@ -1,6 +1,6 @@
 (in-package :ahan-whun-shugoi-api.controller)
 
-(defun graph () aws.db::*graph*)
+(defun graph () aws-beach.db::*graph*)
 
 (defun find-to-vertexs-relationship (graph from-vertex to-class)
   (let ((vertexs nil)

@@ -3,7 +3,7 @@
   (:nicknames :aws-beach.util.html)
   (:use #:cl
         #:aws-beach.util
-        #:aws.util.html)
+        #:aws-beach.util.html-common)
   (:import-from :chtml
                 #:pt-attrs
                 #:pt-children)

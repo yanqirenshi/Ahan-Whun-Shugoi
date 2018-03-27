@@ -2,7 +2,7 @@
 (defpackage ahan-whun-shugoi.cli.command
   (:nicknames :aws.cli.command)
   (:use #:cl
-        #:aws.beach
+        #:aws-beach
         #:ahan-whun-shugoi.cli.option)
   (:export #:make-aws-cli-command))
 (in-package :ahan-whun-shugoi.cli.command)
@@ -18,14 +18,14 @@
     (values command subcommand (nconc aws-options comman-options))))
 
 (defun get-code (obj &key to-str)
-  "TODO:これは aws.beach のコードじゃないかな。"
-  (let ((code (aws.beach::code obj)))
+  "TODO:これは aws-beach のコードじゃないかな。"
+  (let ((code (aws-beach::code obj)))
     (if (not to-str)
         code
         (string-downcase (symbol-name code)))))
 
 (defun assert-lock-subcommand (subcommand force)
-  (let ((lock (aws.beach::lock subcommand)))
+  (let ((lock (aws-beach::lock subcommand)))
     (assert (or (null lock)
                 (and lock (null force)))
             (subcommand)
