@@ -84,9 +84,6 @@
     (find-command aws
                   (collect-target-commands commands target))))
 
-(defun upsb (&key (target :all) (uri (root-uri)) refresh)
-  (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh))
-
 (defun collect (&key (target :all) (uri (root-uri)) refresh thread)
   (if (not thread)
       ;; non thread
