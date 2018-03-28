@@ -1,5 +1,31 @@
 # src/
 
+## Usage
+
+こんな感じで利用できます。
+
+```lisp
+;; コマンドの一覧を表示
+(aws :help)
+
+;; コマンド:ec2 のサブコマンドの一覧を表示
+(aws :ec2 :help)
+
+;; サブコマンド:describe-instances のオプションの一覧を表示
+(aws :ec2 :describe-instances :help)
+
+;; サブコマンド:describe-instances を実行
+(aws :ec2 :describe-instances :--profile "your profile name")
+```
+
+## Installation
+
+プログラムをロードする。
+
+```lisp
+(ql:quickload :ahan-whun-shugoi)
+```
+
 ## Function `aws`
 
 ### Syntax

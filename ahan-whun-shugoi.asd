@@ -58,7 +58,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :description ""
   :long-description
   #.(with-open-file (stream (merge-pathnames
-                             #p"README.md"
+                             #p"README.markdown"
                              (or *load-pathname* *compile-file-pathname*))
                             :if-does-not-exist nil
                             :direction :input)
