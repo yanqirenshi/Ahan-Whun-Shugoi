@@ -1,17 +1,17 @@
-<selector2-header class="panel-heading">
+<selector-header class="panel-heading">
     <p>
         {title()}
     </p>
 
     <style>
-     selector2-header.panel-heading {
+     selector-header.panel-heading {
          background: rgba(217, 51, 63, 0.6);
          color: #fff;
          font-weight: bold;
          align-items:flex-start;
      }
-     selector2-header.panel-heading,
-     selector2-header.panel-heading:first-child {
+     selector-header.panel-heading,
+     selector-header.panel-heading:first-child {
          border-color: rgba(217, 51, 63, 0.3);
      }
     </style>
@@ -24,4 +24,4 @@
          return code + ' (' + _class + ')'
      };
     </script>
-</selector2-header>
+</selector-header>

@@ -1,2 +1,0 @@
-<selector-info>
-</selector-info>
