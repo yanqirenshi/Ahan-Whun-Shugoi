@@ -101,6 +101,26 @@
      (update-node-location subcommand location))))
 
 ;;;;;
+;;;;; OPTONS
+;;;;;
+(defroute "/options/:_id/display/:value" (&key _id value)
+  (let* ((_id (validation _id :integer :require t))
+         (value (cond ((string= "false" value) nil)
+                      ((string= "true" value) t)
+                      (t (throw-code 401))))
+         (option (get-option :%id _id)))
+    (unless option (throw-code 404))
+    (render-json (update-node-display option value))))
+
+(defroute ("/options/:_id/location" :method :POST) (&key _id _parsed)
+  (let* ((_id (validation _id :integer :require t))
+         (location (jojo:parse (caar _parsed)))
+         (option (or (get-option :%id _id)
+                     (throw-code 404))))
+    (render-json
+     (update-node-location option location))))
+
+;;;;;
 ;;;;; Error pages
 ;;;;;
 (defmethod on-exception ((app <router>) (code (eql 404)))

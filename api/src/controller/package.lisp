@@ -17,5 +17,6 @@
            #:update-node-location
            #:find-commands
            #:get-subcommand
-           #:find-subcommands))
+           #:find-subcommands
+           #:get-option))
 (in-package :ahan-whun-shugoi-api.controller)

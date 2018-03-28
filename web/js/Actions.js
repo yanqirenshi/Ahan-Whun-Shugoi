@@ -249,6 +249,8 @@ class Actions extends Simple_Redux_Actions {
             this.updateCommandDisplay(_id, value);
         if (node_class=='SUBCOMMAND')
             this.updateSubcommandDisplay(_id, value);
+        if (node_class=='OPTION')
+            this.updateOptionDisplay(_id, value);
     }
 
     /*
@@ -308,6 +310,39 @@ class Actions extends Simple_Redux_Actions {
         };
     }
 
+    updateOptionDisplay(_id, value) {
+        let self = this;
+        API.get('/options/' +_id + '/display/' + value, function (response) {
+            STORE.dispatch(self.updatedOptionDisplay(response));
+        });
+    }
+    updatedOptionDisplay(response) {
+        let state = STORE.state();
+
+        let child_node = response.NODE;
+        let parent_node = response.RELASHONSHIP.NODE;
+        let to_parent_edge = response.RELASHONSHIP.EDGE;
+
+        GraphUtil.setObjectValues(child_node, state.options.ht[child_node._id]);
+
+        // TODO: なんか変
+        GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
+                                 state.aws.ht[parent_node._id],
+                                 state.options.ht[child_node._id]);
+
+        GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
+                                 state.subcommands.ht[parent_node._id],
+                                 state.options.ht[child_node._id]);
+
+        return {
+            type: 'UPDATED-OPTION-DISPLAY',
+            data: {
+                subcommands: state.subcommands,
+                r: state.r
+            }
+        };
+    }
+
     updateCommandLocation(_id, location) {
         let self = this;
         let data = {
@@ -359,7 +394,35 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATED-SUBCOMMAND-LOCATION',
             data: {
-                commands: state.commands
+                subcommands: state.subcommands
+            }
+        };
+    }
+
+    updateOptionLocation(_id, location) {
+        let self = this;
+        let data = {
+            X: location.X,
+            Y: location.Y,
+            Z: location.Z
+        };
+        API.post('/options/' +_id + '/location', data ,
+                 function (response) {
+                     STORE.dispatch(self.updatedOptionLocation(response));
+                 });
+    }
+    updatedOptionLocation(response) {
+        let state = STORE.state();
+
+        let new_option = response;
+        let to_node = state.options.ht[new_option._id];
+
+        GraphUtil.setObjectValues(new_option, to_node);
+
+        return {
+            type: 'UPDATED-OPTION-LOCATION',
+            data: {
+                options: state.options
             }
         };
     }

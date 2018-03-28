@@ -22,6 +22,8 @@
                  ACTIONS.updateCommandLocation(data._id, data.location);
              if (data._class=='SUBCOMMAND')
                  ACTIONS.updateSubcommandLocation(data._id, data.location);
+             if (data._class=='OPTION')
+                 ACTIONS.updateOptionLocation(data._id, data.location);
          },
          clickNode: function (data) {
              STORE.dispatch(ACTIONS.switchSelector(data));

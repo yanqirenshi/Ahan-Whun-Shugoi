@@ -15,6 +15,9 @@
         <selector-elements class="{this.contentsDisplay(2)}"
                            data={options()}
                            change-display={changeDisplay}></selector-elements>
+
+        <selector-info class="{this.contentsDisplay(3)}"
+                       data={state().element}></selector-info>
     </div>
 
     <style>
