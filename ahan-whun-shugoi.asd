@@ -28,7 +28,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :dexador
                :lparallel
                :ahan-whun-shugoi-beach)
-  :components ((:module "src"
+  :components ((:module "core"
                 :serial t
                 :components
                 ((:module "db" :components ((:file "graph")))
