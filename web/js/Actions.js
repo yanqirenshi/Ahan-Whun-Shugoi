@@ -129,9 +129,39 @@ class Actions extends Simple_Redux_Actions {
         };
     }
     switchSelectorTab (data) {
-        let tabs = STORE.state().selector.tabs;
+        // TODO: この関数きたないな。。。
+
+        let selector = STORE.state().selector;
+
+        // 一旦表示/非表示をセット
+        let tabs = selector.tabs;
         for (var i in tabs)
-            tabs[i].display = (tabs[i].code == data);
+            tabs[i].select = (tabs[i].code == data);
+
+        // element._class で display を設定
+        let _class = selector.element._class;
+        let displays = {
+            'AWS': [0,1,2],
+            'COMMAND': [1,3],
+            'SUBCOMMAND': [2,3],
+            'OPTION': [3]
+        };
+        for (var i in tabs)
+            tabs[i].display = displays[_class] && (displays[_class].indexOf(i*1) >= 0);
+
+        // element._class で select を補正
+        if (displays[_class]) {
+            let selected = (function () {
+                let targets = displays[_class];
+                for (var i in targets) {
+                    if (tabs[targets[i]].select)
+                        return true;
+                }
+                return false;
+            }());
+            if (!selected)
+                tabs[displays[_class][0]].select=true;
+        }
 
         return {
             type: 'SWITCH-SELECTOR-TAB',

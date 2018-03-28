@@ -14,10 +14,10 @@ class Store extends Simple_Redux_Store {
                 element: {code: null, _class: null},
                 title: 'Selector',
                 tabs: [
-                    {code: 'commands',    display: true,  label: '', search: null},
-                    {code: 'subcommands', display: false, label: '', search: null},
-                    {code: 'options',     display: false, label: '', search: null},
-                    {code: 'basic',       display: false, label: ''}
+                    {code: 'commands',    select: true,  display: false, label: '', search: null},
+                    {code: 'subcommands', select: false, display: false, label: '', search: null},
+                    {code: 'options',     select: false, display: false, label: '', search: null},
+                    {code: 'basic',       select: false, display: false, label: ''}
                 ]
             }
         };

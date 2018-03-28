@@ -1,12 +1,13 @@
 <selector2-tabs class="panel-tabs">
     <div>
         <a each={opts.tabs}
-           class="{display ? 'is-active' : ''}"
+           class="{select ? 'is-active' : ''} {display ? '' : 'hide'}"
            code={code}
            onclick={opts.clickTab}>{code}</a>
     </div>
 
     <style>
+     selector2-tabs .hide { display: none; }
      selector2-tabs.panel-tabs {
          align-items: flex-start;
          border-color: rgba(217, 51, 63, 0.3);

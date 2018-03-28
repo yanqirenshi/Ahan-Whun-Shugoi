@@ -4,9 +4,15 @@
 
         <selector2-tabs tabs={tabs()} click-tab={clickTab}></selector2-tabs>
 
-        <selector2-commands data={commands()} change-display={changeDisplay}></selector2-commands>
-        <selector2-subcommands data={subcommands()} style="display:none;"></selector2-subcommands>
-        <selector2-options style="display:none;"></selector2-options>
+        <selector2-commands class="{contentsDisplay(0)}"
+                            data={commands()}
+                            change-display={changeDisplay}></selector2-commands>
+
+        <selector2-subcommands class="{contentsDisplay(1)}"
+                               data={subcommands()}></selector2-subcommands>
+
+        <selector2-options class="{this.contentsDisplay(2)}"
+                           data={options()}></selector2-options>
     </div>
 
     <style>
@@ -16,7 +22,8 @@
          left: 0px;
          padding: 22px;
      }
-     selector2.hide {
+     selector2.hide,
+     selector2 .hide {
          display: none;
      }
      selector2, selector2 .panel {
@@ -32,9 +39,8 @@
     </style>
 
     <script>
-     this.state = () => {
-         return STORE.state().selector;
-     };
+     this.state = () => { return STORE.state().selector; };
+     this.contentsDisplay = (i) => { return this.state().tabs[i].select ? '' : 'hide'; }
      this.tabs = () => {
          let tabs = this.state().tabs;
          let _class = this.state().element._class;
@@ -60,6 +66,13 @@
          let node = this.state().element;
          if (STORE.state().selector.display && node._class == "COMMAND")
              return STORE.state().subcommands.list;
+         return [];
+     }
+     this.options = () => {
+         let node = this.state().element;
+         if (STORE.state().selector.display &&
+             (node._class == "AWS" || node._class == "COMMAND"))
+             return STORE.state().options.list;
          return [];
      }
      this.clickTab = (e) => {

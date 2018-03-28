@@ -1,4 +1,4 @@
-<selector2-commands class="panel-block">
+<selector2-commands>
 
     <div class="panel-block" style="display:block;">
         <p class="control has-icons-left">
@@ -18,21 +18,25 @@
                    _id={_id}>
             {code}
         </div>
-
     </div>
 
     <div class="tail panel-block" style="align-items:flex-end;">
     </div>
 
     <style>
-     selector2-commands.panel-block {
+     selector2-commands {
          align-items: stretch;
          flex-grow: 1;
+
+         display: flex;
          flex-direction: column;
+
          padding: 0px;
          background: #ffffff;
-         border-color: rgba(217, 51, 63, 0.3);
+         border-left: solid 1px rgba(217, 51, 63, 0.3);
+         border-right: solid 1px rgba(217, 51, 63, 0.3);
      }
+
      selector2-commands > div.panel-block,
      selector2-commands > div.panel-block:first-child
      {

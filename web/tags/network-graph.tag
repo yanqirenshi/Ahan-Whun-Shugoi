@@ -25,6 +25,7 @@
          },
          clickNode: function (data) {
              STORE.dispatch(ACTIONS.switchSelector(data));
+             STORE.dispatch(ACTIONS.switchSelectorTab(null));
              d3.event.stopPropagation();
          },
          doubleClickNode: function (data) {
