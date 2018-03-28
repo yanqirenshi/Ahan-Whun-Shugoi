@@ -58,6 +58,7 @@
      };
      this.commands = () => {
          let node = this.state().element;
+
          if (STORE.state().selector.display && node._class == "AWS")
              return STORE.state().commands.list;
          return [];
@@ -65,14 +66,16 @@
      this.subcommands = () => {
          let node = this.state().element;
          if (STORE.state().selector.display && node._class == "COMMAND")
-             return STORE.state().subcommands.list;
+             return ACTIONS.findCommandSubcommands(node);
          return [];
      }
      this.options = () => {
          let node = this.state().element;
+
          if (STORE.state().selector.display &&
              (node._class == "AWS" || node._class == "COMMAND"))
-             return STORE.state().options.list;
+             return ACTIONS.findAwsOptions(node);
+
          return [];
      }
      this.clickTab = (e) => {

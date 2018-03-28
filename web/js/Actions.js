@@ -188,6 +188,36 @@ class Actions extends Simple_Redux_Actions {
 
         };
     }
+
+    findAwsOptions (aws) {
+        let state = STORE.state();
+        let r = state.r.list;
+        let options = state.options.ht;
+        let out = [];
+
+        if (!aws.code) return out;
+
+        for (var i in r)
+            if (r[i]['from-id']==aws._id && options[r[i]['to-id']])
+                out.push(options[r[i]['to-id']]);
+
+        return out;
+    }
+    findCommandSubcommands (command) {
+        let state = STORE.state();
+        let r = state.r.list;
+        let subcommands = state.subcommands.ht;
+        let out = [];
+
+        if (!command.code) return out;
+
+        for (var i in r)
+            if (r[i]['from-id']==command._id && subcommands[r[i]['to-id']])
+                out.push(subcommands[r[i]['to-id']]);
+
+        return out;
+    }
+
     /*
      * fetchCommand4selector
      */
