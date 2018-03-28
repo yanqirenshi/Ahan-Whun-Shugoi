@@ -22,6 +22,7 @@
          border-color: rgba(217, 51, 63, 0.1);
          justify-content: space-around;
          flex-grow: 1;
+         text-align: center;
      }
      selector2-tabs.panel-tabs a.is-active {
          border-color: rgba(217, 51, 63, 1);

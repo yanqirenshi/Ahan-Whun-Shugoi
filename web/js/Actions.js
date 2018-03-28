@@ -141,7 +141,7 @@ class Actions extends Simple_Redux_Actions {
         // element._class で display を設定
         let _class = selector.element._class;
         let displays = {
-            'AWS': [0,1,2],
+            'AWS': [0,2,3],
             'COMMAND': [1,3],
             'SUBCOMMAND': [2,3],
             'OPTION': [3]
