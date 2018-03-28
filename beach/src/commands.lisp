@@ -45,15 +45,20 @@
                             :vertex-class 'subcommand))))
 
 (defun tx-update-command-by-html (graph command html)
+  "取得した HTML を元に Vertex:Command の内容を更新する。"
   (declare (ignore html graph))
+  (warn "tx-update-command-by-html がまだ実装されていません。")
   command)
 
 (defun tx-make-r-aws-command (graph aws command)
+  "Vertex:AWS と Vertex:Command の Edge を作成する。"
   (let ((class 'r-aws2commands))
     (or (get-r graph class :from aws command :r)
         (tx-make-edge graph class aws command :r))))
 
 (defun tx-html2command (graph uri html)
+  "取得した HTML を元に Vertex:Command を作成する。
+既に存在する場合は全項目の内容を上書きする。"
   (let* ((code (ensure-keyword (get-code-from-h1-tag html)))
          (command (get-command :code code :graph graph)))
     (if command
@@ -65,6 +70,7 @@
                             (uri ,uri)))))))
 
 (defun tx-make-command (graph aws html uri)
+  "Vertex:Command を作成し、Vertex:AWS との Edge を作成する。"
   (let ((command (tx-html2command graph uri html)))
     (tx-make-r-aws-command graph aws command)
     command))

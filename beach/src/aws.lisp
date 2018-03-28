@@ -59,6 +59,7 @@
 ;;; ???
 ;;;
 (defun split-sequence-at (seq count)
+  "これ、オプションを区切るやつじゃないかな。"
   (when seq
     (if (< (length seq) count)
         (list seq)
