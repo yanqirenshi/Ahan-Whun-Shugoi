@@ -9,10 +9,12 @@
                            change-display={changeDisplay}></selector-elements>
 
         <selector-elements class="{contentsDisplay(1)}"
-                           data={subcommands()}></selector-elements>
+                           data={subcommands()}
+                           change-display={changeDisplay}></selector-elements>
 
         <selector-elements class="{this.contentsDisplay(2)}"
-                           data={options()}></selector-elements>
+                           data={options()}
+                           change-display={changeDisplay}></selector-elements>
     </div>
 
     <style>
@@ -71,10 +73,9 @@
      }
      this.options = () => {
          let node = this.state().element;
-
          if (STORE.state().selector.display &&
-             (node._class == "AWS" || node._class == "COMMAND"))
-             return ACTIONS.findAwsOptions(node);
+             (node._class == "AWS" || node._class == "SUBCOMMAND"))
+             return ACTIONS.findNodeOptions(node);
 
          return [];
      }

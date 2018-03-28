@@ -104,7 +104,8 @@ class Actions extends Simple_Redux_Actions {
         let display = state.display;
         if (data) {
             if (display) {
-                if (state.element._class==data._class)
+                if (state.element._class==data._class &&
+                    state.element._id==data._id)
                     display = false;
                 else
                     display = true;
@@ -189,7 +190,7 @@ class Actions extends Simple_Redux_Actions {
         };
     }
 
-    findAwsOptions (aws) {
+    findNodeOptions (aws) {
         let state = STORE.state();
         let r = state.r.list;
         let options = state.options.ht;
