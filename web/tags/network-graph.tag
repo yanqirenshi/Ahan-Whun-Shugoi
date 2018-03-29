@@ -14,6 +14,12 @@
      this.graph = new NetworkGraph();
 
      this.graph.setCallbacks({
+         moveEndSvg: function () {
+             dump('moveEndSvg');
+         },
+         zoomSvg: function () {
+             dump('zoomSvg');
+         },
          clickSvg: function () {
              STORE.dispatch(ACTIONS.switchSelector(null));
          },
