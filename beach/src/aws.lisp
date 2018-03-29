@@ -42,7 +42,7 @@
       (execute-transaction
        (tx-make-aws *graph* html))))
 
-(defun find-aws-options (&key (aws (get-aws)) (graph aws-beach.db::*graph*))
+(defun find-aws-options (&key (aws (get-aws)) (graph *graph*))
   (when aws
     (find-r-vertex graph 'r-aws2options
                    :from aws
@@ -85,17 +85,20 @@
     (find-command aws
                   (collect-target-commands commands target))))
 
+(defvar *aws-beach-collect* nil)
+
+(defun collect-thread (&key (target :all) (uri (root-uri)) refresh)
+  (setf *aws-beach-collect*
+        (bordeaux-threads:make-thread
+         #'(lambda ()
+             (let ((start (local-time:now)))
+               (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh)
+               (aws-beach.db:snapshot)
+               (break "Finished collect!~%Start= ~a~%End  = ~a~%"
+                      start (local-time:now))))
+         :name "aws-beach-collect")))
+
 (defun collect (&key (target :all) (uri (root-uri)) refresh thread)
-  (if (not thread)
-      ;; non thread
-      (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh)
-      ;; thread
-      (setf *aws-beach-collect*
-            (bordeaux-threads:make-thread
-             #'(lambda ()
-                 (let ((start (local-time:now)))
-                   (collect :target target :uri uri :refresh refresh)
-                   (aws-beach.db:snapshot)
-                   (break "Finished collect!~%Start= ~a~%End  = ~a~%"
-                          start (local-time:now))))
-             :name "aws-beach-collect"))))
+  (if thread
+      (collect-thread :target target :uri uri :refresh refresh)
+      (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh)))

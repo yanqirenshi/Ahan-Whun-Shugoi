@@ -4,7 +4,8 @@
         #:aws-beach.util.html-common
         #:aws-beach.util
         #:aws-beach.util.html
-        #:aws-beach.util.lock)
+        #:aws-beach.util.lock
+        #:aws-beach.util.uri)
   (:export #:collect)
   (:import-from :split-sequence
                 #:split-sequence)
@@ -48,16 +49,4 @@
            #:r-subcommand2options))
 (in-package :ahan-whun-shugoi-beach)
 
-(defvar *uri-scheme* "https")
-(defvar *uri-host* "docs.aws.amazon.com")
-(defvar *uri-base-path* "/ja_jp/cli/latest/reference/")
 (defvar *get-uri-interval-time* 1)
-
-(defun aws-uri (path)
-  (quri:render-uri
-   (quri:make-uri :scheme *uri-scheme*
-                  :host *uri-host*
-                  :path (format nil "~a" (merge-pathnames path *uri-base-path*)))))
-
-(defun root-uri ()
-  (aws-uri "index.html"))

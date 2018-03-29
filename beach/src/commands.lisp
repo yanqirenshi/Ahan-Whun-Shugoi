@@ -3,24 +3,21 @@
 ;;;
 ;;; html
 ;;;
-(defun a-tag2command-plist (tag)
-  (list :code (pt-attrs (first (pt-children tag)))
-        :uri (getf (pt-attrs tag) :href)))
-
-(defun make-command-uri (command)
-  (aws-uri (getf command :uri)))
+(defun a-tag2command-plist (a-tag)
+  (list :code (pt-attrs (first (pt-children a-tag)))
+        :uri (make-aws-cli-uri :command (pt-attrs a-tag))))
 
 (defun get-command-html (uri &key (sleep-time *get-uri-interval-time*))
   (let ((html (uri2pt uri)))
     (sleep sleep-time)
     html))
 
-(defun find-command-subcommands (html uri)
+(defun find-command-subcommands (html command-uri)
   (let ((section (car (find-tag html
                                 #'is-div
                                 #'id-is-available-subcommands))))
     (mapcar #'(lambda (tag)
-                (a-tag2subcommand-plist tag uri))
+                (a-tag2subcommand-plist tag command-uri))
             (find-tag section
                       #'is-a
                       #'class-is-reference
@@ -84,7 +81,7 @@
 ;;;
 (defun find-command (aws commands)
   (dolist (command commands)
-    (let* ((uri (make-command-uri command))
+    (let* ((uri (getf command :uri))
            (html (get-command-html uri))
            (command (make-command aws html uri)))
       (unless (string= "wait" (code command))

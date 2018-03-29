@@ -21,20 +21,31 @@
                (string= code (getf plist :code)))
            plists))
 
-(defun %merge-synopsis&options (code-list synopsis options)
+(defun merge-synopsis&options (code-list synopsis options)
   (when code-list
     (let* ((code (car code-list))
            (synopsis-data (get-plist-rec-at-code code synopsis))
            (options-data (get-plist-rec-at-code code options)))
       (if (not (and synopsis-data options-data))
-          (%merge-synopsis&options (cdr code-list) synopsis options)
+          (merge-synopsis&options (cdr code-list) synopsis options)
           (cons (list :code        (ensure-keyword (getf options-data :code))
                       :value-types (getf options-data :value-types)
                       :attributes  (getf synopsis-data :attributes)
                       :require     (getf synopsis-data :require))
-                (%merge-synopsis&options (cdr code-list) synopsis options))))))
+                (merge-synopsis&options (cdr code-list) synopsis options))))))
 
-(defun merge-synopsis&options (synopsis options)
-  (%merge-synopsis&options (make-code-lsit synopsis options)
-                           synopsis
-                           options))
+(defun warn-unmutch-options (subcommand synopsis options)
+  (warn "~2a = ~2a ⇒ ~a : ~a~%"
+        (length synopsis)
+        (length options)
+        (= (length synopsis) (length options))
+        (code subcommand)))
+
+(defun make-options-plist (subcommand html)
+  (let ((synopsis (prse-synopsis (find-synopsis-tag html)))
+        (options  (prse-options (find-options-tag html))))
+    (if (= (length synopsis) (length options))
+        (merge-synopsis&options (make-code-lsit synopsis options)
+                                 synopsis
+                                 options)
+        (warn-unmutch-options subcommand synopsis options))))

@@ -3,17 +3,9 @@
 ;;;
 ;;; html
 ;;;
-(defun merge-subcommand-uri (tag uri)
-  (let ((uri (quri:uri uri)))
-    (setf (quri:uri-path uri)
-          (namestring
-           (merge-pathnames (getf (pt-attrs tag) :href)
-                            (quri:uri-path uri))))
-    uri))
-
-(defun a-tag2subcommand-plist (tag uri)
-  (list :code (pt-attrs (first (pt-children tag)))
-        :uri (merge-subcommand-uri tag uri)))
+(defun a-tag2subcommand-plist (option-tag command-uri)
+  (list :code (pt-attrs (first (pt-children option-tag)))
+        :uri (make-aws-cli-uri :subcommand command-uri (pt-attrs option-tag))))
 
 
 (defun get-subcommand-html (uri &key (sleep-time *get-uri-interval-time*))
@@ -39,6 +31,7 @@
 
 (defun tx-update-subcommand (graph subcommand html)
   (declare (ignore graph html))
+  (warn "tx-update-subcommand がまだ実装されていません。")
   subcommand)
 
 
@@ -73,23 +66,12 @@
 ;;;
 ;;; find-subcommands
 ;;;
-(defun warn-unmutch-options (subcommand synopsis options)
-  (warn "~2a = ~2a ⇒ ~a : ~a~%"
-        (length synopsis)
-        (length options)
-        (= (length synopsis) (length options))
-        (code subcommand)))
-
 (defun find-subcommands (aws command subcommands)
   (declare (ignore aws))
   (dolist (subcommand subcommands)
     (let* ((uri (getf subcommand :uri))
            (html (get-subcommand-html uri)))
       (unless (string= "wait" (getf subcommand :code))
-        (let ((subcommand  (make-subcommand command html))
-              (synopsis (prse-synopsis (find-synopsis-tag html)))
-              (options  (prse-options (find-options-tag html))))
-          (if (= (length synopsis) (length options))
-              (add-options subcommand
-                           (merge-synopsis&options synopsis options))
-              (warn-unmutch-options subcommand synopsis options)))))))
+        (let ((subcommand  (make-subcommand command html)))
+          (add-options subcommand
+                       (make-options-plist subcommand html)))))))

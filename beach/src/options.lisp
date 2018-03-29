@@ -11,6 +11,7 @@
 
 (defun tx-update-option (graph option plist)
   (declare (ignore plist graph))
+  (warn "tx-update-subcommand がまだ実装されていません。")
   option)
 
 (defun tx-make-option (graph plist)
