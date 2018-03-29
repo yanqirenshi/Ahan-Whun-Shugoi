@@ -53,6 +53,12 @@
   (render-json (find-aws-commands (get-aws))))
 
 ;;;;;
+;;;;; FINDER
+;;;;;
+(defroute "/finders" ()
+  (render-json (aws-beach:find-finder)))
+
+;;;;;
 ;;;;; COMMANDS
 ;;;;;
 (defroute "/commands/:_id/subcommands" (&key _id)

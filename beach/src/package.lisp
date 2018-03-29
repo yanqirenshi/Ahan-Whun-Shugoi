@@ -46,7 +46,8 @@
            #:r-aws2commands
            #:r-aws2options
            #:r-command2subcommands
-           #:r-subcommand2options))
+           #:r-subcommand2options)
+  (:export #:find-finder))
 (in-package :ahan-whun-shugoi-beach)
 
 (defvar *get-uri-interval-time* 1)

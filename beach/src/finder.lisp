@@ -3,6 +3,9 @@
 (defun get-finder (&key code (graph *graph*))
   (car (shinra:find-vertex graph 'finder :slot 'code :value code)))
 
+(defun find-finder (&key (graph *graph*))
+  (shinra:find-vertex graph 'finder))
+
 (defun %tx-make-finder (graph code)
   (assert (keywordp code)
           (code) "Code is not keyworde symbol. code=~a (~a)" code (type-of code))
