@@ -17,7 +17,8 @@
 (defun start ()
   (when *graph* (stop))
   (setf *graph*
-        (shinra:make-banshou 'shinra:banshou *graph-stor-dir*)))
+        (shinra:make-banshou 'shinra:banshou *graph-stor-dir*))
+  (aws-beach::ensure-finder *graph* :default))
 
 (defun snapshot (&key (graph *graph*))
   (up:snapshot graph))
