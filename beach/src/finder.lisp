@@ -17,3 +17,11 @@
 (defun ensure-finder (graph code)
   (or (get-finder :code code :graph graph)
       (%tx-make-finder graph code)))
+
+
+;;;;;
+;;;;; start graph fook
+;;;;;
+(setf aws-beach.db:*fook-graph-start-after*
+      #'(lambda ()
+          (ensure-finder *graph* :default)))
