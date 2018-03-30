@@ -189,7 +189,20 @@ class Actions extends Simple_Redux_Actions {
 
         };
     }
-
+    updateSelectorElementKeword (tab_code, word) {
+        let tabs = STORE.state().selector.tabs;
+        for (var i in tabs){
+            if(tabs[i].code==tab_code) {
+                tabs[i].search = word;
+            }
+        }
+        return {
+            type: 'UPDATE-SELECTOR-ELEMENT-KEWORD',
+            data: {
+                selector: { tabs: tabs }
+            }
+        };
+    }
     findNodeOptions (aws) {
         let state = STORE.state();
         let r = state.r.list;

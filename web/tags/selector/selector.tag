@@ -6,14 +6,17 @@
 
         <selector-elements class="{contentsDisplay(0)}"
                            data={commands()}
+                           searchKeyword={state().tabs[0].search}
                            change-display={changeDisplay}></selector-elements>
 
         <selector-elements class="{contentsDisplay(1)}"
                            data={subcommands()}
+                           searchKeyword={state().tabs[1].search}
                            change-display={changeDisplay}></selector-elements>
 
         <selector-elements class="{this.contentsDisplay(2)}"
                            data={options()}
+                           searchKeyword={state().tabs[2].search}
                            change-display={changeDisplay}></selector-elements>
 
         <selector-info class="{this.contentsDisplay(3)}"
@@ -61,24 +64,37 @@
          }
          return out;
      };
+     this.filterData = (keyword, data) => {
+         let out = [];
+         let search_keyword = keyword ? keyword.trim().toUpperCase() : '';
+         for (var i in data)
+             if (data[i].code.toUpperCase().indexOf(search_keyword)>=0)
+                 out.push(data[i]);
+         return out;
+     }
      this.commands = () => {
-         let node = this.state().element;
-
+         let state = this.state();
+         let node = state.element;
+         let tab = state.tabs[0];
          if (STORE.state().selector.display && node._class == "AWS")
-             return STORE.state().commands.list;
+             return this.filterData(tab.search, STORE.state().commands.list);
          return [];
      }
      this.subcommands = () => {
-         let node = this.state().element;
+         let state = this.state();
+         let node = state.element;
+         let tab = state.tabs[1];
          if (STORE.state().selector.display && node._class == "COMMAND")
-             return ACTIONS.findCommandSubcommands(node);
+             return this.filterData(tab.search, ACTIONS.findCommandSubcommands(node));
          return [];
      }
      this.options = () => {
-         let node = this.state().element;
+         let state = this.state();
+         let node = state.element;
+         let tab = state.tabs[2];
          if (STORE.state().selector.display &&
              (node._class == "AWS" || node._class == "SUBCOMMAND"))
-             return ACTIONS.findNodeOptions(node);
+             return this.filterData(tab.search, ACTIONS.findNodeOptions(node));
 
          return [];
      }
@@ -94,7 +110,8 @@
          if (!(action.type=='SWITCH-SELECTOR' ||
                action.type=='FETCHED-COMMAND-4-SELECTOR' ||
                action.type=='SWITCH-SELECTOR-TAB' ||
-               action.type=='UPDATE-SELECTOR-SERCH-WORKD-4-COMMANDS'))
+               action.type=='UPDATE-SELECTOR-SERCH-WORKD-4-COMMANDS' ||
+               action.type=='UPDATE-SELECTOR-ELEMENT-KEWORD'))
              return;
 
          this.update();

@@ -1,7 +1,12 @@
 <selector-elements>
     <div class="panel-block" style="display:block;">
         <p class="control has-icons-left">
-            <input class="input is-small" type="text" placeholder="search">
+            <input class="input is-small"
+                   type="text"
+                   placeholder="search"
+                   ref="searchKeyword"
+                   oninput={this.onInput}
+                   value={opts.searchKeyword}>
             <span class="icon is-small is-left">
                 <i class="fas fa-search"></i>
             </span>
@@ -58,4 +63,12 @@
          color: #fff;
      }
     </style>
+
+    <script>
+     this.onInput = (e) => {
+         let tabs = STORE.state().selector.tabs;
+         let tab_code = tabs.find((tab)=>{ return tab.select; }).code
+         STORE.dispatch(ACTIONS.updateSelectorElementKeword(tab_code, e.target.value));
+     }
+    </script>
 </selector-elements>

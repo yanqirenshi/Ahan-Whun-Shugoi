@@ -49,7 +49,7 @@
                    :edge-type :r
                    :vertex-class 'option)))
 
-(defun find-aws (&key (uri (root-uri)))
+(defun find-aws (&key (uri (make-aws-cli-uri :aws)))
   (let ((html (uri2pt uri)))
     (values (make-aws html)
             (mapcar #'a-tag2command-plist
@@ -78,7 +78,7 @@
                                   target-list)))
                    commands))))
 
-(defun under-the-paving-stone-the-beach (&key (target :all) (uri (root-uri)) refresh)
+(defun under-the-paving-stone-the-beach (&key (target :all) (uri (make-aws-cli-uri :aws)) refresh)
   (when refresh (aws-beach.db:refresh))
   (multiple-value-bind (aws commands)
       (find-aws :uri uri)
@@ -87,7 +87,7 @@
 
 (defvar *aws-beach-collect* nil)
 
-(defun collect-thread (&key (target :all) (uri (root-uri)) refresh)
+(defun collect-thread (&key (target :all) (uri (make-aws-cli-uri :aws)) refresh)
   (setf *aws-beach-collect*
         (bordeaux-threads:make-thread
          #'(lambda ()
@@ -98,7 +98,7 @@
                       start (local-time:now))))
          :name "aws-beach-collect")))
 
-(defun collect (&key (target :all) (uri (root-uri)) refresh thread)
+(defun collect (&key (target :all) (uri (make-aws-cli-uri :aws)) refresh thread)
   (if thread
       (collect-thread :target target :uri uri :refresh refresh)
       (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh)))

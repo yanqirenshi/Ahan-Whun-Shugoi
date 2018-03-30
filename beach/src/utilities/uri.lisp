@@ -30,7 +30,7 @@
           (namestring
            (merge-pathnames (getf option-plist :href)
                             (quri:uri-path uri))))
-    uri))
+    (render-uri uri)))
 
 (defun make-option-uri () nil)
 

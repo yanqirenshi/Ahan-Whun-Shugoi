@@ -79,8 +79,6 @@
 
     <script>
      this.on('update', () => {
-         dump(this.opts.data);
-
          this.refs.description.innerHTML = this.opts.data.description;
          this.refs.synopsis.innerHTML = this.opts.data.synopsis;
      });

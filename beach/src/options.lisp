@@ -9,24 +9,14 @@
                     :slot 'code
                     :value code)))
 
-(defun tx-update-option (graph option plist)
-  (declare (ignore plist graph))
-  (warn "tx-update-subcommand がまだ実装されていません。")
-  option)
-
 (defun tx-make-option (graph plist)
-  "plist から option クラスインスタンスを作成する。
-すでに存在する場合は更新する。
- plist ::= (:code ... :value-types (...) :attributes (...) :require)
-"
   (when plist
     (let* ((code (ensure-keyword (getf plist :code)))
-           (option (get-option :code code :graph graph)))
-      (if option
-          (tx-update-option graph option plist)
-          (tx-make-vertex graph
-                          'option
-                          `((code ,code)))))))
+           (option (get-option :code code :graph graph))
+           (slot-values `((code ,code))))
+      (if (null option)
+          (tx-make-vertex graph 'option slot-values)
+          (up:tx-change-object-slots graph 'option (up:%id option) slot-values)))))
 
 (defun tx-make-r-subcommand-option (graph subcommand option option-data)
   (tx-make-edge graph 'r-subcommand2options
