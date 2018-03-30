@@ -75,11 +75,10 @@
 ;;;
 ;;; FIND-COMMAND
 ;;;
-(defun find-command (aws commands)
-  (dolist (command commands)
+(defun find-command (aws commands-plists)
+  (dolist (command commands-plists)
     (let* ((uri (getf command :uri))
-           (html (get-command-html uri))
-           (command (make-command aws html uri)))
-      (unless (string= "wait" (code command))
-        (find-subcommands command
+           (html (get-command-html uri)))
+      (unless (string= "wait" (getf command :code))
+        (find-subcommands (make-command aws html uri)
                           (find-command-subcommands html uri))))))
