@@ -14,7 +14,10 @@ class Reducer extends Simple_Redux_Reducer {
             'UPDATED-COMMAND-DISPLAY',
             'FETCHED-COMMAND-4-SELECTOR',
             'UPDATE-SELECTOR-SERCH-WORKD-4-COMMANDS',
-            'UPDATE-SELECTOR-ELEMENT-KEWORD'
+            'UPDATE-SELECTOR-ELEMENT-KEWORD',
+            'FETCHED-FINDERS',
+            'UPDATED-FINDER-LOOK-AT',
+            'UPDATED-FINDER-SCALE'
         ].find(function (v) {
             return v==action_type;
         }) ;

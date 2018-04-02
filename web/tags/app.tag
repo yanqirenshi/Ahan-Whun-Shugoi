@@ -5,9 +5,9 @@
     <menu></menu>
 
     <script>
-     window.addEventListener('resize', function (event) {
+     window.addEventListener('resize', (event) => {
          this.update();
-     }.bind(this));
+     });
 
      this.nodes = function () {
          let aws = STORE.state().aws ? [STORE.state().aws] : [];
@@ -20,14 +20,16 @@
          return GraphUtil.filterElements(STORE.state().r.list);
      };
 
-     STORE.subscribe(function (action) {
+     STORE.subscribe((action) => {
          if (action.type=='FETCHED-AWS')
              this.update();
-     }.bind(this));
+     });
 
      // LOAD FIRST
+     ACTIONS.fetchFinders('APP');
      ACTIONS.fetchAws('APP');
-     STORE.subscribe(function (action) {
+
+     STORE.subscribe((action) => {
          if (action.type=='FETCHED-AWS' && action.from=='APP')
              return ACTIONS.fetchCommands('APP');
 
@@ -35,16 +37,15 @@
              return ACTIONS.fetchSubcommands('APP');
 
          if (action.type=='FETCHED-SUBCOMMANDS' && action.from=='APP')
-             return this.update();
-     }.bind(this))
-
-     STORE.subscribe(function (action) {
+             return;
+     });
+     STORE.subscribe((action) => {
          let update = [
              'UPDATED-COMMAND-DISPLAY',
              'UPDATED-SUBCOMMAND-DISPLAY'
          ].find(function (v) { return v==action.type; }) ;
          if (update)
              this.update();
-     }.bind(this));
+     });
     </script>
 </app>

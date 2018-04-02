@@ -58,6 +58,26 @@
 (defroute "/finders" ()
   (render-json (aws-beach:find-finder)))
 
+(defroute ("/finders/:code/look-at" :method :POST) (&key code _parsed)
+  (let* ((code (alexandria:make-keyword (validation code :string :require t)))
+         (look-at (jojo:parse (caar _parsed)))
+         (finder (or (aws-api.controller::get-finder :code code)
+                     (throw-code 404))))
+    (render-json
+     (aws-api.controller::update-finder-look-at finder
+                                                (list :x (getf look-at :|x|)
+                                                      :y (getf look-at :|y|)
+                                                      :z (getf look-at :|z|))))))
+
+(defroute ("/finders/:code/scale" :method :POST) (&key code _parsed)
+  (let* ((code (alexandria:make-keyword (validation code :string :require t)))
+         (scale (getf (jojo:parse (caar _parsed)) :|scale|))
+         (finder (or (aws-api.controller::get-finder :code code)
+                     (throw-code 404))))
+    (render-json
+     (aws-api.controller::update-finder-scale finder scale))))
+
+
 ;;;;;
 ;;;;; COMMANDS
 ;;;;;

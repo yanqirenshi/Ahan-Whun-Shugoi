@@ -254,6 +254,70 @@ class Actions extends Simple_Redux_Actions {
         };
     }
 
+    /**
+     * FINDER
+     *
+     */
+    // fetch
+    fetchFinders (from) {
+        let self = this;
+        API.get('/finders', function (response) {
+            STORE.dispatch(self.fetchedFinders(response, from));
+        });
+    }
+    fetchedFinders (response, from) {
+        return {
+            from: from,
+            type: 'FETCHED-FINDERS',
+            data: {
+                finders: {
+                    select: 'DEFAULT',
+                    list: response
+                }
+            }
+        };
+    }
+    // update look-at
+    updateFinderLookAt (finder, look_at) {
+        let self = this;
+        API.post('/finders/' + finder.code + '/look-at', look_at, function (response) {
+            STORE.dispatch(self.updatedFinderLookAt(response));
+        });
+    }
+    updatedFinderLookAt (response) {
+        let state = STORE.state().finders;
+        for (var i in state.list)
+            if (state.list[i].code == response.code)
+                state.list[i]['look-at'] = response.code['look-at'];
+
+        return {
+            type: 'UPDATED-FINDER-LOOK-AT',
+            data: {
+                finders: state
+            }
+        };
+    }
+    // update scale
+    updateFinderScale (finder, scale) {
+        let self = this;
+        API.post('/finders/' + finder.code + '/scale',
+                 {scale: scale} , function (response) {
+                     STORE.dispatch(self.updatedFinderScale(response));
+                 });
+    }
+    updatedFinderScale (response) {
+        let state = STORE.state().finders;
+        for (var i in state.list)
+            if (state.list[i].code == response.code)
+                state.list[i]['scale'] = response.code['scale'];
+        return {
+            type: 'UPDATED-FINDER-SCALE',
+            data: {
+                finders: state
+            }
+        };
+    }
+
     /*
      * changeNodeDisplay
      */

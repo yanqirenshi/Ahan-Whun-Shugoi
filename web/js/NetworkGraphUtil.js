@@ -124,4 +124,22 @@ class NetworkGraphUtil {
     setCommandValues (from, target) {
         this.setObjectValues(from, target);
     }
+    draw (graph, nodes, edges) {
+         graph.setNodes(nodes);
+         graph.setEdges(edges);
+         graph.draw();
+    }
+    drawFirst (graph, svg_d3, svg_tag, base_tag, nodes, edges) {
+         graph.setSvg(svg_d3);
+         graph.resizeSvg(svg_tag,
+                              base_tag.clientWidth,
+                              base_tag.clientHeight);
+         graph.initViewBox(svg_tag);
+
+         if ((!nodes || nodes.length==0) &&
+             !edges || edges.length==0)
+             return;
+
+        this.draw(nodes, edges);
+    }
 }

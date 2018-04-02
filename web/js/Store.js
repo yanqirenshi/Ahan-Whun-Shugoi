@@ -4,6 +4,10 @@ class Store extends Simple_Redux_Store {
     }
     init () {
         this._contents = {
+            finders: {
+                select: 'DEFAULT',
+                list: []
+            },
             aws: null,
             commands: { list: [], ht: {}},
             subcommands: { list: [], ht: {}},
