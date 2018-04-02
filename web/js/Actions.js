@@ -285,15 +285,15 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     updatedFinderLookAt (response) {
-        let state = STORE.state().finders;
-        for (var i in state.list)
-            if (state.list[i].code == response.code)
-                state.list[i]['look-at'] = response.code['look-at'];
+        let finders = STORE.state().finders;
+        for (var i in finders.list)
+            if (finders.list[i].code == response.code)
+                finders.list[i]['look-at'] = response['look-at'];
 
         return {
             type: 'UPDATED-FINDER-LOOK-AT',
             data: {
-                finders: state
+                finders: finders
             }
         };
     }
@@ -317,7 +317,15 @@ class Actions extends Simple_Redux_Actions {
             }
         };
     }
-
+    // select finder
+    clickFinder (code) {
+        return {
+            type: 'CLICK-FINDER',
+            data: {
+                finders: { select: code }
+            }
+        };
+    }
     /*
      * changeNodeDisplay
      */

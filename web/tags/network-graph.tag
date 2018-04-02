@@ -68,12 +68,12 @@
      }.bind(this));
 
      STORE.subscribe((action) => {
-         if (action.type=='FETCHED-FINDERS' && action.from=='APP') {
+         if ((action.type=='FETCHED-FINDERS' && action.from=='APP') ||
+             action.type=='CLICK-FINDER') {
              let state = STORE.state().finders;
              let finder = state.list.find((finder) => {
                  return finder.code == state.select;
              });
-
              this.graph.setLookAt({
                  _x: finder['look-at'].X,
                  _y: finder['look-at'].Y,

@@ -17,7 +17,8 @@ class Reducer extends Simple_Redux_Reducer {
             'UPDATE-SELECTOR-ELEMENT-KEWORD',
             'FETCHED-FINDERS',
             'UPDATED-FINDER-LOOK-AT',
-            'UPDATED-FINDER-SCALE'
+            'UPDATED-FINDER-SCALE',
+            'CLICK-FINDER'
         ].find(function (v) {
             return v==action_type;
         }) ;
