@@ -30,7 +30,8 @@
                                (:file "aws")
                                (:file "commands")
                                (:file "subcommands")
-                               (:file "options")))
+                               (:file "options")
+                               (:file "finder")))
                  (:file "render")
                  (:module "router"
                   :components ((:file "route")

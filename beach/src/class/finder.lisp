@@ -13,3 +13,19 @@
     (jojo:write-key-value "look-at"     (slot-value obj 'look-at))
     (jojo:write-key-value "scale"       (slot-value obj 'scale))
     (jojo:write-key-value "_class" "FINDER")))
+
+(defun get-finder (&key code)
+  (assert code)
+  (car (shinra:find-vertex *graph* 'finder :slot 'code :value code)))
+
+(defun tx-make-finder (graph code &key (look-at '(:x 0 :y 0 :z 0)) (scale 1.0))
+  (assert (not (get-finder :code code))
+          (code) "Aledy exist finder. code=~a" code)
+  (shinra:tx-make-vertex graph
+                         'finder
+                         `((code ,code)
+                           (look-at ,look-at)
+                           (scale ,scale))))
+
+(defun find-finder ()
+  (shinra:find-vertex *graph* 'finder))

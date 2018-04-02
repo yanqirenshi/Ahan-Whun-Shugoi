@@ -1,5 +1,5 @@
 <selector  class="{state().display ? '' : 'hide'}">
-    <div class="panel">
+    <div class="panel box-shadow">
         <selector-header data={state().element}></selector-header>
 
         <selector-tabs tabs={tabs()} click-tab={clickTab}></selector-tabs>
@@ -42,7 +42,6 @@
          flex-direction: column;
          border-color: rgba(217, 51, 63, 0.3);
          background: #ffffff;
-         box-shadow: 0px 0px 22px 3px rgba(217, 51, 63, 0.1);
      }
     </style>
 

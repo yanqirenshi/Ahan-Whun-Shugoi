@@ -1,10 +1,7 @@
 (in-package :ahan-whun-shugoi-api.controller)
 
 (defun get-finder (&key code)
-  (car (shinra:find-vertex *graph*
-                           'aws-beach::finder
-                           :slot 'aws-beach::code
-                           :value code)))
+  (aws-beach::get-finder :code code))
 
 (defun update-finder-look-at (finder look-at)
   (print look-at)
