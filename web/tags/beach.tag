@@ -2,7 +2,7 @@
     <svg ref="svg"></svg>
 
     <style>
-     network-graph {
+     beach {
          width: 100%;
          height: 100%;
          display: block;
@@ -49,7 +49,7 @@
      })
 
      this.on('mount', function () {
-         let svg_d3 = d3.select("network-graph svg");
+         let svg_d3 = d3.select("beach svg");
 
          if (!svg_d3) return;
 

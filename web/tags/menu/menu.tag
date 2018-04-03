@@ -1,10 +1,13 @@
 <menu>
-    <nav>
-        <menu-item each={finder()}
+    <div style="float:left;">
+        <menu-item each={finders()}
                    code={code}
                    select={STORE.state().finders.select}
+                   type={type}
                    click-menu-item={clickMenuItem}></menu-item>
-    </nav>
+    </div>
+    <menu-group each={data in menuGroups()}
+                data={data}></menu-group>
 
     <style>
      menu {
@@ -17,10 +20,21 @@
 
     <script>
      this.clickMenuItem = (e) => {
-         STORE.dispatch(ACTIONS.clickFinder(e.target.getAttribute('code')));
+         let code = e.target.getAttribute('code');
+         let type = e.target.getAttribute('type');
+         if (type=='finder')
+             STORE.dispatch(ACTIONS.clickFinder());
      }
-     this.finder = () => {
-         return STORE.state().finders.list;
+     this.finders = () => {
+         return STORE.state().finders.list.map((finder) => {
+             return {
+                 code: finder.code,
+                 type: 'finder'
+             }
+         });
+     };
+     this.menuGroups = () => {
+         return STORE.state().beach.menus;
      };
      STORE.subscribe((action) => {
          if (action.type=='CLICK-FINDER')

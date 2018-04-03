@@ -34,7 +34,25 @@ class Store extends Simple_Redux_Store {
                 subcommands: this.initGraphElements(),
                 options: this.initGraphElements(),
                 r: this.initGraphElements(),
-                selector: this.initSelector()
+                selector: this.initSelector(),
+                menus: [
+                    { code: 'finder', type: 'group',
+                      children: [
+                          { code: 'add', type: 'item' },
+                          { code: 'update', type: 'item' },
+                          { code: 'delete', type: 'item' },
+                      ]},
+                    { code: 'move', type: 'group',
+                      children: [
+                          { code: 'beach', type: 'item' },
+                          { code: 'cosmos', type: 'item' }
+                      ]},
+                    { code: 'account', type: 'group',
+                      children: [
+                          { code: 'Setting', type: 'item' },
+                          { code: 'Sign Out', type: 'item' }
+                      ]},
+                ]
             },
             cosmos: {
                 display: true,

@@ -1,10 +1,14 @@
 <menu-item class="box-shadow {select()}"
            onclick={opts.clickMenuItem}>
-    <p code={opts.code} title={opts.code}>{finderCode(opts.code)}</p>
+    <p code={opts.code}
+       type={opts.type}
+       title={opts.code}>
+        {finderCode(opts.code)}
+    </p>
 
     <style>
      menu-item {
-         float: left;
+         display:block;
          margin: 8px;
          padding: 11px;
          background: #fff;
@@ -27,7 +31,7 @@
      };
      this.finderCode = (code) => {
          let len = code.length;
-         return code.substring(0,1) + code.substring(len-1);
+         return (code.substring(0,1) + code.substring(len-1)).toUpperCase();
      };
     </script>
 </menu-item>
