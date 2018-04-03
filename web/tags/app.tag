@@ -1,7 +1,9 @@
 <app>
-    <network-graph nodes={this.nodes()} edges={this.links()}></network-graph>
-
+    <beach nodes={this.nodes()} edges={this.links()}></beach>
     <selector></selector>
+
+    <cosmos></cosmos>
+
     <menu></menu>
 
     <script>

@@ -17,3 +17,5 @@ network-graph-edge.js
 network-graph-node.js
 network-graph-svg.js
 network-graph.js
+auth/sign/in/config.js
+auth/sign/up/config.js
