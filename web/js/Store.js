@@ -46,10 +46,10 @@ class Store extends Simple_Redux_Store {
              * ********** */
             finders: this.initGraphfinders(),
             aws: null,
-            commands: this.initGraphfinders(),
-            subcommands: this.initGraphfinders(),
-            options: this.initGraphfinders(),
-            r: this.initGraphfinders(),
+            commands: this.initGraphElements(),
+            subcommands: this.initGraphElements(),
+            options: this.initGraphElements(),
+            r: this.initGraphElements(),
             selector: this.initSelector()
         };
         return this;

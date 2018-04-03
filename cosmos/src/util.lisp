@@ -62,7 +62,7 @@
           (cons (list slot value)
                 (plist2object-slot-values plist (cdr columns)))))))
 
-(defun plist2object (class columns plist)
-  (up:execute-transaction
-   (shinra:tx-make-vertex aws.db:*graph* class
-                          (plist2object-slot-values plist columns))))
+;; (defun plist2object (class columns plist)
+;;   (up:execute-transaction
+;;    (shinra:tx-make-vertex aws.db:*graph* class
+;;                           (plist2object-slot-values plist columns))))

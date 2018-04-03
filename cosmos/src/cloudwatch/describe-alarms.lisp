@@ -1,24 +1,19 @@
 (in-package :aws.cosmos)
 
-;; '(:|MetricName| "CPUUtilization"
-;;   :|ActionsEnabled| T
-;;   :|OKActions| NIL
-;;   :|InsufficientDataActions| NIL
-;;   :|StateReason| "Threshold Crossed: 1 datapoint [79.625 (23/01/18 16:49:00)] was not greater than or equal to the threshold (80.0)."
-;;   :|Statistic| "Average"
-;;   :|Dimensions| ((:|Value| "run-passport-production" :|Name| "DBInstanceIdentifier"))
-;;   :|AlarmName| "awsrds-run-passport-production-High-CPU-"
-;;   :|Threshold| 80.0
-;;   :|StateValue| "OK"
-;;   :|Period| 300
-;;   :|StateReasonData| "{\"version\":\"1.0\",\"queryDate\":\"2018-01-23T16:54:19.097+0000\",\"startDate\":\"2018-01-23T16:49:00.000+0000\",\"statistic\":\"Average\",\"period\":300,\"recentDatapoints\":[79.625],\"threshold\":80.0}"
-;;   :|Namespace| "AWS/RDS"
-;;   :|AlarmActions| ("arn:aws:sns:ap-northeast-1:224455897222:glpgs-rbp-developers")
-;;   :|ComparisonOperator| "GreaterThanOrEqualToThreshold"
-;;   :|AlarmConfigurationUpdatedTimestamp| "2017-12-25T02:58:27.704Z"
-;;   :|StateUpdatedTimestamp| "2018-01-23T16:54:19.114Z"
-;;   :|AlarmArn| "arn:aws:cloudwatch:ap-northeast-1:224455897222:alarm:awsrds-run-passport-production-High-CPU-"
-;;   :|EvaluationPeriods| 1)
+(defun str2timestamp (str)
+  "TODO: まとめよう。 util に。"
+  (when str
+    (local-time:parse-timestring str)))
+
+(defun state-reason-data2plist (str)
+  (let ((plist (jojo:parse str)))
+    (list :threshold (getf plist :|threshold|)
+          :recent-datapoints (getf plist :|recentDatapoints|)
+          :period (getf plist :|period|)
+          :statistic (getf plist :|statistic|)
+          :start-date (str2timestamp (getf plist :|startDate|))
+          :query-date (str2timestamp (getf plist :|queryDate|))
+          :version (getf plist :|version|))))
 
 (defun plist2metric-alarm (plist)
   (make-instance 'metric-alarm
@@ -33,7 +28,7 @@
                  :threshold                             (getf plist :|Threshold|)
                  :state-value                           (getf plist :|StateValue|)
                  :period                                (getf plist :|Period|)
-                 :state-reason-data                     (getf plist :|StateReasonData|)
+                 :state-reason-data                     (state-reason-data2plist (getf plist :|StateReasonData|))
                  :namespace                             (getf plist :|Namespace|)
                  :alarm-actions                         (getf plist :|AlarmActions|)
                  :comparison-operator                   (getf plist :|ComparisonOperator|)
