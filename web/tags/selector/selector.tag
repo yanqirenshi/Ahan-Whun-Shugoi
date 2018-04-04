@@ -46,7 +46,7 @@
     </style>
 
     <script>
-     this.state = () => { return STORE.state().selector; };
+     this.state = () => { return STORE.state().beach.selector; };
      this.contentsDisplay = (i) => { return this.state().tabs[i].select ? '' : 'hide'; }
      this.tabs = () => {
          let tabs = this.state().tabs;
@@ -75,15 +75,15 @@
          let state = this.state();
          let node = state.element;
          let tab = state.tabs[0];
-         if (STORE.state().selector.display && node._class == "AWS")
-             return this.filterData(tab.search, STORE.state().commands.list);
+         if (STORE.state().beach.selector.display && node._class == "AWS")
+             return this.filterData(tab.search, STORE.state().beach.commands.list);
          return [];
      }
      this.subcommands = () => {
          let state = this.state();
          let node = state.element;
          let tab = state.tabs[1];
-         if (STORE.state().selector.display && node._class == "COMMAND")
+         if (STORE.state().beach.selector.display && node._class == "COMMAND")
              return this.filterData(tab.search, ACTIONS.findCommandSubcommands(node));
          return [];
      }
@@ -91,7 +91,7 @@
          let state = this.state();
          let node = state.element;
          let tab = state.tabs[2];
-         if (STORE.state().selector.display &&
+         if (STORE.state().beach.selector.display &&
              (node._class == "AWS" || node._class == "SUBCOMMAND"))
              return this.filterData(tab.search, ACTIONS.findNodeOptions(node));
 

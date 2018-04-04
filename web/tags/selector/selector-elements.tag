@@ -66,7 +66,7 @@
 
     <script>
      this.onInput = (e) => {
-         let tabs = STORE.state().selector.tabs;
+         let tabs = STORE.state().beach.selector.tabs;
          let tab_code = tabs.find((tab)=>{ return tab.select; }).code
          STORE.dispatch(ACTIONS.updateSelectorElementKeword(tab_code, e.target.value));
      }

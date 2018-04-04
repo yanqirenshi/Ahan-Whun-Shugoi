@@ -24,6 +24,32 @@ class Store extends Simple_Redux_Store {
             ]
         };
     }
+    initMenus () {
+        return [
+            {
+                code: 'finder', type: 'group', icon: 'fas fa-binoculars',
+                children: [
+                    { code: 'add',    type: 'item', icon: 'fas fa-plus' },
+                    { code: 'update', type: 'item', icon: 'fas fa-cog' },
+                    { code: 'delete', type: 'item', icon: 'fas fa-minus' },
+                ]
+            },
+            {
+                code: 'move', type: 'group', icon: 'fas fa-paper-plane',
+                children: [
+                    { code: 'beach',  type: 'item', icon: 'fab fa-servicestack' },
+                    { code: 'cosmos', type: 'item', icon: 'fas fa-star' }
+                ]
+            },
+            {
+                code: 'account', type: 'group', icon: 'fas fa-user',
+                children: [
+                    { code: 'Setting',  type: 'item', icon: 'fas fa-cogs' },
+                    { code: 'Sign Out', type: 'item', icon: 'fas fa-sign-out-alt' }
+                ]
+            }
+        ];
+    }
     init () {
         this._contents = {
             beach: {
@@ -35,40 +61,13 @@ class Store extends Simple_Redux_Store {
                 options: this.initGraphElements(),
                 r: this.initGraphElements(),
                 selector: this.initSelector(),
-                menus: [
-                    { code: 'finder', type: 'group',
-                      children: [
-                          { code: 'add', type: 'item' },
-                          { code: 'update', type: 'item' },
-                          { code: 'delete', type: 'item' },
-                      ]},
-                    { code: 'move', type: 'group',
-                      children: [
-                          { code: 'beach', type: 'item' },
-                          { code: 'cosmos', type: 'item' }
-                      ]},
-                    { code: 'account', type: 'group',
-                      children: [
-                          { code: 'Setting', type: 'item' },
-                          { code: 'Sign Out', type: 'item' }
-                      ]},
-                ]
+                menus: this.initMenus()
             },
             cosmos: {
                 display: true,
                 finders: this.initGraphfinders(),
                 r: this.initGraphElements()
-            },
-            /* ********** *
-             *    OLD
-             * ********** */
-            finders: this.initGraphfinders(),
-            aws: null,
-            commands: this.initGraphElements(),
-            subcommands: this.initGraphElements(),
-            options: this.initGraphElements(),
-            r: this.initGraphElements(),
-            selector: this.initSelector()
+            }
         };
         return this;
     }

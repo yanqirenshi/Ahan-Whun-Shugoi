@@ -12,14 +12,16 @@
      });
 
      this.nodes = function () {
-         let aws = STORE.state().aws ? [STORE.state().aws] : [];
-         return aws.concat(GraphUtil.filterElements(STORE.state().options.list))
-                   .concat(GraphUtil.filterElements(STORE.state().commands.list))
-                   .concat(GraphUtil.filterElements(STORE.state().subcommands.list));
+         let state = STORE.state().beach;
+         let aws = state.aws ? [state.aws] : [];
+         return aws.concat(GraphUtil.filterElements(state.options.list))
+                   .concat(GraphUtil.filterElements(state.commands.list))
+                   .concat(GraphUtil.filterElements(state.subcommands.list));
      }
 
      this.links = function () {
-         return GraphUtil.filterElements(STORE.state().r.list);
+         let state = STORE.state().beach;
+         return GraphUtil.filterElements(state.r.list);
      };
 
      STORE.subscribe((action) => {

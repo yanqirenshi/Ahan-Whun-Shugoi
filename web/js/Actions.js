@@ -13,7 +13,7 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     fetchedAws (response, from) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
 
         let aws = response.AWS;
         let commands = GraphUtil.marge2(state.commands,
@@ -32,10 +32,12 @@ class Actions extends Simple_Redux_Actions {
             from: from,
             type: 'FETCHED-AWS',
             data: {
-                aws: aws,
-                commands: commands,
-                options: options,
-                r: r
+                beach: {
+                    aws: aws,
+                    commands: commands,
+                    options: options,
+                    r: r
+                }
             }
         };
     }
@@ -50,7 +52,7 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     fetchedCommands (response, from) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
         let commands = GraphUtil.marge2(state.commands,
                                         response.nodes);
         let subcommands = GraphUtil.marge2(state.subcommands,
@@ -63,9 +65,11 @@ class Actions extends Simple_Redux_Actions {
             from: from,
             type: 'FETCHED-COMMANDS',
             data: {
-                commands: commands,
-                subcommands: subcommands,
-                r: r
+                beach: {
+                    commands: commands,
+                    subcommands: subcommands,
+                    r: r
+                }
             }
         };
     }
@@ -76,7 +80,7 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     fetchedSubcommands (response, from) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
         let subcommands = GraphUtil.marge2(state.subcommands,
                                            response.nodes);
         let options = GraphUtil.marge2(state.options,
@@ -89,9 +93,11 @@ class Actions extends Simple_Redux_Actions {
             from: from,
             type: 'FETCHED-SUBCOMMANDS',
             data: {
-                subcommands: subcommands,
-                options: options,
-                r: r
+                beach: {
+                    subcommands: subcommands,
+                    options: options,
+                    r: r
+                }
             }
         };
     }
@@ -100,7 +106,7 @@ class Actions extends Simple_Redux_Actions {
      * selector
      */
     switchSelector (data) {
-        let state = STORE.state().selector;
+        let state = STORE.state().beach.selector;
         let display = state.display;
         if (data) {
             if (display) {
@@ -122,9 +128,11 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'SWITCH-SELECTOR',
             data: {
-                selector: {
-                    display: display,
-                    element: display ? data : {_class:null}
+                beach: {
+                    selector: {
+                        display: display,
+                        element: display ? data : {_class:null}
+                    }
                 }
             }
         };
@@ -132,7 +140,7 @@ class Actions extends Simple_Redux_Actions {
     switchSelectorTab (data) {
         // TODO: この関数きたないな。。。
 
-        let selector = STORE.state().selector;
+        let selector = STORE.state().beach.selector;
 
         // 一旦表示/非表示をセット
         let tabs = selector.tabs;
@@ -167,7 +175,9 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'SWITCH-SELECTOR-TAB',
             data: {
-                selector: { tabs: tabs }
+                beach: {
+                    selector: { tabs: tabs }
+                }
             }
         };
     }
@@ -175,22 +185,24 @@ class Actions extends Simple_Redux_Actions {
         if (search_keyword && search_keyword.length==0)
             search_keyword = null;
 
-        let tabs = STORE.state().selector.tabs;
+        let tabs = STORE.state().beach.selector.tabs;
 
         tabs[0].search = search_keyword;
 
         return {
             type: 'UPDATE-SELECTOR-SERCH-WORKD-4-COMMANDS',
             data: {
-                selector: {
-                    tabs: tabs
+                beach: {
+                    selector: {
+                        tabs: tabs
+                    }
                 }
             }
 
         };
     }
     updateSelectorElementKeword (tab_code, word) {
-        let tabs = STORE.state().selector.tabs;
+        let tabs = STORE.state().beach.selector.tabs;
         for (var i in tabs){
             if(tabs[i].code==tab_code) {
                 tabs[i].search = word;
@@ -199,12 +211,14 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATE-SELECTOR-ELEMENT-KEWORD',
             data: {
-                selector: { tabs: tabs }
+                beach: {
+                    selector: { tabs: tabs }
+                }
             }
         };
     }
     findNodeOptions (aws) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
         let r = state.r.list;
         let options = state.options.ht;
         let out = [];
@@ -218,7 +232,7 @@ class Actions extends Simple_Redux_Actions {
         return out;
     }
     findCommandSubcommands (command) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
         let r = state.r.list;
         let subcommands = state.subcommands.ht;
         let out = [];
@@ -242,14 +256,16 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     fetchedCommand4selector (response) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
         return {
             type: 'FETCHED-COMMAND-4-SELECTOR',
             data: {
-                subcommands: GraphUtil.marge2(state.subcommands,
-                                              response.RELATIONSHIPS.NODES),
-                r: GraphUtil.marge2(state.r,
-                                    response.RELATIONSHIPS.EDGES)
+                beach: {
+                    subcommands: GraphUtil.marge2(state.subcommands,
+                                                  response.RELATIONSHIPS.NODES),
+                    r: GraphUtil.marge2(state.r,
+                                        response.RELATIONSHIPS.EDGES)
+                }
             }
         };
     }
@@ -270,9 +286,11 @@ class Actions extends Simple_Redux_Actions {
             from: from,
             type: 'FETCHED-FINDERS',
             data: {
-                finders: {
-                    select: 'DEFAULT',
-                    list: response
+                beach: {
+                    finders: {
+                        select: 'DEFAULT',
+                        list: response
+                    }
                 }
             }
         };
@@ -285,7 +303,7 @@ class Actions extends Simple_Redux_Actions {
         });
     }
     updatedFinderLookAt (response) {
-        let finders = STORE.state().finders;
+        let finders = STORE.state().beach.finders;
         for (var i in finders.list)
             if (finders.list[i].code == response.code)
                 finders.list[i]['look-at'] = response['look-at'];
@@ -293,27 +311,31 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATED-FINDER-LOOK-AT',
             data: {
-                finders: finders
+                beach: {
+                    finders: finders
+                }
             }
         };
     }
     // update scale
     updateFinderScale (finder, scale) {
         let self = this;
-        API.post('/finders/' + finder.code + '/scale',
-                 {scale: scale} , function (response) {
-                     STORE.dispatch(self.updatedFinderScale(response));
-                 });
+        let path = '/finders/' + finder.code + '/scale';
+        API.post(path, {scale: scale} , function (response) {
+            STORE.dispatch(self.updatedFinderScale(response));
+        });
     }
     updatedFinderScale (response) {
-        let state = STORE.state().finders;
+        let state = STORE.state().beach.finders;
         for (var i in state.list)
             if (state.list[i].code == response.code)
                 state.list[i]['scale'] = response.code['scale'];
         return {
             type: 'UPDATED-FINDER-SCALE',
             data: {
-                finders: state
+                beach: {
+                    finders: state
+                }
             }
         };
     }
@@ -322,7 +344,9 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'CLICK-FINDER',
             data: {
-                finders: { select: code }
+                beach: {
+                    finders: { select: code }
+                }
             }
         };
     }
@@ -332,9 +356,9 @@ class Actions extends Simple_Redux_Actions {
     changeNodeDisplay (node_class, _id, value) {
         if (node_class=='COMMAND')
             this.updateCommandDisplay(_id, value);
-        if (node_class=='SUBCOMMAND')
+        else if (node_class=='SUBCOMMAND')
             this.updateSubcommandDisplay(_id, value);
-        if (node_class=='OPTION')
+        else if (node_class=='OPTION')
             this.updateOptionDisplay(_id, value);
     }
 
@@ -343,12 +367,13 @@ class Actions extends Simple_Redux_Actions {
      */
     updateCommandDisplay(_id, value) {
         let self = this;
-        API.get('/commands/' +_id + '/display/' + value, function (response) {
+        let path = '/commands/' +_id + '/display/' + value;
+        API.get(path, function (response) {
             STORE.dispatch(self.updatedCommandDisplay(response));
         });
     }
     updatedCommandDisplay(response) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
 
         let child_node = response.NODE;
         let parent_node = response.RELASHONSHIP.NODE;
@@ -362,20 +387,23 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATED-COMMAND-DISPLAY',
             data: {
-                commands: state.commands,
-                r: state.r
+                beach: {
+                    commands: state.commands,
+                    r: state.r
+                }
             }
         };
     }
 
     updateSubcommandDisplay(_id, value) {
         let self = this;
-        API.get('/subcommands/' +_id + '/display/' + value, function (response) {
+        let path = '/subcommands/' +_id + '/display/' + value;
+        API.get(path, function (response) {
             STORE.dispatch(self.updatedSubcommandDisplay(response));
         });
     }
     updatedSubcommandDisplay(response) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
 
         let child_node = response.NODE;
         let parent_node = response.RELASHONSHIP.NODE;
@@ -389,20 +417,23 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATED-SUBCOMMAND-DISPLAY',
             data: {
-                subcommands: state.subcommands,
-                r: state.r
+                beach: {
+                    subcommands: state.subcommands,
+                    r: state.r
+                }
             }
         };
     }
 
     updateOptionDisplay(_id, value) {
         let self = this;
-        API.get('/options/' +_id + '/display/' + value, function (response) {
+        let path = '/options/' +_id + '/display/' + value;
+        API.get(path, function (response) {
             STORE.dispatch(self.updatedOptionDisplay(response));
         });
     }
     updatedOptionDisplay(response) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
 
         let child_node = response.NODE;
         let parent_node = response.RELASHONSHIP.NODE;
@@ -422,8 +453,10 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATED-OPTION-DISPLAY',
             data: {
-                subcommands: state.subcommands,
-                r: state.r
+                beach: {
+                    subcommands: state.subcommands,
+                    r: state.r
+                }
             }
         };
     }
@@ -435,13 +468,14 @@ class Actions extends Simple_Redux_Actions {
             Y: location.Y,
             Z: location.Z
         };
-        API.post('/commands/' +_id + '/location', data ,
-                 function (response) {
-                     STORE.dispatch(self.updatedCommandLocation(response));
-                 });
+        let path = '/commands/' +_id + '/location';
+
+        API.post(path, data, function (response) {
+            STORE.dispatch(self.updatedCommandLocation(response));
+        });
     }
     updatedCommandLocation(response) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
 
         let new_command = response;
         let to_node = state.commands.ht[new_command._id];
@@ -451,7 +485,9 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATED-COMMAND-LOCATION',
             data: {
-                commands: state.commands
+                beach: {
+                    commands: state.commands
+                }
             }
         };
     }
@@ -463,13 +499,14 @@ class Actions extends Simple_Redux_Actions {
             Y: location.Y,
             Z: location.Z
         };
-        API.post('/subcommands/' +_id + '/location', data ,
-                 function (response) {
-                     STORE.dispatch(self.updatedSubcommandLocation(response));
-                 });
+
+        let path = '/subcommands/' +_id + '/location';
+        API.post(path, data, function (response) {
+            STORE.dispatch(self.updatedSubcommandLocation(response));
+        });
     }
     updatedSubcommandLocation(response) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
 
         let new_subcommand = response;
         let to_node = state.subcommands.ht[new_subcommand._id];
@@ -479,7 +516,9 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATED-SUBCOMMAND-LOCATION',
             data: {
-                subcommands: state.subcommands
+                beach: {
+                    subcommands: state.subcommands
+                }
             }
         };
     }
@@ -491,13 +530,14 @@ class Actions extends Simple_Redux_Actions {
             Y: location.Y,
             Z: location.Z
         };
-        API.post('/options/' +_id + '/location', data ,
-                 function (response) {
-                     STORE.dispatch(self.updatedOptionLocation(response));
-                 });
+        let path = '/options/' +_id + '/location';
+
+        API.post(path, data, function (response) {
+            STORE.dispatch(self.updatedOptionLocation(response));
+        });
     }
     updatedOptionLocation(response) {
-        let state = STORE.state();
+        let state = STORE.state().beach;
 
         let new_option = response;
         let to_node = state.options.ht[new_option._id];
@@ -507,7 +547,9 @@ class Actions extends Simple_Redux_Actions {
         return {
             type: 'UPDATED-OPTION-LOCATION',
             data: {
-                options: state.options
+                beach: {
+                    options: state.options
+                }
             }
         };
     }
