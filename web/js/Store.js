@@ -27,25 +27,34 @@ class Store extends Simple_Redux_Store {
     initMenus () {
         return [
             {
-                code: 'finder', type: 'group', icon: 'fas fa-binoculars',
+                code: 'finder',
+                type: 'group',
+                icon: 'fas fa-binoculars',
+                open: false,
                 children: [
-                    { code: 'add',    type: 'item', icon: 'fas fa-plus' },
-                    { code: 'update', type: 'item', icon: 'fas fa-cog' },
-                    { code: 'delete', type: 'item', icon: 'fas fa-minus' },
+                    { code: 'add-finder',    type: 'item', icon: 'fas fa-plus' },
+                    { code: 'update-finder', type: 'item', icon: 'fas fa-cog' },
+                    { code: 'delete-finder', type: 'item', icon: 'fas fa-minus' },
                 ]
             },
             {
-                code: 'move', type: 'group', icon: 'fas fa-paper-plane',
+                code: 'move',
+                type: 'group',
+                icon: 'fas fa-paper-plane',
+                open: false,
                 children: [
-                    { code: 'beach',  type: 'item', icon: 'fab fa-servicestack' },
-                    { code: 'cosmos', type: 'item', icon: 'fas fa-star' }
+                    { code: 'move-to-beach',  type: 'item', icon: 'fab fa-servicestack' },
+                    { code: 'move-to-cosmos', type: 'item', icon: 'fas fa-star' }
                 ]
             },
             {
-                code: 'account', type: 'group', icon: 'fas fa-user',
+                code: 'account',
+                type: 'group',
+                icon: 'fas fa-user',
+                open: false,
                 children: [
-                    { code: 'Setting',  type: 'item', icon: 'fas fa-cogs' },
-                    { code: 'Sign Out', type: 'item', icon: 'fas fa-sign-out-alt' }
+                    { code: 'move-to-Setting',  type: 'item', icon: 'fas fa-cogs' },
+                    { code: 'move-to-Sign Out', type: 'item', icon: 'fas fa-sign-out-alt' }
                 ]
             }
         ];

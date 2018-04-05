@@ -269,7 +269,42 @@ class Actions extends Simple_Redux_Actions {
             }
         };
     }
+    /* **************
+     *
+     * ************** */
+    clickMenuGroupItem (code) {
+        let menus = STORE.state().beach.menus;
+        for (var i in menus) {
+            if (menus[i].open && menus[i].code == code)
+                menus[i].open = false;
+            else
+                menus[i].open = menus[i].code == code;
+        }
 
+        return {
+            type: 'CLICK-MENU-GROUP-ITEM',
+            data: {
+                beach: {
+                    menus: menus
+                }
+            }
+        };
+    }
+    clickMenuItem (code, parent_code) {
+        let menus = STORE.state().beach.menus;
+        for (var i in menus)
+            if (menus[i].code == parent_code)
+                menus[i].open = false;
+
+        return {
+            type: 'CLICK-MENU-ITEM',
+            data: {
+                beach: {
+                    menus: menus
+                }
+            }
+        };
+    }
     /**
      * FINDER
      *

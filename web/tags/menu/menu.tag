@@ -1,13 +1,17 @@
 <menu>
     <menu-finders finders={finders()}></menu-finders>
     <menu-group each={data in menuGroups()}
-                data={data}></menu-group>
+                data={data}
+                click-group={clickMenuGroup}
+                click-item={clickMenuItem}></menu-group>
 
     <style>
      menu {
          position: fixed;
          bottom: 0;
          right: 0;
+
+         margin-right: 16px;
 
          display: flex;
          flex-direction: row;
@@ -20,11 +24,25 @@
 
     <script>
      this.state = () => { return STORE.state().beach; };
+     this.findParentTag = (tagName, tag) => {
+         if (tag.tagName.toUpperCase() == tagName.toUpperCase())
+             return tag;
+         return this.findParentTag (tagName, tag.parentNode)
+     };
+     this.clickMenuGroup = (e) => {
+         let tag = this.findParentTag('menu-item',e.target);
+         let code = tag.getAttribute('code');
+
+         STORE.dispatch(ACTIONS.clickMenuGroupItem(code));
+         this.update();
+     }
      this.clickMenuItem = (e) => {
-         let code = e.target.getAttribute('code');
-         let type = e.target.getAttribute('type');
-         if (type=='finder')
-             STORE.dispatch(ACTIONS.clickFinder());
+         let tag = this.findParentTag('menu-item',e.target);
+         let code = tag.getAttribute('code');
+         let parent_code = tag.getAttribute('parent-code');
+
+         STORE.dispatch(ACTIONS.clickMenuItem(code, parent_code));
+         this.update();
      }
      this.finders = () => {
          let finders = this.state().finders.list;
@@ -39,7 +57,7 @@
          return this.state().menus;
      };
      STORE.subscribe((action) => {
-         if (action.type=='CLICK-FINDER')
+         if (action.type=='CLICK-FINDER' || action.type=='CLICK-MENU-GROUP-ITEM')
              this.update();
      });
     </script>

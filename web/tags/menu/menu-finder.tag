@@ -9,7 +9,7 @@
     <style>
      menu-finder {
          display:block;
-         margin: 8px;
+         margin: 3px 5px;
          padding: 11px;
          background: #fff;
          width: 44px;
