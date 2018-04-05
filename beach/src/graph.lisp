@@ -22,9 +22,7 @@
   (setf *graph*
         (shinra:make-banshou 'shinra:banshou *graph-stor-dir*))
   (when *fook-graph-start-after*
-    (funcall *fook-graph-start-after*))
-
-  )
+    (funcall *fook-graph-start-after*)))
 
 (defun snapshot (&key (graph *graph*))
   (up:snapshot graph))

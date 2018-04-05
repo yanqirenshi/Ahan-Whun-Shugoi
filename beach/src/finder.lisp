@@ -24,4 +24,7 @@
 ;;;;;
 (setf aws-beach.db:*fook-graph-start-after*
       #'(lambda ()
-          (ensure-finder *graph* :default)))
+          (ensure-finder *graph* :default)
+          (ensure-finder *graph* :finder-1)
+          (ensure-finder *graph* :finder-2)
+          (ensure-finder *graph* :finder-3)))
