@@ -1,5 +1,6 @@
 <menu>
-    <menu-finders finders={finders()}></menu-finders>
+    <menu-finders finders={finders()}
+                  click-finder={clickFinder}></menu-finders>
     <menu-group each={data in menuGroups()}
                 data={data}
                 click-group={clickMenuGroup}
@@ -29,12 +30,16 @@
              return tag;
          return this.findParentTag (tagName, tag.parentNode)
      };
+     this.clickFinder = (e) => {
+         let code = e.target.getAttribute('code');
+
+         STORE.dispatch(ACTIONS.clickFinder(code));
+     }
      this.clickMenuGroup = (e) => {
          let tag = this.findParentTag('menu-item',e.target);
          let code = tag.getAttribute('code');
 
          STORE.dispatch(ACTIONS.clickMenuGroupItem(code));
-         this.update();
      }
      this.clickMenuItem = (e) => {
          let tag = this.findParentTag('menu-item',e.target);
@@ -42,7 +47,6 @@
          let parent_code = tag.getAttribute('parent-code');
 
          STORE.dispatch(ACTIONS.clickMenuItem(code, parent_code));
-         this.update();
      }
      this.finders = () => {
          let finders = this.state().finders.list;
@@ -57,7 +61,9 @@
          return this.state().menus;
      };
      STORE.subscribe((action) => {
-         if (action.type=='CLICK-FINDER' || action.type=='CLICK-MENU-GROUP-ITEM')
+         if (action.type=='CLICK-FINDER' ||
+             action.type=='CLICK-MENU-GROUP-ITEM' ||
+             action.type=='CLICK-MENU-ITEM')
              this.update();
      });
     </script>

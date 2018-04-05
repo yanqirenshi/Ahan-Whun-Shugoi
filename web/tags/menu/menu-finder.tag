@@ -1,4 +1,5 @@
-<menu-finder selecct="{select()}">
+<menu-finder selecct="{select()}"
+             onclick={opts.clickFinder}>
     <!-- fal fa-binoculars -->
     <p code={opts.code}
        type={opts.type}

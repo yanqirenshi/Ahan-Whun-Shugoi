@@ -2,7 +2,8 @@
     <menu-finder each={opts.finders}
                  code={code}
                  type={type}
-                 select={select()}>
+                 select={select()}
+                 click-finder={parent.opts.clickFinder}>
     </menu-finder>
 
 
