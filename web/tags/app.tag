@@ -39,14 +39,13 @@
 
          if (action.type=='FETCHED-COMMANDS' && action.from=='APP')
              return ACTIONS.fetchSubcommands('APP');
-
-         if (action.type=='FETCHED-SUBCOMMANDS' && action.from=='APP')
-             return;
      });
      STORE.subscribe((action) => {
          let update = [
+             'FETCHED-SUBCOMMANDS',
              'UPDATED-COMMAND-DISPLAY',
-             'UPDATED-SUBCOMMAND-DISPLAY'
+             'UPDATED-SUBCOMMAND-DISPLAY',
+             'UPDATED-OPTION-DISPLAY'
          ].find(function (v) { return v==action.type; }) ;
          if (update)
              this.update();
