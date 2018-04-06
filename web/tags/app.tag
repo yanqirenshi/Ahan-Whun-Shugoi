@@ -14,6 +14,12 @@
      this.nodes = function () {
          let state = STORE.state().beach;
          let aws = state.aws ? [state.aws] : [];
+         /*
+          * 1. options は edge で display をコントロールする。
+          * 2. edge で display==true のものを抽出する。
+          * 3. edge から node のデータを作り出す。
+          * 4. それを concat して渡す。
+          */
          return aws.concat(GraphUtil.filterElements(state.options.list))
                    .concat(GraphUtil.filterElements(state.commands.list))
                    .concat(GraphUtil.filterElements(state.subcommands.list));
