@@ -35,13 +35,15 @@
 (defun update-node-display (node value)
   (let* ((class (class-name (class-of node)))
          (edge-class (to-parent-edge-class class))
-         (relashonship (car (shinra:find-r *graph* edge-class :to node))))
+         (relashonship (shinra:find-r *graph* edge-class :to node)))
     (up:execute-transaction
      (up:tx-change-object-slots *graph* class (up:%id node)
                                 `((aws-beach:display ,value))))
     (list :node node
-          :relashonship (list :node (getf relashonship :vertex)
-                              :edge (getf relashonship :edge)))))
+          :relashonships (mapcar #'(lambda (r)
+                                     (list :node (getf r :vertex)
+                                           :edge (getf r :edge)))
+                                 relashonship))))
 
 (defun update-subcommand-display (command value)
   (unless command (caveman2:throw-code 404))

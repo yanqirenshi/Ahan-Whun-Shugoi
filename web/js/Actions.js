@@ -409,15 +409,20 @@ class Actions extends Simple_Redux_Actions {
     }
     updatedCommandDisplay(response) {
         let state = STORE.state().beach;
-
         let child_node = response.NODE;
-        let parent_node = response.RELASHONSHIP.NODE;
-        let to_parent_edge = response.RELASHONSHIP.EDGE;
+        let relashonships = response.RELASHONSHIPS;
 
         GraphUtil.setObjectValues(child_node, state.commands.ht[child_node._id]);
-        GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
-                                 state.aws,
-                                 state.commands.ht[child_node._id]);
+
+        for (var i in relashonships) {
+            let parent_node = relashonships[i].NODE;
+            let to_parent_edge = relashonships[i].EDGE;
+
+            if (parent_node._class=="AWS")
+                GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
+                                         state.aws,
+                                         state.commands.ht[child_node._id]);
+        }
 
         return {
             type: 'UPDATED-COMMAND-DISPLAY',
@@ -441,13 +446,19 @@ class Actions extends Simple_Redux_Actions {
         let state = STORE.state().beach;
 
         let child_node = response.NODE;
-        let parent_node = response.RELASHONSHIP.NODE;
-        let to_parent_edge = response.RELASHONSHIP.EDGE;
+        let relashonships = response.RELASHONSHIPS;
 
         GraphUtil.setObjectValues(child_node, state.subcommands.ht[child_node._id]);
-        GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
-                                 state.commands.ht[parent_node._id],
-                                 state.subcommands.ht[child_node._id]);
+
+        for (var i in relashonships) {
+            let parent_node = relashonships[i].NODE;
+            let to_parent_edge = relashonships[i].EDGE;
+
+            if (parent_node._class=="COMMAND")
+                GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
+                                         state.commands.ht[parent_node._id],
+                                         state.subcommands.ht[child_node._id]);
+        }
 
         return {
             type: 'UPDATED-SUBCOMMAND-DISPLAY',
@@ -471,25 +482,30 @@ class Actions extends Simple_Redux_Actions {
         let state = STORE.state().beach;
 
         let child_node = response.NODE;
-        let parent_node = response.RELASHONSHIP.NODE;
-        let to_parent_edge = response.RELASHONSHIP.EDGE;
+        let relashonships = response.RELASHONSHIPS;
 
         GraphUtil.setObjectValues(child_node, state.options.ht[child_node._id]);
 
-        // TODO: なんか変
-        GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
-                                 state.aws.ht[parent_node._id],
-                                 state.options.ht[child_node._id]);
+        for (var i in relashonships) {
+            let parent_node = relashonships[i].NODE;
+            let to_parent_edge = relashonships[i].EDGE;
 
-        GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
-                                 state.subcommands.ht[parent_node._id],
-                                 state.options.ht[child_node._id]);
+            if (parent_node._class=="AWS")
+                GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
+                                         state.aws.ht[parent_node._id],
+                                         state.options.ht[child_node._id]);
+
+            if (parent_node._class=="SUBCOMMAND")
+                GraphUtil.setEdgeDisplay(state.r.ht[to_parent_edge._id],
+                                         state.subcommands.ht[parent_node._id],
+                                         state.options.ht[child_node._id]);
+        }
 
         return {
             type: 'UPDATED-OPTION-DISPLAY',
             data: {
                 beach: {
-                    subcommands: state.subcommands,
+                    options: state.options,
                     r: state.r
                 }
             }
