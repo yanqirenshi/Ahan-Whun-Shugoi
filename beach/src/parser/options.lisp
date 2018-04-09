@@ -5,53 +5,12 @@
 2018-03-15 (木) 時点で以下のサブコマンドは取得ロジックに問題があり取得出来ていません。
 ロジックの修正が必要なので。。。そのうち。。。
 
-<問題ありリスト>
- 0  = 8  ⇒ NIL : create-subscription
- 0  = 8  ⇒ NIL : update-subscription
- 0  = 1  ⇒ NIL : get
- 0  = 2  ⇒ NIL : set
- 14 = 16 ⇒ NIL : update-item
- 12 = 13 ⇒ NIL : copy-snapshot
- 11 = 13 ⇒ NIL : describe-environments
- 31 = 34 ⇒ NIL : create-cluster
- 7  = 9  ⇒ NIL : start-face-detection
- 3  = 7  ⇒ NIL : set-sms-attributes
- 8  = 9  ⇒ NIL : send-message
- 9  = 15 ⇒ NIL : count-closed-workflow-executions
- 7  = 10 ⇒ NIL : count-open-workflow-executions
- 14 = 20 ⇒ NIL : list-closed-workflow-executions
- 12 = 15 ⇒ NIL : list-open-workflow-executions
- 4  = 5  ⇒ NIL : record-activity-task-heartbeat
- 4  = 5  ⇒ NIL : respond-activity-task-canceled
- 4  = 5  ⇒ NIL : respond-activity-task-completed
- 5  = 6  ⇒ NIL : respond-activity-task-failed
- 5  = 6  ⇒ NIL : respond-decision-task-completed
-
 <2018-04-09 (Mon)>
-WARNING: 8  = 9  ⇒ NIL : GET-COST-AND-USAGE
 WARNING: 0  = 8  ⇒ NIL : CREATE-SUBSCRIPTION
 WARNING: 0  = 8  ⇒ NIL : UPDATE-SUBSCRIPTION
-WARNING: 3  = 7  ⇒ NIL : SET-SMS-ATTRIBUTES
 WARNING: 0  = 1  ⇒ NIL : GET
 WARNING: 0  = 2  ⇒ NIL : SET
-WARNING: 14 = 16 ⇒ NIL : UPDATE-ITEM
-WARNING: 12 = 13 ⇒ NIL : COPY-SNAPSHOT
-WARNING: 11 = 13 ⇒ NIL : DESCRIBE-ENVIRONMENTS
 WARNING: 31 = 34 ⇒ NIL : CREATE-CLUSTER
-WARNING: 7  = 9  ⇒ NIL : START-FACE-DETECTION
-WARNING: 3  = 7  ⇒ NIL : SET-SMS-ATTRIBUTES
-WARNING: 8  = 9  ⇒ NIL : SEND-MESSAGE
-WARNING: 16 = 18 ⇒ NIL : REGISTER-TASK-WITH-MAINTENANCE-WINDOW
-WARNING: 17 = 19 ⇒ NIL : UPDATE-MAINTENANCE-WINDOW-TASK
-WARNING: 9  = 15 ⇒ NIL : COUNT-CLOSED-WORKFLOW-EXECUTIONS
-WARNING: 7  = 10 ⇒ NIL : COUNT-OPEN-WORKFLOW-EXECUTIONS
-WARNING: 14 = 20 ⇒ NIL : LIST-CLOSED-WORKFLOW-EXECUTIONS
-WARNING: 12 = 15 ⇒ NIL : LIST-OPEN-WORKFLOW-EXECUTIONS
-WARNING: 4  = 5  ⇒ NIL : RECORD-ACTIVITY-TASK-HEARTBEAT
-WARNING: 4  = 5  ⇒ NIL : RESPOND-ACTIVITY-TASK-CANCELED
-WARNING: 4  = 5  ⇒ NIL : RESPOND-ACTIVITY-TASK-COMPLETED
-WARNING: 5  = 6  ⇒ NIL : RESPOND-ACTIVITY-TASK-FAILED
-WARNING: 5  = 6  ⇒ NIL : RESPOND-DECISION-TASK-COMPLETED
 |#
 
 (defun find-options-option-name (option-tag)
@@ -155,4 +114,4 @@ WARNING: 5  = 6  ⇒ NIL : RESPOND-DECISION-TASK-COMPLETED
     (apply #'append
            (mapcar #'(lambda (option-tag)
                        (make-option-data option-tag value-type))
-                   (find-option-tags (pt-children options-tag))))))
+                   (find-option-tags (find-options-p-tags (pt-children options-tag)))))))
