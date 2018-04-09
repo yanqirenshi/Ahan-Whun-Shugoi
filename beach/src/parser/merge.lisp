@@ -34,13 +34,12 @@
                       :require     (getf synopsis-data :require))
                 (merge-synopsis&options (cdr code-list) synopsis options))))))
 
-(defun warn-unmutch-options (synopsis options)
+(defun warn-unmutch-options (code synopsis options)
   (warn "~2a = ~2a ⇒ ~a : ~a~%"
         (length synopsis)
         (length options)
         (= (length synopsis) (length options))
-        "準備中(code subcommand)" ;;(code subcommand)
-        ))
+        code))
 
 (defun make-options-plist (html)
   (let ((synopsis (prse-synopsis (find-synopsis-tag html)))
@@ -49,4 +48,5 @@
         (merge-synopsis&options (make-code-lsit synopsis options)
                                 synopsis
                                 options)
-        (warn-unmutch-options synopsis options))))
+        (warn-unmutch-options (get-code-from-h1-tag html)
+                              synopsis options))))

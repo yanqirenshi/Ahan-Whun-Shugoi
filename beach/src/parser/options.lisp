@@ -26,6 +26,32 @@
  4  = 5  ⇒ NIL : respond-activity-task-completed
  5  = 6  ⇒ NIL : respond-activity-task-failed
  5  = 6  ⇒ NIL : respond-decision-task-completed
+
+<2018-04-09 (Mon)>
+WARNING: 8  = 9  ⇒ NIL : GET-COST-AND-USAGE
+WARNING: 0  = 8  ⇒ NIL : CREATE-SUBSCRIPTION
+WARNING: 0  = 8  ⇒ NIL : UPDATE-SUBSCRIPTION
+WARNING: 3  = 7  ⇒ NIL : SET-SMS-ATTRIBUTES
+WARNING: 0  = 1  ⇒ NIL : GET
+WARNING: 0  = 2  ⇒ NIL : SET
+WARNING: 14 = 16 ⇒ NIL : UPDATE-ITEM
+WARNING: 12 = 13 ⇒ NIL : COPY-SNAPSHOT
+WARNING: 11 = 13 ⇒ NIL : DESCRIBE-ENVIRONMENTS
+WARNING: 31 = 34 ⇒ NIL : CREATE-CLUSTER
+WARNING: 7  = 9  ⇒ NIL : START-FACE-DETECTION
+WARNING: 3  = 7  ⇒ NIL : SET-SMS-ATTRIBUTES
+WARNING: 8  = 9  ⇒ NIL : SEND-MESSAGE
+WARNING: 16 = 18 ⇒ NIL : REGISTER-TASK-WITH-MAINTENANCE-WINDOW
+WARNING: 17 = 19 ⇒ NIL : UPDATE-MAINTENANCE-WINDOW-TASK
+WARNING: 9  = 15 ⇒ NIL : COUNT-CLOSED-WORKFLOW-EXECUTIONS
+WARNING: 7  = 10 ⇒ NIL : COUNT-OPEN-WORKFLOW-EXECUTIONS
+WARNING: 14 = 20 ⇒ NIL : LIST-CLOSED-WORKFLOW-EXECUTIONS
+WARNING: 12 = 15 ⇒ NIL : LIST-OPEN-WORKFLOW-EXECUTIONS
+WARNING: 4  = 5  ⇒ NIL : RECORD-ACTIVITY-TASK-HEARTBEAT
+WARNING: 4  = 5  ⇒ NIL : RESPOND-ACTIVITY-TASK-CANCELED
+WARNING: 4  = 5  ⇒ NIL : RESPOND-ACTIVITY-TASK-COMPLETED
+WARNING: 5  = 6  ⇒ NIL : RESPOND-ACTIVITY-TASK-FAILED
+WARNING: 5  = 6  ⇒ NIL : RESPOND-DECISION-TASK-COMPLETED
 |#
 
 (defun find-options-option-name (option-tag)
@@ -69,6 +95,7 @@
     (when (and option-tag-children
                (eq :tt (pt-name child)))
       (if (not (and next-child
+
                     (eq-tag-attr-is-separator-bar next-child)))
           (list child)
           (cons child
@@ -79,7 +106,16 @@
   (when option-tag
     (%find-option-name-tags (pt-children option-tag))))
 
-(defun find-option-tags (tag)
+(defun find-options-p-tags (options-tag-children)
+  "options-tag 直下の p タグを全て抽出する。"
+  (when options-tag-children
+    (let ((child-tag (car options-tag-children)))
+      (if (not (eq :p (pt-name child-tag)))
+          (find-options-p-tags (cdr options-tag-children))
+          (cons child-tag
+                (find-options-p-tags (cdr options-tag-children)))))))
+
+(defun %find-option-tags (tag)
   "options-tag から全ての option-tag を抽出する。"
   (find-tag tag
             #'is-p
@@ -90,6 +126,14 @@
                   (and first-child
                        second-child
                        (eq :tt (pt-name first-child)))))))
+
+(defun find-option-tags (tags)
+  (when tags
+    (let ((option-tags (%find-option-tags (car tags))))
+      (if (not option-tags)
+          (find-option-tags (cdr tags))
+          (nconc option-tags
+                 (find-option-tags (cdr tags)))))))
 
 (defun get-options-option-name-string (option-name-tag)
   "option-name-tag option-tag から option name の文字列を抽出する。"
@@ -111,4 +155,4 @@
     (apply #'append
            (mapcar #'(lambda (option-tag)
                        (make-option-data option-tag value-type))
-                   (find-option-tags options-tag)))))
+                   (find-option-tags (pt-children options-tag))))))
