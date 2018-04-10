@@ -4,7 +4,6 @@
   (aws-beach::get-finder :code code))
 
 (defun update-finder-look-at (finder look-at)
-  (print look-at)
   (up:execute-transaction
    (up:tx-change-object-slots *graph*
                               (class-name (class-of finder))
