@@ -1,8 +1,11 @@
 (in-package :aws-beach)
 
 (defclass option (sand)
- ((display :accessor display :initarg :display :initform nil)
-  (stroke  :accessor stroke  :initarg :stroke  :initform '(:color (:r 217 :g 51 :b 63 :a 0.1) :width 5)))
+ ((value-types :accessor value-types :initarg :value-types :initform nil)
+  (values-org  :accessor values-org  :initarg :values-org  :initform '(:synopsis nil :options nil))
+  (required    :accessor required    :initarg :required    :initform nil)
+  (display     :accessor display     :initarg :display     :initform nil)
+  (stroke      :accessor stroke      :initarg :stroke      :initform '(:color (:r 217 :g 51 :b 63 :a 0.1) :width 5)))
   (:documentation "コマンドを現わすクラスです。
 
 # Relashonship
@@ -19,6 +22,9 @@
     (jojo:write-key-value "code"        (slot-value obj 'code))
     (jojo:write-key-value "name"        (slot-value obj 'code)) ;; web/ での表示用
     (jojo:write-key-value "description" "") ;; web/ での表示用
+    (jojo:write-key-value "value-types" (slot-value obj 'value-types))
+    (jojo:write-key-value "values-org"  (slot-value obj 'values-org))
+    (jojo:write-key-value "required"    (slot-value obj 'required))
     (jojo:write-key-value "location"    (slot-value obj 'location))
     (jojo:write-key-value "display"     (let ((v (slot-value obj 'display))) (or v :false)))
     (jojo:write-key-value "stroke"      (slot-value obj 'stroke))

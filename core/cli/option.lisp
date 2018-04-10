@@ -37,6 +37,20 @@
     (assert (get-config value)
             (option-code) "~S は存在しませんよ。" value)))
 
+;; value type はこれだけ。
+;;
+;; | type      | description |
+;; |-----------+-------------|
+;; | long      |             |
+;; | integer   |             |
+;; | timestamp |             |
+;; | map       |             |
+;; | boolean   |             |
+;; | blob      |             |
+;; | structure |             |
+;; | list      |             |
+;; | string    |             |
+
 (defun assert-option-values (option-code option-values)
   (cond ((eq :--profile option-code)
          (assert-option-value-at-profile option-code option-values))
@@ -49,6 +63,12 @@
           (option-code)
           "Cannot find master ~S." option-code))
 
+(defun opt2str (option-code option-values)
+  (if (or (eq :test option-code)
+          (null (remove nil option-values))) ;; 値が nil のものは無視する。
+      ""
+      (format nil " ~(~a~) ~{~S~}" option-code option-values)))
+
 (defun %opt2cmd (options master)
   (when options
     (let* ((option-code (car options))
@@ -57,13 +77,11 @@
       (let ((option-values (get-option-values (cdr options))))
         (assert-option-values option-code option-values)
         (concatenate 'string
-                     (if (or (eq :test option-code)
-                             (null (remove nil option-values))) ;; 値が nil のものは無視する。
-                         ""
-                         (format nil " ~(~a~) ~{~S~}" option-code option-values))
+                     (opt2str option-code option-values)
                      (%opt2cmd (subseq options (+ 1 (length option-values))) master))))))
 
 (defun opt2cmd (options &key master)
+  "options を aws コマンドの文字列に変換する。"
   (if (null options)
       ""
       (%opt2cmd options master)))

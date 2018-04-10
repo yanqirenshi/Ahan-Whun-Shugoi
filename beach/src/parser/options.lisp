@@ -5,27 +5,12 @@
 2018-03-15 (木) 時点で以下のサブコマンドは取得ロジックに問題があり取得出来ていません。
 ロジックの修正が必要なので。。。そのうち。。。
 
-<問題ありリスト>
- 0  = 8  ⇒ NIL : create-subscription
- 0  = 8  ⇒ NIL : update-subscription
- 0  = 1  ⇒ NIL : get
- 0  = 2  ⇒ NIL : set
- 14 = 16 ⇒ NIL : update-item
- 12 = 13 ⇒ NIL : copy-snapshot
- 11 = 13 ⇒ NIL : describe-environments
- 31 = 34 ⇒ NIL : create-cluster
- 7  = 9  ⇒ NIL : start-face-detection
- 3  = 7  ⇒ NIL : set-sms-attributes
- 8  = 9  ⇒ NIL : send-message
- 9  = 15 ⇒ NIL : count-closed-workflow-executions
- 7  = 10 ⇒ NIL : count-open-workflow-executions
- 14 = 20 ⇒ NIL : list-closed-workflow-executions
- 12 = 15 ⇒ NIL : list-open-workflow-executions
- 4  = 5  ⇒ NIL : record-activity-task-heartbeat
- 4  = 5  ⇒ NIL : respond-activity-task-canceled
- 4  = 5  ⇒ NIL : respond-activity-task-completed
- 5  = 6  ⇒ NIL : respond-activity-task-failed
- 5  = 6  ⇒ NIL : respond-decision-task-completed
+<2018-04-09 (Mon)>
+WARNING: 0  = 8  ⇒ NIL : CREATE-SUBSCRIPTION
+WARNING: 0  = 8  ⇒ NIL : UPDATE-SUBSCRIPTION
+WARNING: 0  = 1  ⇒ NIL : GET
+WARNING: 0  = 2  ⇒ NIL : SET
+WARNING: 31 = 34 ⇒ NIL : CREATE-CLUSTER
 |#
 
 (defun find-options-option-name (option-tag)
@@ -69,6 +54,7 @@
     (when (and option-tag-children
                (eq :tt (pt-name child)))
       (if (not (and next-child
+
                     (eq-tag-attr-is-separator-bar next-child)))
           (list child)
           (cons child
@@ -79,7 +65,16 @@
   (when option-tag
     (%find-option-name-tags (pt-children option-tag))))
 
-(defun find-option-tags (tag)
+(defun find-options-p-tags (options-tag-children)
+  "options-tag 直下の p タグを全て抽出する。"
+  (when options-tag-children
+    (let ((child-tag (car options-tag-children)))
+      (if (not (eq :p (pt-name child-tag)))
+          (find-options-p-tags (cdr options-tag-children))
+          (cons child-tag
+                (find-options-p-tags (cdr options-tag-children)))))))
+
+(defun %find-option-tags (tag)
   "options-tag から全ての option-tag を抽出する。"
   (find-tag tag
             #'is-p
@@ -90,6 +85,14 @@
                   (and first-child
                        second-child
                        (eq :tt (pt-name first-child)))))))
+
+(defun find-option-tags (tags)
+  (when tags
+    (let ((option-tags (%find-option-tags (car tags))))
+      (if (not option-tags)
+          (find-option-tags (cdr tags))
+          (nconc option-tags
+                 (find-option-tags (cdr tags)))))))
 
 (defun get-options-option-name-string (option-name-tag)
   "option-name-tag option-tag から option name の文字列を抽出する。"
@@ -111,4 +114,4 @@
     (apply #'append
            (mapcar #'(lambda (option-tag)
                        (make-option-data option-tag value-type))
-                   (find-option-tags options-tag)))))
+                   (find-option-tags (find-options-p-tags (pt-children options-tag)))))))
