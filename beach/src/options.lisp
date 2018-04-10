@@ -9,27 +9,44 @@
                     :slot 'code
                     :value code)))
 
-(defun tx-make-option (graph plist)
-  (when plist
-    (let* ((code (ensure-keyword (getf plist :code)))
-           (option (get-option :code code :graph graph))
-           (slot-values `((code ,code))))
-      (if (null option)
-          (tx-make-vertex graph 'option slot-values)
-          (up:tx-change-object-slots graph 'option (up:%id option) slot-values)))))
+(defun make-option-slot-values (option-data)
+  (let ((code (ensure-keyword (getf option-data :code)))
+        (value-types (getf option-data :value-types))
+        (values-org (list :synopsis (getf option-data :attributes)
+                          :options (getf option-data :value-types)))
+        (required (getf option-data :require)))
+    `((code ,code)
+      (value-types ,value-types)
+      (values-org ,values-org)
+      (required ,required))))
 
-(defun tx-make-r-subcommand-option (graph subcommand option option-data)
+(defun tx-make-option (graph option-data)
+  (when option-data
+    (tx-make-vertex graph 'option
+                    (make-option-slot-values option-data))))
+
+(defun tx-update-option (graph option option-data)
+  (up:tx-change-object-slots graph 'option
+                             (up:%id option)
+                             (make-option-slot-values option-data)))
+
+(defun tx-make-r-subcommand-option (graph subcommand option)
   (tx-make-edge graph 'r-subcommand2options
-                subcommand option :r
-                `((option-type ,(if (getf option-data :require) :required :optional))
-                  (value-types ,(getf option-data :value-types))
-                  (attributes  ,(getf option-data :attributes)))))
+                subcommand option :r))
+
+(defun get-subcommand-option (graph subcommand option-code)
+  (find-if #'(lambda (option)
+               (eq (code option) option-code))
+           (find-r-vertex graph 'r-subcommand2options :from subcommand)))
 
 (defun tx-add-option (graph subcommand option-data)
-  "subcommand に option を追加します。
-option は存在しない場合は新設されます。"
-  (let ((option (tx-make-option graph option-data)))
-    (tx-make-r-subcommand-option graph subcommand option option-data)))
+  (let* ((option-code (ensure-keyword (getf option-data :code)))
+         (option (get-subcommand-option graph subcommand option-code)))
+    (if option
+        (tx-update-option graph option option-data)
+        (tx-make-r-subcommand-option graph
+                                     subcommand
+                                     (tx-make-option graph option-data)))))
 
 ;;;
 ;;; ADD-OPTIONS
