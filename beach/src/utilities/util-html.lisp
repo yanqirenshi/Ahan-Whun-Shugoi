@@ -21,6 +21,7 @@
            #:find-synopsis-tag
            #:find-options-tag
            #:find-available-services-tag
+           #:find-available-service-tags
            #:find-examples-tag
            #:find-output-tag
            #:get-code-from-h1-tag))
@@ -51,6 +52,10 @@
 (defun id-is-output (tag)
   (id-is "output" tag))
 
+(defun class-is-toctree-l1 (tag)
+  (let ((attr (pt-attrs tag)))
+    (string= "toctree-l1" (getf attr :class))))
+
 (defun id-is-available-services (tag)
   (id-is "available-services" tag))
 
@@ -80,6 +85,12 @@
                  #'is-div
                  #'class-is-section
                  #'id-is-available-services)))
+
+(defun find-available-service-tags (html)
+  (find-tag (find-available-services-tag html)
+            #'is-li
+            #'class-is-toctree-l1))
+
 
 (defun find-examples-tag (html)
   (car (find-tag html

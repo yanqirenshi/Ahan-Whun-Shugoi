@@ -24,6 +24,7 @@
            #:is-h1
            #:is-pre
            #:is-pcdata
+           #:is-li
            #:id-is
            #:class-is))
 (in-package :ahan-whun-shugoi-beach.util.html-common)
@@ -78,6 +79,9 @@
 
 (defun is-pcdata (tag)
   (eq :pcdata (pt-name tag)))
+
+(defun is-li (tag)
+  (eq :li (pt-name tag)))
 
 (defun id-is (id tag)
   (let ((attr (pt-attrs tag)))

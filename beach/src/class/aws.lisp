@@ -1,7 +1,8 @@
 (in-package :aws-beach)
 
 (defclass aws (sand)
-  ((synopsis :accessor synopsis :initarg :synopsis :initform nil)
+  ((services :accessor services :initarg :services :initform nil)
+   (synopsis :accessor synopsis :initarg :synopsis :initform nil)
    (options  :accessor options  :initarg :options  :initform nil)
    (uri      :accessor uri      :initarg :uri      :initform nil)
    (display  :accessor display  :initarg :display  :initform t)
@@ -22,6 +23,7 @@
     (jojo:write-key-value "code"        (slot-value obj 'code))
     (jojo:write-key-value "name"        (slot-value obj 'code)) ;; web/ での表示用
     (jojo:write-key-value "description" (slot-value obj 'description))
+    (jojo:write-key-value "services"    (slot-value obj 'services))
     (jojo:write-key-value "synopsis"    (slot-value obj 'synopsis))
     (jojo:write-key-value "options"     (slot-value obj 'options))
     (jojo:write-key-value "location"    (slot-value obj 'location))

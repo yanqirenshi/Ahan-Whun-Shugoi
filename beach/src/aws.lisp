@@ -9,6 +9,15 @@
             #'class-is-reference
             #'class-is-internal))
 
+(defun parse-aws-service (tag)
+  (let ((a-tag (first (pt-children tag))))
+    (list :code (alexandria:make-keyword (string-upcase (pt-attrs (first (pt-children a-tag)))))
+          :uri (getf (pt-attrs a-tag) :HREF))))
+
+(defun parse-aws-services (html)
+  (mapcar #'parse-aws-service
+          (find-available-service-tags html)))
+
 ;;;
 ;;; DB(shinra)
 ;;;
@@ -19,6 +28,7 @@
   (tx-make-vertex graph
                   'aws
                   `((code :aws)
+                    (services    ,(parse-aws-services html))
                     (description ,(pt2html (find-description-tag html)))
                     (synopsis    ,(pt2html (find-synopsis-tag html))))))
 
