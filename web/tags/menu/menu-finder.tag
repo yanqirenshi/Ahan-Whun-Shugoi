@@ -1,4 +1,5 @@
-<menu-finder selecct="{select()}"
+<menu-finder class="box-shadow"
+             select="{select()}"
              onclick={opts.clickFinder}>
     <!-- fal fa-binoculars -->
     <p code={opts.code}
@@ -28,7 +29,7 @@
 
     <script>
      this.select = () => {
-         return (this.opts.select == this.opts.code) ? 'selected' : '';
+         return (this.opts.selectCode == this.opts.code) ? 'selected' : '';
      };
      this.finderCode = (code) => {
          let len = code.length;

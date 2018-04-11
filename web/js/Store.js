@@ -73,7 +73,7 @@ class Store extends Simple_Redux_Store {
                 menus: this.initMenus()
             },
             cosmos: {
-                display: true,
+                display: false,
                 finders: this.initGraphfinders(),
                 r: this.initGraphElements()
             }

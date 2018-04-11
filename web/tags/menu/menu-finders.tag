@@ -2,10 +2,9 @@
     <menu-finder each={opts.finders}
                  code={code}
                  type={type}
-                 select={select()}
+                 select-code={parent.opts.selectCode}
                  click-finder={parent.opts.clickFinder}>
     </menu-finder>
-
 
     <style>
      menu-finders {
@@ -17,11 +16,4 @@
          align-items: flex-start;
      }
     </style>
-
-    <script>
-     this.select = () => {
-         let state = STORE.state().beach;
-         return state.finders.select;
-     };
-    </script>
 </menu-finders>

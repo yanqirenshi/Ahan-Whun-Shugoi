@@ -1,5 +1,6 @@
 <menu>
     <menu-finders finders={finders()}
+                  select-code={STORE.state().beach.finders.select}
                   click-finder={clickFinder}></menu-finders>
     <menu-group each={data in menuGroups()}
                 data={data}
