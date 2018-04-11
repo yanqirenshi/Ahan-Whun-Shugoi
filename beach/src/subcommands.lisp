@@ -37,10 +37,15 @@
       (uri         ,uri)
       (lock        ,(subcommand-default-lock-p code)))))
 
-(defun %tx-make-subcommand (graph html &key uri)
+(defun get-command-subcommand (graph command subcommand-code)
+  (find-if #'(lambda (subcommand)
+               (eq (code subcommand) subcommand-code))
+           (find-r-vertex graph 'r-command2subcommands :from command)))
+
+(defun %tx-make-subcommand (graph command html &key uri)
   (when html
     (let* ((code (get-code-from-h1-tag html))
-           (subcommand (get-subcommand :graph graph :code code))
+           (subcommand (get-command-subcommand graph command code))
            (slot-values (subcommand-key-values html uri)))
       (if (not subcommand)
           (tx-make-vertex graph 'subcommand slot-values)
@@ -53,7 +58,7 @@
                 (tx-make-edge graph class command subcommand :r)))))
 
 (defun tx-make-subcommand (graph command subcommand-html uri)
-  (let ((subcommand (%tx-make-subcommand graph subcommand-html :uri uri)))
+  (let ((subcommand (%tx-make-subcommand graph command subcommand-html :uri uri)))
     (tx-make-r-command-subcommand graph command subcommand)
     subcommand))
 
