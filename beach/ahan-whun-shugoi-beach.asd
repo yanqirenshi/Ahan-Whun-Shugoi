@@ -31,6 +31,7 @@
                                                (:file "relashonship")
                                                (:file "finder")))
                  (:file "finder")
+                 (:file "outputs")
                  (:file "options")
                  (:module "parser" :components ((:file "synopsis")
                                                 (:file "options")
