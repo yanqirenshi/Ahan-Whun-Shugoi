@@ -39,6 +39,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                                              (:file "command")))
                  (:module "help" :components ((:file "help")))
                  (:file "package")
+                 (:file "condition")
                  (:file "aws"))))
   :description ""
   :long-description
