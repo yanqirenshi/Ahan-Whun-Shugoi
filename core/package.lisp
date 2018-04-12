@@ -14,7 +14,8 @@
            #:stop
            #:graph-data-stor)
   ;; ??
-  (:export #:name))
+  (:export #:name
+           #:*print-command-stream*))
 (in-package :ahan-whun-shugoi)
 
 
