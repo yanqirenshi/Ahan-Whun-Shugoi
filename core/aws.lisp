@@ -56,11 +56,8 @@ plist -> alist に変換してとかかな。"
 (defun aws-submit-mode (cmd)
   (restart-case
       (progn
-        (format t "aws-submit-mode--------1~%")
-        (format t "~a~%" cmd)
         (multiple-value-bind (values output error-output exit-status)
             (trivial-shell:shell-command cmd)
-          (format t "aws-submit-mode--------2, error-output=> ~a~%" error-output)
           (cond ((= 0 error-output) values)
                 ((or (= 0   error-output)
                      (= 1   error-output)
@@ -73,7 +70,6 @@ plist -> alist に変換してとかかな。"
                                 :error-output error-output
                                 :output output))))))
     (retry-aws-submit-mode ()
-      (format t "retry-aws-submit-mode--------3~%")o
       (aws-submit-mode cmd))))
 
 ;;;
