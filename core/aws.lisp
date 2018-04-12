@@ -1,26 +1,5 @@
 (in-package :ahan-whun-shugoi)
 
-(define-condition aws-command-timeout-error (simple-error)
-  ((command     :initarg :command     :initform nil :reader aws-command-timeout-error-command)
-   (code        :initarg :code        :initform nil :reader aws-command-timeout-error-code)
-   (output      :initarg :output      :initform nil :reader aws-command-timeout-error-output)
-   (exit-status :initarg :exit-status :initform nil :reader aws-command-timeout-error-exit-status)
-   (values      :initarg :values      :initform nil :reader aws-command-timeout-error-values))
-  (:report (lambda (condition stream)
-             (format stream
-                     (concatenate 'string
-                      "# command~%"      " ~a~%"
-                      "# error-output~%" " ~a~%"
-                      "# output~%"       " ~a~%"
-                      "# exit-status~%"  " ~a~%"
-                      "# values~%"       " ~a~%")
-                     (aws-command-timeout-error-command condition)
-                     (aws-command-timeout-error-code condition)
-                     (aws-command-timeout-error-output condition)
-                     (aws-command-timeout-error-output condition)
-                     (aws-command-timeout-error-exit-status condition)
-                     (aws-command-timeout-error-values condition)))))
-
 ;;;
 ;;; Printer
 ;;;
@@ -33,29 +12,16 @@ nil にするとコマンドを出力しない。")
 (defun aws-print-command (cmd)
   "実行するコマンドを出力する。"
   (when *print-command-stream*
-    (format *print-command-stream* "Command⇒ ~a~%" cmd)))
+    (format *print-command-stream* "Command⇒~%~a~%" cmd)))
 
 (defun aws-faild (cmd values output error-output exit-status)
   "aws cli 実行時エラー時の情報を出力する。"
-  (let ((msg (concatenate 'string
-                      "# error-output~%" " ~a~%"
-                      "# output~%"       " ~a~%"
-                      "# exit-status~%"  " ~a~%"
-                      "# values~%"       " ~a~%")))
-    (if (and (= 255 error-output)
-             (string= "[Errno 54] Connection reset by peer"
-                      (string-trim '(#\Space #\Tab #\Newline) output)))
-        (error (make-condition 'aws-command-timeout-error
-                               :command cmd
-                               :code error-output
-                               :output output
-                               :exit-status exit-status
-                               :values values))
-        (error msg
-               error-output
-               output
-               exit-status
-               values))))
+  (error (make-condition 'aws-cli-error
+                         :command cmd
+                         :code error-output
+                         :output output
+                         :exit-status exit-status
+                         :values values)))
 
 ;;;
 ;;; split-options
@@ -89,18 +55,25 @@ plist -> alist に変換してとかかな。"
 ;;;
 (defun aws-submit-mode (cmd)
   (restart-case
-      (multiple-value-bind (values output error-output exit-status)
-          (trivial-shell:shell-command cmd)
-        (cond ((and (= 255 error-output)
-                    (string= "[Errno 54] Connection reset by peer"
-                             (string-trim '(#\Space #\Tab #\Newline) output)))
-               ;; TODO: timeout retry の応急処置。ほんとうはコンディションでやりたい。。。
-               (progn (format t "Retry: ~a~%" cmd)
-                      (aws-submit-mode cmd)))
-              ((/= 0 error-output)
-               (aws-faild cmd values output error-output exit-status))
-              (t values)))
+      (progn
+        (format t "aws-submit-mode--------1~%")
+        (format t "~a~%" cmd)
+        (multiple-value-bind (values output error-output exit-status)
+            (trivial-shell:shell-command cmd)
+          (format t "aws-submit-mode--------2, error-output=> ~a~%" error-output)
+          (cond ((= 0 error-output) values)
+                ((or (= 0   error-output)
+                     (= 1   error-output)
+                     (= 2   error-output)
+                     (= 130 error-output)
+                     (= 255 error-output))
+                 (aws-faild cmd values output error-output exit-status))
+                (t (error "Unexpected error. ~a"
+                          (list :exit-status exit-status
+                                :error-output error-output
+                                :output output))))))
     (retry-aws-submit-mode ()
+      (format t "retry-aws-submit-mode--------3~%")o
       (aws-submit-mode cmd))))
 
 ;;;

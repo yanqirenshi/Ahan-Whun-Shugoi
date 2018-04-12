@@ -17,6 +17,5 @@
                      (aws-cli-error-command condition)
                      (aws-cli-error-code condition)
                      (aws-cli-error-output condition)
-                     (aws-cli-error-output condition)
                      (aws-cli-error-exit-status condition)
                      (aws-cli-error-values condition)))))
