@@ -16,7 +16,8 @@
 
 (defun ensure-finder (graph code)
   (or (get-finder :code code :graph graph)
-      (%tx-make-finder graph code)))
+      (up:execute-transaction
+       (%tx-make-finder graph code))))
 
 
 ;;;;;

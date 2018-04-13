@@ -12,7 +12,7 @@ nil にするとコマンドを出力しない。")
 (defun aws-print-command (cmd)
   "実行するコマンドを出力する。"
   (when *print-command-stream*
-    (format *print-command-stream* "Command⇒~%~a~%" cmd)))
+    (format *print-command-stream* "Command⇒ ~a~%" cmd)))
 
 (defun aws-faild (cmd values output error-output exit-status)
   "aws cli 実行時エラー時の情報を出力する。"
