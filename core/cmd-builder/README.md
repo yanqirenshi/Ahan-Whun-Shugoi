@@ -2,7 +2,7 @@
 
 ## Description
 
-AWS Cli のコマンドを生成するコードです。
+AWS Cli のコマンドを生成します。
 
 ## Usage
 
@@ -16,9 +16,21 @@ AWS Cli のコマンドを生成するコードです。
 | ahan-whun-shugoi.cli.config  | aws.cli.config  |
 | ahan-whun-shugoi.cli.option  | aws.cli.option  |
 
-## Value type of Options
+## Option の値の個数チェック
 
-value type はこれだけ。
+Option の値の個数をチェックします。
+
+2018-04-16 (Mon) 時点では未実装です。
+
+## Option の値の型チェック
+
+Option の値の型チェックは実施したいと考えています。
+
+2018-04-16 (Mon) 時点では未実装です。
+
+### Value type of Options
+
+value type は以下 9 種類の様です。
 
 | type      | description |
 |-----------|-------------|

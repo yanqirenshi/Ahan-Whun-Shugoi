@@ -37,37 +37,41 @@
     (assert (get-config value)
             (option-code) "~S は存在しませんよ。" value)))
 
+(defun assert-option (option-code option-master)
+  (assert (keywordp option-code)
+          (option-code)
+          "option-code is not keyword. option-code= ~S" option-code)
+  (assert option-master
+          (option-code)
+          "Cannot find master ~S." option-code))
+
 (defun assert-option-values (option-code option-values)
   (cond ((eq :--profile option-code)
          (assert-option-value-at-profile option-code option-values))
         (t t)))
 
-(defun assert-%opt2cmd (option-code option-master)
-  (assert (keywordp option-code)
-          (option-code) "option-code is not keyword. option-code= ~S" option-code)
-  (assert option-master
-          (option-code)
-          "Cannot find master ~S." option-code))
-
-(defun opt2str (option-code option-values)
-  (if (or (eq :test option-code)
+(defun option2cmd-string (option-code option-values)
+  "オプションの名前と値をコマンド文字列に変換する。
+TODO: 今のところ「名前:値=1:1」のみに対応。"
+  (if (or (eq :test option-code) ;; ahan-whun-shugoi のオプションのときは何もしない。
           (null (remove nil option-values))) ;; 値が nil のものは無視する。
       ""
       (format nil " ~(~a~) ~{~S~}" option-code option-values)))
 
-(defun %opt2cmd (options master)
+(defun %options2cmd-string (options master)
   (when options
     (let* ((option-code (car options))
            (option-master (get-master-option master option-code)))
-      (assert-%opt2cmd option-code option-master)
+      (assert-option option-code option-master)
       (let ((option-values (get-option-values (cdr options))))
         (assert-option-values option-code option-values)
         (concatenate 'string
-                     (opt2str option-code option-values)
-                     (%opt2cmd (subseq options (+ 1 (length option-values))) master))))))
+                     (option2cmd-string option-code option-values)
+                     (%options2cmd-string (subseq options (+ 1 (length option-values)))
+                                          master))))))
 
 (defun opt2cmd (options &key master)
   "options を aws コマンドの文字列に変換する。"
   (if (null options)
       ""
-      (%opt2cmd options master)))
+      (%options2cmd-string options master)))

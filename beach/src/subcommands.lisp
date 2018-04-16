@@ -45,7 +45,7 @@
 (defun %tx-make-subcommand (graph command html &key uri)
   (when html
     (let* ((code (get-code-from-h1-tag html))
-           (subcommand (get-command-subcommand graph command code))
+           (subcommand (get-command-subcommand command code :graph graph))
            (slot-values (subcommand-key-values html uri)))
       (if (not subcommand)
           (tx-make-vertex graph 'subcommand slot-values)
