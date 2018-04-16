@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defun get-finder (&key code (graph *graph*))
   (car (shinra:find-vertex graph 'finder :slot 'code :value code)))
@@ -23,7 +23,7 @@
 ;;;;;
 ;;;;; start graph fook
 ;;;;;
-(setf aws-beach.db:*fook-graph-start-after*
+(setf aws.beach.db:*fook-graph-start-after*
       #'(lambda ()
           (ensure-finder *graph* :default)
           (ensure-finder *graph* :finder-1)

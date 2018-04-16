@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 ;;;
 ;;; TODO: relashonship は全部で一つで良い気もする。最初は丁寧に分けてみたけど、、、

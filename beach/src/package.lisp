@@ -1,11 +1,11 @@
-(defpackage ahan-whun-shugoi-beach
-  (:nicknames :aws-beach)
+(defpackage ahan-whun-shugoi.beach
+  (:nicknames :aws.beach)
   (:use #:cl
         #:closure-html-adapter
-        #:aws-beach.util
-        #:aws-beach.util.html
-        #:aws-beach.util.lock
-        #:aws-beach.util.uri)
+        #:aws.beach.util
+        #:aws.beach.util.html
+        #:aws.beach.util.lock
+        #:aws.beach.util.uri)
   (:export #:collect)
   (:import-from :split-sequence
                 #:split-sequence)
@@ -23,7 +23,7 @@
                 #:pt-builder
                 #:pt-children
                 #:pt-parent)
-  (:import-from :aws-beach.db
+  (:import-from :aws.beach.db
                 #:*graph*)
   (:import-from :up
                 #:execute-transaction)
@@ -54,6 +54,6 @@
   (:export #:find-finder
            #:get-finder)
   (:export #:lock-p))
-(in-package :ahan-whun-shugoi-beach)
+(in-package :ahan-whun-shugoi.beach)
 
 (defvar *get-uri-interval-time* 1)

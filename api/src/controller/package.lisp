@@ -2,7 +2,7 @@
 (defpackage ahan-whun-shugoi-api.controller
   (:nicknames :aws-api.controller)
   (:use :cl)
-  (:import-from :aws-beach.db
+  (:import-from :aws.beach.db
                 #:*graph*)
   (:export #:get-aws
            #:get-command-at-%id

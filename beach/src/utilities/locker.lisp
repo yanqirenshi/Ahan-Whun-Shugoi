@@ -1,6 +1,6 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi-beach.util.lock
-  (:nicknames :aws-beach.util.lock)
+  (:nicknames :aws.beach.util.lock)
   (:use :cl)
   (:export #:collect)
   (:export #:subcommand-default-lock-p))

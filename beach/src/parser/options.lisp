@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 #|
 各WEBページの Option セクションからコマンドのオプションを取得するコードです。
 

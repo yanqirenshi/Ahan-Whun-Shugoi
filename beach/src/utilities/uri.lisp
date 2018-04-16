@@ -1,5 +1,5 @@
 (defpackage ahan-whun-shugoi-beach.util.uri
-  (:nicknames :aws-beach.util.uri)
+  (:nicknames :aws.beach.util.uri)
   (:use #:cl)
   (:import-from :quri
                 #:uri

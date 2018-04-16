@@ -16,7 +16,7 @@
 (defvar *api-v1* (make-instance '<router>))
 (clear-routing-rules *api-v1*)
 
-(defun graph () aws-beach.db::*graph*)
+(defun graph () aws.beach.db::*graph*)
 
 ;;;;;
 ;;;;; Routing rules

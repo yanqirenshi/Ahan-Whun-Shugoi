@@ -16,7 +16,7 @@
 (defvar *api-beach* (make-instance '<router>))
 (clear-routing-rules *api-beach*)
 
-(defun graph () aws-beach.db:*graph*)
+(defun graph () aws.beach.db:*graph*)
 
 ;;;;;
 ;;;;; Routing rules
@@ -56,7 +56,7 @@
 ;;;;; FINDER
 ;;;;;
 (defroute "/finders" ()
-  (render-json (aws-beach:find-finder)))
+  (render-json (aws.beach:find-finder)))
 
 (defroute ("/finders/:code/look-at" :method :POST) (&key code _parsed)
   (let* ((code (alexandria:make-keyword (validation code :string :require t)))

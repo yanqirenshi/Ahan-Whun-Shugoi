@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defclass finder (shin)
   ((code    :accessor code    :initarg :code    :initform nil)

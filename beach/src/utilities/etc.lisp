@@ -1,10 +1,10 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi-beach.util
-  (:nicknames :aws-beach.util)
+  (:nicknames :aws.beach.util)
   (:use #:cl)
   (:import-from :split-sequence
                 #:split-sequence)
-  (:import-from :aws-beach.db
+  (:import-from :aws.beach.db
                 #:*graph*)
   (:import-from :shinra
                 #:find-vertex)

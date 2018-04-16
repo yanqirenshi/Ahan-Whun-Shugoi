@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defclass command (sand)
   ((uri     :accessor uri     :initarg :uri     :initform nil)

@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defclass aws (sand)
   ((services :accessor services :initarg :services :initform nil)

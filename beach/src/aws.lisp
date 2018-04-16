@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 ;;;
 ;;; HTML
@@ -89,7 +89,7 @@
                    commands))))
 
 (defun under-the-paving-stone-the-beach (&key (target :all) (uri (make-aws-cli-uri :aws)) refresh)
-  (when refresh (aws-beach.db:refresh))
+  (when refresh (aws.beach.db:refresh))
   (multiple-value-bind (aws commands)
       (find-aws :uri uri)
     (find-command aws
@@ -103,7 +103,7 @@
          #'(lambda ()
              (let ((start (local-time:now)))
                (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh)
-               (aws-beach.db:snapshot)
+               (aws.beach.db:snapshot)
                (break "Finished collect!~%Start= ~a~%End  = ~a~%"
                       start (local-time:now))))
          :name "aws-beach-collect")))

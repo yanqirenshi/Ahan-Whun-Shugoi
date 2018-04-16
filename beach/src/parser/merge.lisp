@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 ;;;
 ;;; merge-synopsis&options

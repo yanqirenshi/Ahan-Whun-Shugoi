@@ -1,6 +1,6 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi-beach.db
-  (:nicknames :aws-beach.db)
+  (:nicknames :aws.beach.db)
   (:use :cl)
   (:export #:*graph*
            #:start

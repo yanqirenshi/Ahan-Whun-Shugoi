@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defparameter *html* (uri2pt "https://docs.aws.amazon.com/ja_jp/cli/latest/reference/logs/get-log-events.html"))
 

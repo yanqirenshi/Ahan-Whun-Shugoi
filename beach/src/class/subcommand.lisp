@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defclass subcommand (sand)
   ((synopsis :accessor synopsis :initarg :synopsis :initform nil)

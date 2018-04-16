@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defun cleanup-options (options)
   (remove-if #'(lambda (tag)

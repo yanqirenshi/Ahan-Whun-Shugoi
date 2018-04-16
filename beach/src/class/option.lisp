@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defclass option (sand)
  ((value-types :accessor value-types :initarg :value-types :initform nil)

@@ -1,4 +1,4 @@
-(in-package :aws-beach)
+(in-package :aws.beach)
 
 (defclass node (shin)
   ((x :accessor x :initarg :x :initform 0)
