@@ -1,7 +1,7 @@
 (defpackage ahan-whun-shugoi-beach
   (:nicknames :aws-beach)
   (:use #:cl
-        #:aws-beach.util.html-common
+        #:closure-html-adapter
         #:aws-beach.util
         #:aws-beach.util.html
         #:aws-beach.util.lock
@@ -36,10 +36,14 @@
                 #:tx-make-edge
                 #:get-r
                 #:make-edge)
-  (:export #:find-aws-options
+  (:export #:get-aws
+           #:find-aws-options
+           #:find-commands
            #:get-command
            #:get-command-subcommand
+           #:find-command-subcommands
            #:find-subcommand-options
+           #:get-subcommand
            #:collect)
   (:export #:command
            #:display
@@ -47,7 +51,9 @@
            #:r-aws2options
            #:r-command2subcommands
            #:r-subcommand2options)
-  (:export #:find-finder))
+  (:export #:find-finder
+           #:get-finder)
+  (:export #:lock-p))
 (in-package :ahan-whun-shugoi-beach)
 
 (defvar *get-uri-interval-time* 1)

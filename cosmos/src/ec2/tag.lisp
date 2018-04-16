@@ -5,7 +5,7 @@
 (defvar *sample-ec2_describe-tags*
   '(:|Tags|
     ((:|Key| "Name"
-      :|Value| "TATTA_PRODUCTION_SIDEKIQ02"
+      :|Value| ""
       :|ResourceId| "vol-0520547909d8301ac"
       :|ResourceType| "volume"))))
 

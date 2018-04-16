@@ -76,3 +76,10 @@
              (html (get-subcommand-html uri)))
         (add-options (make-subcommand command html uri)
                      (make-options-plist html))))))
+
+;;;
+;;; lock
+;;;
+(defgeneric lock-p (obj)
+  (:method ((obj subcommand))
+    (lock obj)))

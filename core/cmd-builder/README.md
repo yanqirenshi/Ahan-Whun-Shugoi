@@ -1,4 +1,4 @@
-# SRC/CLI/
+# SRC/CMD-BUILDER/
 
 ## Description
 
@@ -15,3 +15,19 @@ AWS Cli のコマンドを生成するコードです。
 | ahan-whun-shugoi.cli.command | aws.cli.command |
 | ahan-whun-shugoi.cli.config  | aws.cli.config  |
 | ahan-whun-shugoi.cli.option  | aws.cli.option  |
+
+## Value type of Options
+
+value type はこれだけ。
+
+| type      | description |
+|-----------|-------------|
+| long      |             |
+| integer   |             |
+| timestamp |             |
+| map       |             |
+| boolean   |             |
+| blob      |             |
+| structure |             |
+| list      |             |
+| string    |             |

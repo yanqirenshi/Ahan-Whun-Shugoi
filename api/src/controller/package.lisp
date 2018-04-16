@@ -18,5 +18,6 @@
            #:find-commands
            #:get-subcommand
            #:find-subcommands
-           #:get-option))
+           #:get-option)
+  (:export #:get-finder))
 (in-package :ahan-whun-shugoi-api.controller)

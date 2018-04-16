@@ -1,10 +1,10 @@
 (in-package :aws.cosmos)
 
 ;; '(:|storedBytes| 77591518
-;;   :|arn| "arn:aws:logs:ap-northeast-1:224455897222:log-group:/tatta-production/web/access.log:log-stream:i-041e8faeecdef8e83"
+;;   :|arn| ""
 ;;   :|lastIngestionTime| 1520918506481
-;;   :|logStreamName| "i-041e8faeecdef8e83"
-;;   :|uploadSequenceToken| "49579857578985126101169492599136357871630204350872176578"
+;;   :|logStreamName| ""
+;;   :|uploadSequenceToken| ""
 ;;   :|creationTime| 1519889691452
 ;;   :|lastEventTimestamp| 1520917488000
 ;;   :|firstEventTimestamp| 1519889684000)

@@ -14,15 +14,6 @@ nil にするとコマンドを出力しない。")
   (when *print-command-stream*
     (format *print-command-stream* "Command⇒ ~a~%" cmd)))
 
-(defun aws-faild (cmd values output error-output exit-status)
-  "aws cli 実行時エラー時の情報を出力する。"
-  (error (make-condition 'aws-cli-error
-                         :command cmd
-                         :code error-output
-                         :output output
-                         :exit-status exit-status
-                         :values values)))
-
 ;;;
 ;;; split-options
 ;;;
@@ -38,7 +29,7 @@ plist -> alist に変換してとかかな。"
                 :thread (getf options :thread)
                 :help (getf options :help)))
     (remf aws-options :test)
-    (remf aws-options :force )
+    (remf aws-options :force)
     (remf aws-options :format)
     (remf aws-options :thread)
     (remf aws-options :hepl)
@@ -48,7 +39,7 @@ plist -> alist に変換してとかかな。"
 ;;; test mode
 ;;;
 (defun aws-test-mode ()
-  (format t "Skipt Submit(test-mode).~%" ))
+  (format t "Skipt Submit(test-mode).~%"))
 
 ;;;
 ;;; submit mode

@@ -1,13 +1,13 @@
 (in-package :aws.cosmos)
 
 ;; '(:|metricFilters|
-;;   ((:|logGroupName| "/tatta-staging/web/nginx/access.log"
-;;     :|filterPattern| "[remote, host, user, time, ms, request, code = 5**, size, referer, agent, forward]"
+;;   ((:|logGroupName| ""
+;;     :|filterPattern| ""
 ;;     :|creationTime| 1520213515002
-;;     :|metricTransformations| ((:|metricName| "HTTP5xxErrors"
-;;                                :|metricNamespace| "TATTA-Staging"
-;;                                :|metricValue| "1"))
-;;    :|filterName| "HTTP5xxErrors")))
+;;     :|metricTransformations| ((:|metricName| ""
+;;                                :|metricNamespace| ""
+;;                                :|metricValue| ""))
+;;    :|filterName| "")))
 
 (defun plist2metric-filter (plist)
   (make-instance 'metric-filter

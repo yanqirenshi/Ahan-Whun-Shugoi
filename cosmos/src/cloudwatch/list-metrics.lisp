@@ -1,11 +1,11 @@
 (in-package :aws.cosmos)
 
-;; '(:|MetricName| "HealthyHostCount"
-;;   :|Dimensions| ((:|Value| "targetgroup/AWB-Book-Routing-target-group/22503f9a99b7d0d2"
+;; '(:|MetricName| ""
+;;   :|Dimensions| ((:|Value| ""
 ;;                   :|Name| "TargetGroup")
-;;                  (:|Value| "app/External-Web-iwasaki/c98edf0ef95334ff"
+;;                  (:|Value| ""
 ;;                   :|Name| "LoadBalancer")
-;;                  (:|Value| "ap-northeast-1b"
+;;                  (:|Value| ""
 ;;                   :|Name| "AvailabilityZone"))
 ;;   :|Namespace| "AWS/ApplicationELB")
 

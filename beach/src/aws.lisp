@@ -52,7 +52,7 @@
       (execute-transaction
        (tx-make-aws *graph* html))))
 
-(defun find-aws-options (&key (aws (get-aws)) (graph *graph*))
+(defun find-aws-options (aws &key (graph *graph*))
   (when aws
     (find-r-vertex graph 'r-aws2options
                    :from aws

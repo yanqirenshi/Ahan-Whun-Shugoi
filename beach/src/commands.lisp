@@ -12,7 +12,7 @@
     (sleep sleep-time)
     html))
 
-(defun find-command-subcommands (html command-uri)
+(defun find-command-subcommand-tags (html command-uri)
   (let ((section (car (find-tag html
                                 #'is-div
                                 #'id-is-available-subcommands))))
@@ -26,11 +26,19 @@
 ;;;
 ;;; DB(shinra)
 ;;;
+(defun find-commands ()
+  (find-vertex *graph* 'command))
+
 (defun get-command (&key code (graph *graph*))
   (when code
     (car (find-vertex graph 'command
                       :slot 'code
                       :value code))))
+
+(defun find-command-subcommands (command)
+  (shinra:find-r-vertex *graph*
+                        'r-command2subcommands
+                        :from command))
 
 (defun get-command-subcommand (command subcommand-code &key (graph *graph*))
   (when (and command subcommand-code)
@@ -81,4 +89,4 @@
            (html (get-command-html uri)))
       (unless (string= "wait" (getf command :code))
         (find-subcommands (make-command aws html uri)
-                          (find-command-subcommands html uri))))))
+                          (find-command-subcommand-tags html uri))))))

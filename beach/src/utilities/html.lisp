@@ -2,8 +2,8 @@
 (defpackage ahan-whun-shugoi-beach.util.html
   (:nicknames :aws-beach.util.html)
   (:use #:cl
-        #:aws-beach.util
-        #:aws-beach.util.html-common)
+        #:closure-html-adapter
+        #:aws-beach.util)
   (:import-from :chtml
                 #:pt-attrs
                 #:pt-children)

@@ -10,7 +10,7 @@
 (defun get-master (command-code subcommand-code)
   (let* ((command (get-command :code command-code))
          (subcommand (get-command-subcommand command subcommand-code))
-         (aws-options (find-aws-options))
+         (aws-options (find-aws-options (aws-beach:get-aws)))
          (comman-options (find-subcommand-options subcommand)))
     (assert command (command-code) "コマンド ~S は存在しません。" command-code)
     (assert subcommand (subcommand) "サブコマンド ~S は存在しません。" subcommand-code)
@@ -25,7 +25,7 @@
         (string-downcase (symbol-name code)))))
 
 (defun assert-lock-subcommand (subcommand force)
-  (let ((lock (aws-beach::lock subcommand)))
+  (let ((lock (aws-beach:lock-p subcommand)))
     (assert (or (null lock)
                 (and lock force))
             (subcommand)

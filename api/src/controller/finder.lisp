@@ -1,7 +1,7 @@
 (in-package :ahan-whun-shugoi-api.controller)
 
 (defun get-finder (&key code)
-  (aws-beach::get-finder :code code))
+  (aws-beach:get-finder :code code))
 
 (defun update-finder-look-at (finder look-at)
   (up:execute-transaction

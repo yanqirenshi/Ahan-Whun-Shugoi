@@ -146,4 +146,3 @@
 (defun make-s3-path(obj)
   (let ((path (path obj)))
     (concatenate 'string path (name obj))))
-

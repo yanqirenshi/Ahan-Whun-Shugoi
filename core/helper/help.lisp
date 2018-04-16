@@ -33,11 +33,9 @@
 ;;; main
 ;;;
 (defun print-aws-help ()
-  (let* ((aws (aws-beach::get-aws))
-         (commands (shinra:find-vertex aws-beach.db:*graph* 'aws-beach::command))
-         (options (shinra:find-r-vertex aws-beach.db:*graph*
-                                        'aws-beach:r-aws2options
-                                        :from aws)))
+  (let* ((aws (aws-beach:get-aws))
+         (commands (aws-beach:find-commands))
+         (options (aws-beach:find-aws-options aws)))
     (print-target "Aws" aws)
     (print-elements "Commands" commands)
     (print-options "Options" options)
@@ -48,9 +46,7 @@
 
 (defun print-command-help (command-code)
   (let* ((command (aws-beach:get-command :code command-code))
-         (subcommands (shinra:find-r-vertex aws-beach.db:*graph*
-                                            'aws-beach:r-command2subcommands
-                                            :from command)))
+         (subcommands (aws-beach:find-command-subcommands command)))
     (assert command)
     (print-target "Command" command)
     (print-elements "Subcommands" subcommands)
@@ -60,10 +56,8 @@
     (format t "~a~2%" (aws-beach::uri command))))
 
 (defun print-subcommand-help (subcommand-code)
-  (let* ((subcommand (aws-beach::get-subcommand :code subcommand-code))
-        (options (shinra:find-r-vertex aws-beach.db:*graph*
-                                       'aws-beach:r-subcommand2options
-                                       :from subcommand)))
+  (let* ((subcommand (aws-beach:get-subcommand :code subcommand-code))
+        (options (aws-beach:find-subcommand-options subcommand)))
     (assert subcommand)
     (print-target "Subcommand" subcommand)
     (print-options "Options" options)

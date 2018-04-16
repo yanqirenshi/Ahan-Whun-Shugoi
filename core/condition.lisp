@@ -19,3 +19,12 @@
                      (aws-cli-error-output condition)
                      (aws-cli-error-exit-status condition)
                      (aws-cli-error-values condition)))))
+
+(defun aws-faild (cmd values output error-output exit-status)
+  "aws cli 実行時エラー時の情報を出力する。"
+  (error (make-condition 'aws-cli-error
+                         :command cmd
+                         :code error-output
+                         :output output
+                         :exit-status exit-status
+                         :values values)))

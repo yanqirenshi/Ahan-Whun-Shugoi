@@ -16,7 +16,7 @@
 (defvar *api-beach* (make-instance '<router>))
 (clear-routing-rules *api-beach*)
 
-(defun graph () aws-beach.db::*graph*)
+(defun graph () aws-beach.db:*graph*)
 
 ;;;;;
 ;;;;; Routing rules
@@ -61,7 +61,7 @@
 (defroute ("/finders/:code/look-at" :method :POST) (&key code _parsed)
   (let* ((code (alexandria:make-keyword (validation code :string :require t)))
          (look-at (jojo:parse (caar _parsed)))
-         (finder (or (aws-api.controller::get-finder :code code)
+         (finder (or (aws-api.controller:get-finder :code code)
                      (throw-code 404))))
     (render-json
      (aws-api.controller::update-finder-look-at finder
@@ -72,7 +72,7 @@
 (defroute ("/finders/:code/scale" :method :POST) (&key code _parsed)
   (let* ((code (alexandria:make-keyword (validation code :string :require t)))
          (scale (getf (jojo:parse (caar _parsed)) :|scale|))
-         (finder (or (aws-api.controller::get-finder :code code)
+         (finder (or (aws-api.controller:get-finder :code code)
                      (throw-code 404))))
     (render-json
      (aws-api.controller::update-finder-scale finder scale))))
@@ -97,7 +97,7 @@
 (defroute ("/commands/:_id/location" :method :POST) (&key _id _parsed)
   (let* ((_id (validation _id :integer :require t))
          (location (jojo:parse (caar _parsed)))
-         (command (or (aws-api.controller::get-command :%id _id)
+         (command (or (aws-api.controller:get-command :%id _id)
                       (throw-code 404))))
     (render-json
      (update-node-location command location))))
@@ -121,7 +121,7 @@
 (defroute ("/subcommands/:_id/location" :method :POST) (&key _id _parsed)
   (let* ((_id (validation _id :integer :require t))
          (location (jojo:parse (caar _parsed)))
-         (subcommand (or (aws-api.controller::get-subcommand :%id _id)
+         (subcommand (or (aws-api.controller:get-subcommand :%id _id)
                          (throw-code 404))))
     (render-json
      (update-node-location subcommand location))))

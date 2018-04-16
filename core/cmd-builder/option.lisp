@@ -37,20 +37,6 @@
     (assert (get-config value)
             (option-code) "~S は存在しませんよ。" value)))
 
-;; value type はこれだけ。
-;;
-;; | type      | description |
-;; |-----------+-------------|
-;; | long      |             |
-;; | integer   |             |
-;; | timestamp |             |
-;; | map       |             |
-;; | boolean   |             |
-;; | blob      |             |
-;; | structure |             |
-;; | list      |             |
-;; | string    |             |
-
 (defun assert-option-values (option-code option-values)
   (cond ((eq :--profile option-code)
          (assert-option-value-at-profile option-code option-values))
@@ -58,7 +44,7 @@
 
 (defun assert-%opt2cmd (option-code option-master)
   (assert (keywordp option-code)
-          (option-code) "option-code ist not keyword. option-code= ~S" option-code)
+          (option-code) "option-code is not keyword. option-code= ~S" option-code)
   (assert option-master
           (option-code)
           "Cannot find master ~S." option-code))

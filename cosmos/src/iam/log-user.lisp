@@ -42,12 +42,12 @@
 ;;;
 ;;; Roll
 ;;;
-;; '(:|Arn| "arn:aws:iam::070221978409:role/service-role/StatesExecutionRole-ap-northeast-1"
-;;   :|Path| "/service-role/"
-;;   :|RoleName| "StatesExecutionRole-ap-northeast-1"
-;;   :|CreateDate| "2016-12-08T09:34:21Z"
-;;   :|RoleId| "AROAITWR7MMCCVHODGRLK"
-;;   :|AssumeRolePolicyDocument| (:|Statement| ((:|Principal| (:|Service| "states.ap-northeast-1.amazonaws.com")
-;;                                               :|Effect| "Allow"
-;;                                               :|Action| "sts:AssumeRole"))
-;;                                :|Version| "2012-10-17"))
+;; '(:|Arn| ""
+;;   :|Path| ""
+;;   :|RoleName| ""
+;;   :|CreateDate| ""
+;;   :|RoleId| ""
+;;   :|AssumeRolePolicyDocument| (:|Statement| ((:|Principal| (:|Service| "")
+;;                                               :|Effect| ""
+;;                                               :|Action| ""))
+;;                                :|Version| ""))

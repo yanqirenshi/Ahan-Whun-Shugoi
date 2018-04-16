@@ -12,14 +12,14 @@
                :upanishad
                :shinrabanshou
                :closure-html
+               :closure-html-adapter
                :dexador
                :lparallel)
   :components ((:module "src"
                 :components
                 ((:file "graph")
-                 (:module "utilities" :components ((:file "util")
-                                                   (:file "html-common")
-                                                   (:file "util-html")
+                 (:module "utilities" :components ((:file "etc")
+                                                   (:file "html")
                                                    (:file "locker")
                                                    (:file "uri")))
                  (:file "package")
