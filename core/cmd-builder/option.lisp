@@ -53,15 +53,19 @@
 
 (defun check-option-values-type (input-value master-value)
   ;; TODO: add value type check
-  (cond ((string= master-value "long") t)
-        ((string= master-value "integer") t)
-        ((string= master-value "timestamp") t)
-        ((string= master-value "map") t)
-        ((string= master-value "boolean") t)
+  (cond ((string= master-value "JSON") t)
         ((string= master-value "blob") t)
-        ((string= master-value "structure") t)
+        ((string= master-value "boolean") t)
+        ((string= master-value "double") t)
+        ((string= master-value "float") t)
+        ((string= master-value "int") t)
+        ((string= master-value "integer") t)
         ((string= master-value "list") t)
+        ((string= master-value "long") t)
+        ((string= master-value "map") t)
         ((string= master-value "string") t)
+        ((string= master-value "structure") t)
+        ((string= master-value "timestamp") t)
         (t (error "なんじゃこりゃぁ!! input-value=~a, master-value=~a"
                   input-value master-value))))
 
