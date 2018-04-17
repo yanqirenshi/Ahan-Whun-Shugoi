@@ -39,4 +39,4 @@
     (format nil "aws ~a ~a~a"
             (get-code command :to-str t)
             (get-code subcommand :to-str t)
-            (opt2cmd options_in :master options))))
+            (options2cmd-string options_in :master options))))

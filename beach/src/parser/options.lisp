@@ -39,7 +39,6 @@ WARNING: 31 = 34 ⇒ NIL : CREATE-CLUSTER
              #'option-value-type-tag-p)))
 
 (defun find-option-value-type (option-tag)
-  "https://docs.aws.amazon.com/cli/latest/reference/codecommit/credential-helper/index.html"
   (when-let ((option-value-type-tag (find-option-value-type-tag option-tag)))
     (let* ((attrs (pt-attrs option-value-type-tag)))
       (when (stringp attrs)
@@ -78,6 +77,7 @@ WARNING: 31 = 34 ⇒ NIL : CREATE-CLUSTER
   "options-tag から全ての option-tag を抽出する。"
   (find-tag tag
             #'is-p
+            ;; TODO: find-options-option-tag をつかおう。
             #'(lambda (tag)
                 (let* ((children (pt-children tag))
                        (first-child (first children))
@@ -100,18 +100,20 @@ WARNING: 31 = 34 ⇒ NIL : CREATE-CLUSTER
                            #'(lambda (tag)
                                (eq :pcdata (pt-name tag)))))))
 
-(defun make-option-data (option-tag value-type)
+(defun make-option-data (option-tag)
   "option-tag value-type から (:code {string} :value-types {list}) のデータを作成する。"
-  (mapcar #'(lambda (option-name-tag)
-              (list :code        (get-options-option-name-string option-name-tag)
-                    :value-types value-type))
-          (find-option-name-tags option-tag)))
+  (let ((value-type (find-option-value-type option-tag)))
+    (mapcar #'(lambda (option-name-tag)
+                (list :code        (get-options-option-name-string option-name-tag)
+                      :value-types value-type))
+            (find-option-name-tags option-tag))))
+
+(defun %prse-options (options-tag)
+  (when-let ((option-tag (car options-tag)))
+    (nconc (make-option-data option-tag)
+           (%prse-options (cdr options-tag)))))
 
 (defun prse-options (options-tag)
   "options-tag から全ての option に対しての情報を抽出する。
 抽出したものは (:code {string} :value-types {list}) の形式で抽出する。"
-  (let ((value-type (find-option-value-type options-tag)))
-    (apply #'append
-           (mapcar #'(lambda (option-tag)
-                       (make-option-data option-tag value-type))
-                   (find-option-tags (find-options-p-tags (pt-children options-tag)))))))
+  (%prse-options (find-option-tags (find-options-p-tags (pt-children options-tag)))))

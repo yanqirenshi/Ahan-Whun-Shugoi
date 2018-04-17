@@ -5,7 +5,7 @@
         #:aws.beach)
   (:import-from :ahan-whun-shugoi.cli.config
                 #:get-config)
-  (:export #:opt2cmd))
+  (:export #:options2cmd-string))
 (in-package :ahan-whun-shugoi.cli.option)
 
 
@@ -45,10 +45,41 @@
           (option-code)
           "Cannot find master ~S." option-code))
 
-(defun assert-option-values (option-code option-values)
-  (cond ((eq :--profile option-code)
-         (assert-option-value-at-profile option-code option-values))
-        (t t)))
+(defun assert-option-values-length (option-code input-values master-values)
+  (/= (length input-values)
+      (length master-values))
+  (error "オプションの値の個数が異なります。 code=~a, input=~S, master=~S"
+         option-code input-values master-values))
+
+(defun check-option-values-type (input-value master-value)
+  ;; TODO: add value type check
+  (cond ((string= master-value "long") t)
+        ((string= master-value "integer") t)
+        ((string= master-value "timestamp") t)
+        ((string= master-value "map") t)
+        ((string= master-value "boolean") t)
+        ((string= master-value "blob") t)
+        ((string= master-value "structure") t)
+        ((string= master-value "list") t)
+        ((string= master-value "string") t)
+        (t (error "なんじゃこりゃぁ!! input-value=~a, master-value=~a"
+                  input-value master-value))))
+
+(defun assert-option-values-type (option-code input-values master-values)
+  (when input-values
+    (check-option-values-type (car input-values)
+                              (car master-values))
+    (assert-option-values-type option-code
+                               (cdr input-values)
+                               (cdr master-values))))
+
+(defun assert-option-values (option-code option-values option-master)
+  (let ((input-values (alexandria:ensure-list option-values))
+        (master-values (aws.beach:options-values option-master)))
+    (if (eq :--profile option-code)
+        (assert-option-value-at-profile option-code option-values)
+        (progn (assert-option-values-length option-code input-values master-values)
+               (assert-option-values-type option-code input-values master-values)))))
 
 (defun option2cmd-string (option-code option-values)
   "オプションの名前と値をコマンド文字列に変換する。
@@ -64,13 +95,13 @@ TODO: 今のところ「名前:値=1:1」のみに対応。"
            (option-master (get-master-option master option-code)))
       (assert-option option-code option-master)
       (let ((option-values (get-option-values (cdr options))))
-        (assert-option-values option-code option-values)
+        (assert-option-values option-code option-values option-master)
         (concatenate 'string
                      (option2cmd-string option-code option-values)
                      (%options2cmd-string (subseq options (+ 1 (length option-values)))
                                           master))))))
 
-(defun opt2cmd (options &key master)
+(defun options2cmd-string (options &key master)
   "options を aws コマンドの文字列に変換する。"
   (if (null options)
       ""

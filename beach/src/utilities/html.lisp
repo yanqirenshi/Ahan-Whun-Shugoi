@@ -6,7 +6,8 @@
         #:aws.beach.util)
   (:import-from :chtml
                 #:pt-attrs
-                #:pt-children)
+                #:pt-children
+                #:pt-name)
   (:export #:class-is-section
            #:class-is-reference
            #:class-is-internal
@@ -20,6 +21,7 @@
            #:find-description-tag
            #:find-synopsis-tag
            #:find-options-tag
+           #:find-options-option-tag
            #:find-available-services-tag
            #:find-available-service-tags
            #:find-examples-tag
@@ -79,6 +81,14 @@
                  #'is-div
                  #'class-is-section
                  #'id-is-options)))
+
+(defun find-options-option-tag (html)
+  (let* ((children (pt-children html))
+         (first-child (first children))
+         (second-child (second children)))
+    (and first-child
+         second-child
+         (eq :tt (chtml:pt-name first-child)))))
 
 (defun find-available-services-tag (html)
   (car (find-tag html

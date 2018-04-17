@@ -55,3 +55,10 @@
   (dolist (option-data options)
     (up:execute-transaction
      (tx-add-option *graph* subcommand option-data))))
+
+
+;;;
+;;; Chek option
+;;;
+(defun options-values (option)
+  (alexandria:ensure-list (value-types option)))

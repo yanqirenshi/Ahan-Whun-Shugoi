@@ -51,6 +51,7 @@
            #:r-aws2options
            #:r-command2subcommands
            #:r-subcommand2options)
+  (:export #:options-values)
   (:export #:find-finder
            #:get-finder)
   (:export #:lock-p))
