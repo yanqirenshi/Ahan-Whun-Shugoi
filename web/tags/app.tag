@@ -1,10 +1,14 @@
 <app>
-    <beach nodes={this.nodes()} edges={this.links()}></beach>
+    <beach class="{STORE.state().beach.display ? '' : 'hide'}" nodes={this.nodes()} edges={this.links()}></beach>
     <selector></selector>
 
-    <cosmos></cosmos>
+    <cosmos class="{STORE.state().cosmos.display ? '' : 'hide'}"></cosmos>
 
     <menu></menu>
+
+    <style>
+     app > .hide { display:none; }
+    </style>
 
     <script>
      window.addEventListener('resize', (event) => {
@@ -14,12 +18,6 @@
      this.nodes = function () {
          let state = STORE.state().beach;
          let aws = state.aws ? [state.aws] : [];
-         /*
-          * 1. options は edge で display をコントロールする。
-          * 2. edge で display==true のものを抽出する。
-          * 3. edge から node のデータを作り出す。
-          * 4. それを concat して渡す。
-          */
          return aws.concat(GraphUtil.filterElements(state.options.list))
                    .concat(GraphUtil.filterElements(state.commands.list))
                    .concat(GraphUtil.filterElements(state.subcommands.list));
@@ -48,6 +46,7 @@
      });
      STORE.subscribe((action) => {
          let update = [
+             'MOVE-PAGE',
              'FETCHED-SUBCOMMANDS',
              'UPDATED-COMMAND-DISPLAY',
              'UPDATED-SUBCOMMAND-DISPLAY',

@@ -43,8 +43,8 @@ class Store extends Simple_Redux_Store {
                 icon: 'fas fa-paper-plane',
                 open: false,
                 children: [
-                    { code: 'move-to-beach',  type: 'item', icon: 'fab fa-servicestack' },
-                    { code: 'move-to-cosmos', type: 'item', icon: 'fas fa-star' }
+                    { code: 'move-to-beach',  type: 'item', icon: 'fab fa-servicestack', action:'move-page' },
+                    { code: 'move-to-cosmos', type: 'item', icon: 'fas fa-star', action:'move-page' }
                 ]
             },
             {

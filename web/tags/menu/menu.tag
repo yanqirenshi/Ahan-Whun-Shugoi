@@ -46,6 +46,10 @@
          let tag = this.findParentTag('menu-item',e.target);
          let code = tag.getAttribute('code');
          let parent_code = tag.getAttribute('parent-code');
+         let action = tag.getAttribute('action');
+
+         if (action=='move-page')
+             STORE.dispatch(ACTIONS.movePage(code));
 
          STORE.dispatch(ACTIONS.clickMenuItem(code, parent_code));
      }
@@ -64,8 +68,9 @@
      STORE.subscribe((action) => {
          if (action.type=='CLICK-FINDER' ||
              action.type=='CLICK-MENU-GROUP-ITEM' ||
-             action.type=='CLICK-MENU-ITEM')
+             action.type=='CLICK-MENU-ITEM') {
              this.update();
+         }
      });
     </script>
 </menu>

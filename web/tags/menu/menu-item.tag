@@ -2,8 +2,8 @@
            code={opts.data.code}
            type={opts.data.type}
            title={opts.data.code}
+           action={opts.data.action}
            onclick={opts.clickItem}>
-
 
     <p style="position: absolute;">
         {finderCode(opts.data.code)}

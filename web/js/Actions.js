@@ -1,8 +1,16 @@
 class Actions extends Simple_Redux_Actions {
     movePage (data) {
+        let state = STORE.state();
+
+        state.beach.display = (data=='move-to-beach');
+        state.cosmos.display = (data=='move-to-cosmos');
+
+        if (!state.beach.display && !state.cosmos.display)
+            state.beach.display = true;
+
         return {
             type: 'MOVE-PAGE',
-            data: data
+            data: state
         };
     }
 

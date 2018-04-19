@@ -27,7 +27,7 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
                :quri
                :dexador
                :lparallel
-               :ahan-whun-shugoi.beach)
+               :ahan-whun-shugoi-beach)
   :components ((:module "core"
                 :serial t
                 :components
