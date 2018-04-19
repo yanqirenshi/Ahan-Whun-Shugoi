@@ -101,11 +101,11 @@
   (setf *aws-beach-collect*
         (bordeaux-threads:make-thread
          #'(lambda ()
-             (let ((start (local-time:now)))
+             (let ((start (now)))
                (under-the-paving-stone-the-beach :target target :uri uri :refresh refresh)
                (aws.beach.db:snapshot)
                (break "Finished collect!~%Start= ~a~%End  = ~a~%"
-                      start (local-time:now))))
+                      start (now))))
          :name "aws-beach-collect")))
 
 (defun collect (&key (target :all) (uri (make-aws-cli-uri :aws)) refresh thread)

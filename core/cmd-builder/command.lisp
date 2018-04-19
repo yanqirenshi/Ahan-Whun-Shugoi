@@ -18,7 +18,6 @@
     (values command subcommand (nconc aws-options comman-options))))
 
 (defun get-code (obj &key to-str)
-  "TODO:これは aws.beach のコードじゃないかな。"
   (let ((code (aws.beach::code obj)))
     (if (not to-str)
         code

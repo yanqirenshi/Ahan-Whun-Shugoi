@@ -77,14 +77,7 @@ WARNING: 31 = 34 ⇒ NIL : CREATE-CLUSTER
   "options-tag から全ての option-tag を抽出する。"
   (find-tag tag
             #'is-p
-            ;; TODO: find-options-option-tag をつかおう。
-            #'(lambda (tag)
-                (let* ((children (pt-children tag))
-                       (first-child (first children))
-                       (second-child (second children)))
-                  (and first-child
-                       second-child
-                       (eq :tt (pt-name first-child)))))))
+            #'find-options-option-tag))
 
 (defun find-option-tags (tags)
   (when tags

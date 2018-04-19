@@ -4,11 +4,13 @@
   (:use #:cl
         #:aws.cli.command
         #:aws.help)
-  (:export :aws)
+  (:import-from :local-time
+                #:now)
   (:import-from :aws.beach
                 #:collect
                 #:find-aws-options
                 #:get-command)
+  (:export :aws)
   ;; db
   (:export #:start
            #:stop

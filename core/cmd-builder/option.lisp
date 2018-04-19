@@ -46,10 +46,10 @@
           "Cannot find master ~S." option-code))
 
 (defun assert-option-values-length (option-code input-values master-values)
-  (/= (length input-values)
-      (length master-values))
-  (error "オプションの値の個数が異なります。 code=~a, input=~S, master=~S"
-         option-code input-values master-values))
+  (when (/= (length input-values)
+            (length master-values))
+    (error "オプションの値の個数が異なります。 code=~a, input=~S, master=~S"
+           option-code input-values master-values)))
 
 (defun check-option-values-type (input-value master-value)
   ;; TODO: add value type check
@@ -58,8 +58,9 @@
         ((string= master-value "boolean") t)
         ((string= master-value "double") t)
         ((string= master-value "float") t)
-        ((string= master-value "int") t)
-        ((string= master-value "integer") t)
+        ((or (string= master-value "int")
+             (string= master-value "integer"))
+         t)
         ((string= master-value "list") t)
         ((string= master-value "long") t)
         ((string= master-value "map") t)
@@ -78,6 +79,9 @@
                                (cdr master-values))))
 
 (defun assert-option-values (option-code option-values option-master)
+  "ここでは過去からの経緯でオプションの値が複数設定されることを想定しています。
+そのため input-values と master-values はリスト構造になっています。
+メモ:現在は「名前:値=1:1」なんじゃないかなと推察しているのでリスト構造にする必要はないのかもしれません。"
   (let ((input-values (alexandria:ensure-list option-values))
         (master-values (aws.beach:options-values option-master)))
     (if (eq :--profile option-code)
@@ -87,7 +91,7 @@
 
 (defun option2cmd-string (option-code option-values)
   "オプションの名前と値をコマンド文字列に変換する。
-TODO: 今のところ「名前:値=1:1」のみに対応。"
+名前:値=1:1を前提としています。"
   (if (or (eq :test option-code) ;; ahan-whun-shugoi のオプションのときは何もしない。
           (null (remove nil option-values))) ;; 値が nil のものは無視する。
       ""
@@ -96,13 +100,14 @@ TODO: 今のところ「名前:値=1:1」のみに対応。"
 (defun %options2cmd-string (options master)
   (when options
     (let* ((option-code (car options))
-           (option-master (get-master-option master option-code)))
-      (assert-option option-code option-master)
-      (let ((option-values (get-option-values (cdr options))))
-        (assert-option-values option-code option-values option-master)
+           (value-types-master (get-master-option master option-code)))
+      (assert-option option-code value-types-master)
+      (let* ((option (cdr options))
+             (value-types (get-option-values option)))
+        (assert-option-values option-code value-types value-types-master)
         (concatenate 'string
-                     (option2cmd-string option-code option-values)
-                     (%options2cmd-string (subseq options (+ 1 (length option-values)))
+                     (option2cmd-string option-code value-types)
+                     (%options2cmd-string (subseq options (+ 1 (length value-types)))
                                           master))))))
 
 (defun options2cmd-string (options &key master)
