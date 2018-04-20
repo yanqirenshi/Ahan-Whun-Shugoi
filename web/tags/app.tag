@@ -55,5 +55,7 @@
          if (update)
              this.update();
      });
+
+     ACTIONS.loadEc2Instances();
     </script>
 </app>

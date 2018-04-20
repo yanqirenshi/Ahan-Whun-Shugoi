@@ -15,7 +15,22 @@ var API = new Vanilla_Ajax({
         }
     }
 });
-
+var Api = {
+    cosmos: new Vanilla_Ajax({
+        protcol: _CONFIG.api.protcol,
+        host: _CONFIG.api.host,
+        port: _CONFIG.api.port,
+        path: {
+            prefix: '/aws/api/v1/cosmos'
+        },
+        credentials: 'include',
+        callback: {
+            401: function (r, api) {
+                location.hash = '#sign-in';
+            }
+        }
+    })
+};
 /* ******* */
 /*  Redux  */
 /* ******* */

@@ -10,7 +10,7 @@
       :|ResourceType| "volume"))))
 
 (defvar *columns_ec2_tags*
-  '((:code :|Key| :slot Key :set-value set-value-simple)
-    (:code :|Value| :slot Value :set-value set-value-simple)
-    (:code :|ResourceId| :slot ResourceId :set-value set-value-simple)
+  '((:code :|Key|          :slot Key          :set-value set-value-simple)
+    (:code :|Value|        :slot Value        :set-value set-value-simple)
+    (:code :|ResourceId|   :slot ResourceId   :set-value set-value-simple)
     (:code :|ResourceType| :slot ResourceType :set-value set-value-simple)))

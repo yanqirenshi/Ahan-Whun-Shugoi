@@ -36,12 +36,12 @@
                                :|IpProtocol| ""))))))
 
 (defvar *columns_ec2_security-groups*
-  '((:code :|GroupId| :slot GroupId :set-value set-value-simple)
-    (:code :|OwnerId| :slot OwnerId :set-value set-value-simple)
-    (:code :|VpcId| :slot VpcId :set-value set-value-simple)
-    (:code :|GroupName| :slot GroupName :set-value set-value-simple)
-    (:code :|Description| :slot Description :set-value set-value-simple)
-    (:code :|Tags| :slot Tags :set-value set-value-tags2alist)
+  '((:code :|GroupId|             :slot GroupId     :set-value set-value-simple)
+    (:code :|OwnerId|             :slot OwnerId     :set-value set-value-simple)
+    (:code :|VpcId|               :slot VpcId       :set-value set-value-simple)
+    (:code :|GroupName|           :slot GroupName   :set-value set-value-simple)
+    (:code :|Description|         :slot Description :set-value set-value-simple)
+    (:code :|Tags|                :slot Tags        :set-value set-value-tags2alist)
     ;; ignore
-    (:code :|IpPermissions| :slot nil :set-value set-value-ignore)
-    (:code :|IpPermissionsEgress| :slot nil :set-value set-value-ignore)))
+    (:code :|IpPermissions|       :slot nil         :set-value set-value-ignore)
+    (:code :|IpPermissionsEgress| :slot nil         :set-value set-value-ignore)))

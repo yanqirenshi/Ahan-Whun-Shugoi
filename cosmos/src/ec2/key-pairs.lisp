@@ -9,4 +9,4 @@
 
 (defvar *columns_ec2_key-pairs*
   '((:code :|KeyFingerprint| :slot KeyFingerprint :set-value set-value-simple)
-    (:code :|KeyName| :slot KeyName :set-value set-value-simple)))
+    (:code :|KeyName|        :slot KeyName        :set-value set-value-simple)))

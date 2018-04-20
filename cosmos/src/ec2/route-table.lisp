@@ -21,9 +21,9 @@
                         :|RouteTableAssociationId| ""))))))
 
 (defvar *columns_ec2_route-table*
-  '((:code :|Tags| :slot Tags :set-value set-value-simple)
+  '((:code :|Tags|            :slot Tags            :set-value set-value-simple)
     (:code :|PropagatingVgws| :slot PropagatingVgws :set-value set-value-simple)
-    (:code :|VpcId| :slot VpcId :set-value set-value-simple)
-    (:code :|RouteTableId| :slot RouteTableId :set-value set-value-simple)
-    (:code :|Routes| :slot nil :set-value set-value-ignore)
-    (:code :|Associations| :slot nil :set-value set-value-ignore)))
+    (:code :|VpcId|           :slot VpcId           :set-value set-value-simple)
+    (:code :|RouteTableId|    :slot RouteTableId    :set-value set-value-simple)
+    (:code :|Routes|          :slot nil             :set-value set-value-ignore)
+    (:code :|Associations|    :slot nil             :set-value set-value-ignore)))

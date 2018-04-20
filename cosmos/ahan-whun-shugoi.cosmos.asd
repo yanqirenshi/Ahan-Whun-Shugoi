@@ -9,9 +9,15 @@
   :depends-on ()
   :components ((:module "src"
                 :components
-                ((:file "package")
+                ((:file "graph")
+                 (:module "nudist" :components ((:file "package")
+                                                (:file "undresses")
+                                                (:file "nude")
+                                                (:file "slot2value")))
+                 (:file "package")
                  (:file "util")
-                 (:module "ec2" :components ((:file "ec2")))
+                 (:module "ec2" :components ((:file "star")
+                                             (:file "ec2")))
                  (:module "elb" :components ((:file "elb")))
                  (:module "s3" :components ((:file "class")
                                             (:file "s3")))

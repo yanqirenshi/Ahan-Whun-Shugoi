@@ -9,4 +9,4 @@
 
 (defvar *columns_ec2_region*
   '((:code |RegionName| :slot RegionName :set-value set-value-simple)
-    (:code |Endpoint| :slot Endpoint :set-value set-value-simple)))
+    (:code |Endpoint|   :slot Endpoint   :set-value set-value-simple)))

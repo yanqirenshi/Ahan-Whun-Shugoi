@@ -24,7 +24,7 @@
   :components ((:module "src"
                 :components
                 ((:file "config")
-                 (:module "controller"
+                 (:module "beach"
                   :components ((:file "package")
                                (:file "util")
                                (:file "aws")
@@ -32,10 +32,13 @@
                                (:file "subcommands")
                                (:file "options")
                                (:file "finder")))
+                 (:module "cosmos"
+                  :components ((:file "package")))
                  (:file "render")
                  (:module "router"
                   :components ((:file "route")
                                (:file "beach")
+                               (:file "cosmos")
                                (:file "api-v1")))
                  (:file "main"))))
   :description ""

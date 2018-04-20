@@ -612,4 +612,11 @@ class Actions extends Simple_Redux_Actions {
             }
         };
     }
+
+    /*
+     * updateCommandXXX
+     */
+    loadEc2Instances () {
+        Api.cosmos.get('/ec2/instances');
+    }
 }
