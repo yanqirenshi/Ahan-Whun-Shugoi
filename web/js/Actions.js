@@ -617,6 +617,26 @@ class Actions extends Simple_Redux_Actions {
      * updateCommandXXX
      */
     loadEc2Instances () {
-        Api.cosmos.get('/ec2/instances');
+        let path = '/ec2/instances';
+        let self = this;
+        Api.cosmos.get(path, function (response) {
+            STORE.dispatch(self.loadedEc2Instances(response));
+        });
+    }
+    loadedEc2Instances (response) {
+        let ht = {};
+        for (var i in response)
+            ht[response[i]._id] = response;
+
+        return {
+            type: 'LOADED-EC2-INSTANCES',
+            data: {
+                cosmos: {
+                    ec2: {
+                        instances: {ht: ht, list: response}
+                    }
+                }
+            }
+        };
     }
 }

@@ -18,7 +18,8 @@ class Reducer extends Simple_Redux_Reducer {
             'FETCHED-FINDERS',
             'UPDATED-FINDER-LOOK-AT',
             'UPDATED-FINDER-SCALE',
-            'CLICK-FINDER'
+            'CLICK-FINDER',
+            'LOADED-EC2-INSTANCES'
         ].find(function (v) {
             return v==action_type;
         }) ;

@@ -52,6 +52,7 @@
 
 (defmethod jojo:%to-json ((obj ec2-instance))
   (jojo:with-object
+    (jojo:write-key-value "_id" (slot-value obj 'up:%id))
     (jojo:write-key-value "amilaunch-index" (slot-value obj 'amilaunch-index))
     (jojo:write-key-value "architecture" (slot-value obj 'architecture))
     (jojo:write-key-value "client-token" (slot-value obj 'client-token))

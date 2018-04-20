@@ -75,7 +75,10 @@ class Store extends Simple_Redux_Store {
             cosmos: {
                 display: false,
                 finders: this.initGraphfinders(),
-                r: this.initGraphElements()
+                r: this.initGraphElements(),
+                ec2: {
+                    instances: {ht: {}, list: []}
+                }
             }
         };
         return this;
