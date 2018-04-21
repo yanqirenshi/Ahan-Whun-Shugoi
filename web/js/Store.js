@@ -1,4 +1,4 @@
-class Store extends Simple_Redux_Store {
+class Store extends Vanilla_Redux_Store {
     constructor(reducer) {
         super(reducer, {});
     }
