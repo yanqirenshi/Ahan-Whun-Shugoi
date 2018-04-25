@@ -1,4 +1,4 @@
-class Reducer extends Simple_Redux_Reducer {
+class Reducer extends Vanilla_Redux_Reducer {
     isMergeActionTypes (action_type) {
         return [
             'MOVE-PAGE',

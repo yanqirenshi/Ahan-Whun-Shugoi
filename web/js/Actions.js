@@ -1,4 +1,4 @@
-class Actions extends Simple_Redux_Actions {
+class Actions extends Vanilla_Redux_Actions {
     movePage (data) {
         let state = STORE.state();
 

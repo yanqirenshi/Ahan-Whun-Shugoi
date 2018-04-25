@@ -4,7 +4,7 @@
 var Uri = new Vanilla_URI();
 var Request = new Vanilla_Ajax('http', 'localhost', '');
 var API = new Vanilla_Ajax({
-    protcol: _CONFIG.api.protcol,
+    scheme: _CONFIG.api.protcol,
     host: _CONFIG.api.host,
     port: _CONFIG.api.port,
     path: _CONFIG.api.path,
@@ -17,7 +17,7 @@ var API = new Vanilla_Ajax({
 });
 var Api = {
     cosmos: new Vanilla_Ajax({
-        protcol: _CONFIG.api.protcol,
+        scheme: _CONFIG.api.protcol,
         host: _CONFIG.api.host,
         port: _CONFIG.api.port,
         path: {
