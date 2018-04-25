@@ -2,7 +2,8 @@
   (:nicknames :aws.cosmos.nudist)
   (:use #:cl)
   (:import-from :alexandria
-                #:make-keyword)
+                #:make-keyword
+                #:when-let)
   (:import-from :shinra
                 #:tx-make-vertex)
   (:import-from :aws.cosmos.graph
@@ -13,5 +14,6 @@
            #:set-value-ignore
            #:set-value-simple
            #:set-value-tags2alist
+           #:set-value-tags2plist
            #:set-value-plist2plist))
 (in-package :ahan-whun-shugoi.cosmos.nudist)

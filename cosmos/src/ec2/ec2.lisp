@@ -23,6 +23,65 @@
 +--------------+
 |#
 
+(defvar *ec2-instance-data*
+  '(:|AmiLaunchIndex| 0
+    :|Tags| ((:|Key| "" :|Value| ""))
+    :|VirtualizationType| ""
+    :|RootDeviceName| ""
+    :|RootDeviceType| ""
+    :|Architecture| ""
+    :|BlockDeviceMappings| ((:|Ebs| (:|AttachTime| ""
+                                     :|VolumeId| ""
+                                     :|DeleteOnTermination| T
+                                     :|Status| "")
+                             :|DeviceName| ""))
+    :|Hypervisor| ""
+    :|Placement| (:|AvailabilityZone| "" :|GroupName| "" :|Tenancy| "")
+    :|SourceDestCheck| T
+    :|NetworkInterfaces| ((:|Association| (:|IpOwnerId| "" :|PublicDnsName| "" :|PublicIp| "")
+                           :|SubnetId| ""
+                           :|PrivateIpAddress| ""
+                           :|OwnerId| ""
+                           :|Ipv6Addresses| NIL
+                           :|Groups| ((:|GroupId| "" :|GroupName| ""))
+                           :|Attachment| (:|AttachTime| ""
+                                          :|AttachmentId| ""
+                                          :|DeleteOnTermination| T
+                                          :|DeviceIndex| 0
+                                          :|Status| "")
+                           :|PrivateDnsName| ""
+                           :|PrivateIpAddresses| ((:|Association| (:|IpOwnerId| ""
+                                                                   :|PublicDnsName| ""
+                                                                   :|PublicIp| "")
+                                                   :|Primary| T
+                                                   :|PrivateIpAddress| ""
+                                                   :|PrivateDnsName| ""))
+                           :|NetworkInterfaceId| ""
+                           :|Description| ""
+                           :|VpcId| ""
+                           :|SourceDestCheck| T
+                           :|MacAddress| ""
+                           :|Status| ""))
+    :|InstanceType| ""
+    :|SubnetId| ""
+    :|ClientToken| ""
+    :|SecurityGroups| ((:|GroupId| "" :|GroupName| ""))
+    :|KeyName| ""
+    :|PrivateDnsName| ""
+    :|ImageId| ""
+    :|InstanceId| ""
+    :|StateTransitionReason| ""
+    :|VpcId| ""
+    :|ProductCodes| NIL
+    :|PrivateIpAddress| ""
+    :|PublicIpAddress| ""
+    :|LaunchTime| ""
+    :|EbsOptimized| NIL
+    :|State| (:|Name| "" :|Code| 16)
+    :|StateReason| (:|Code| "" :|Message| "")
+    :|PublicDnsName| ""
+    :|Monitoring| (:|State| "")))
+
 (defclass ec2-instance (node)
   ((amilaunch-index :accessor amilaunch-index :initarg :amilaunch-index :initform nil)
    (architecture :accessor architecture :initarg :architecture :initform nil)
@@ -64,7 +123,7 @@
     (jojo:write-key-value "instance-type" (slot-value obj 'instance-type))
     (jojo:write-key-value "key-name" (slot-value obj 'key-name))
     (jojo:write-key-value "launch-time" (slot-value obj 'launch-time))
-    ;; (jojo:write-key-value "monitoring" (slot-value obj 'monitoring))
+    (jojo:write-key-value "monitoring" (slot-value obj 'monitoring))
     (jojo:write-key-value "private-dns-name" (slot-value obj 'private-dns-name))
     (jojo:write-key-value "private-ip-address" (slot-value obj 'private-ip-address))
     (jojo:write-key-value "product-codes" (slot-value obj 'product-codes))
@@ -73,11 +132,24 @@
     (jojo:write-key-value "root-device-type" (slot-value obj 'root-device-type))
     (jojo:write-key-value "source-dest-check" (slot-value obj 'source-dest-check))
     (jojo:write-key-value "state-transition-reason" (slot-value obj 'state-transition-reason))
-    ;; (jojo:write-key-value "state" (slot-value obj 'state))
+    (jojo:write-key-value "state" (slot-value obj 'state))
     (jojo:write-key-value "subnet-id" (slot-value obj 'subnet-id))
-    ;; (jojo:write-key-value "tags" (slot-value obj 'tags))
+    (jojo:write-key-value "tags" (slot-value obj 'tags))
     (jojo:write-key-value "virtualization-type" (slot-value obj 'virtualization-type))
     (jojo:write-key-value "vpc-id" (slot-value obj 'vpc-id))))
+
+(defun ec2-instance-block-device-mapping (plist)
+  (let ((ebs (getf plist :|Ebs|))
+        (device-name (getf plist :|DeviceName|)))
+    (list :node (list :volume-id (getf ebs :|VolumeId|))
+          :edge (list :device-name (getf ebs device-name)
+                      :attach-time (getf ebs :|AttachTime|)
+                      :delete-on-termination (getf ebs :|DeleteOnTermination|)
+                      :status (getf ebs :|Status|)))))
+
+(defun ec2-instance-block-device-mappings (plists key)
+  (mapcar #'ec2-instance-block-device-mapping
+          (getf plists key)))
 
 (defvar *columns-ec2-instance*
   '((:code :|AmiLaunchIndex|        :slot amilaunch-index         :set-value set-value-simple)
@@ -87,7 +159,7 @@
     (:code :|EnaSupport|            :slot ena-support             :set-value set-value-simple)
     (:code :|Hypervisor|            :slot hypervisor              :set-value set-value-simple)
     (:code :|ImageId|               :slot image-id                :set-value set-value-simple)
-    (:code :|InstanceId|            :slot instance-id             :set-value set-value-simple)
+    (:code :|InstanceId|            :slot instance-id             :set-value set-value-simple :primary t)
     (:code :|InstanceType|          :slot instance-type           :set-value set-value-simple)
     (:code :|KeyName|               :slot key-name                :set-value set-value-simple)
     (:code :|LaunchTime|            :slot launch-time             :set-value set-value-simple)
@@ -105,9 +177,9 @@
     (:code :|VirtualizationType|    :slot virtualization-type     :set-value set-value-simple)
     (:code :|VpcId|                 :slot vpc-id                  :set-value set-value-simple)
     ;; relationships
-    (:code :|Tags|                  :slot tags                    :set-value set-value-tags2alist)
+    (:code :|Tags|                  :slot tags                    :set-value set-value-tags2plist)
     ;; ignore
-    (:code :|BlockDeviceMappings|   :slot nil                     :set-value set-value-ignore)
+    (:code :|BlockDeviceMappings|   :slot nil                     :set-value ec2-instance-block-device-mappings)
     (:code :|IamInstanceProfile|    :slot nil                     :set-value set-value-ignore)
     (:code :|NetworkInterfaces|     :slot nil                     :set-value set-value-ignore)
     (:code :|Placement|             :slot nil                     :set-value set-value-ignore)
@@ -118,7 +190,7 @@
       (aws :ec2 :describe-instances :--profile profile)
       (aws :ec2 :describe-instances)))
 
-(defun find-ec2-instances (&key profile)
+(defun import-ec2-instances (&key profile)
   (let ((dresses '((:mode :single   :indicator :|Reservations|)
                    (:mode :multiple :indicator :|Instances|)
                    (:mode :apply    :operator nconc)))
@@ -126,3 +198,6 @@
     (plists2objects 'ec2-instance
                     *columns-ec2-instance*
                     (undresses instances dresses))))
+
+(defun find-ec2-instances ()
+  (shinra:find-vertex *graph* 'ec2-instance))

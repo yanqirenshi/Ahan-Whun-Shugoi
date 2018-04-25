@@ -37,6 +37,7 @@
 
 (defmethod jojo:%to-json ((obj metric-alarm))
   (jojo:with-object
+    (jojo:write-key-value "_id" (slot-value obj 'alarm-arn))
     (jojo:write-key-value "metric-name" (slot-value obj 'metric-name))
     (jojo:write-key-value "actions-enabled" (slot-value obj 'actions-enabled))
     (jojo:write-key-value "ok-actions" (slot-value obj 'ok-actions))

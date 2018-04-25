@@ -17,6 +17,14 @@
       (cons (cons key value)
             (tags2alist (cdr plists))))))
 
+(defun tags2plists (tags)
+  (when-let ((tag (car tags)))
+    (let ((key (getf tag :|Key|))
+          (value (getf tag :|Value|)))
+      (nconc (list (make-keyword (string-upcase key))
+                   value)
+             (tags2plists (cdr tags))))))
+
 (defun plist2plist (plist)
   (when plist
     (let ((key-val (subseq plist 0 2)))
@@ -36,12 +44,38 @@
           (cons (list slot value)
                 (plist2object-slot-values plist (cdr columns)))))))
 
+(defun %plist2object (class columns plist)
+  (let* ((primary (find-if #'(lambda (c) (getf c :primary)) columns))
+         (primary-slot (getf primary :slot))
+         (key (getf primary :code)))
+    (or (shinra:find-vertex *graph* class
+                            :slot primary-slot
+                            :value (getf plist key))
+        (up:execute-transaction
+         (shinra:tx-make-vertex *graph* class
+                                (plist2object-slot-values plist columns))))))
+
+(defun relationship-data (plists)
+  (when-let ((plist (car plists)))
+    (if (not (null (getf plist :slot)))
+       (relationship-data (cdr plists))
+       (cons plist
+             (relationship-data (cdr plists))))))
+
 (defun plist2object (class columns plist)
-  (up:execute-transaction
-   (shinra:tx-make-vertex *graph* class
-                          (plist2object-slot-values plist columns))))
+  (let ((node (%plist2object class columns plist))
+        (r-cols (relationship-data columns)))
+    (dolist (r-col r-cols)
+      (dolist (data (funcall (getf r-col :set-value) plist (getf r-col :code)))
+        (let ((node (getf data :node))
+              (edge (getf data :edge)))
+          ;; TODO: make node & edge
+          ;; (print (list node edge))
+          (declare (ignore node edge))
+          )))
+    node))
 
 (defun plists2objects (class columns plists)
-  (alexandria:when-let ((plist (car plists)))
+  (when-let ((plist (car plists)))
     (cons (plist2object class columns plist)
           (plists2objects class columns (cdr plists)))))

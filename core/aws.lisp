@@ -77,6 +77,7 @@ plist -> alist に変換してとかかな。"
          (jojo:parse values))
         ((eq :json format) values)
         ((eq :object format) (values2objects command subcommand values))
+        ((eq :plain format) values)
         (t (error "この format は対応していません。format=~S" format))))
 
 ;;;
