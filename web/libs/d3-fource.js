@@ -1,1 +1,0 @@
-/home/renshi/prj/d3.js/d3-force/src/d3-fource.js

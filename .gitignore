@@ -19,3 +19,6 @@ network-graph-svg.js
 network-graph.js
 auth/sign/in/config.js
 auth/sign/up/config.js
+web/libs/d3-fource.js
+web/libs/d3-svg.js
+web/libs/vanilla.js

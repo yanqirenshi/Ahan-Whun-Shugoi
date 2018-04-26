@@ -1,1 +1,0 @@
-/home/renshi/prj/vanilla.js/dist/vanilla.js
