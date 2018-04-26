@@ -33,20 +33,20 @@
          var svg = this.d3svg._svg;
 
          /* make node data */
-         let d3force = new D3Force({
-             node_padding: 2.5 * 10
-         });
+         /* let d3force = new D3Force({
+          *     node_padding: 2.5 * 10
+          * });*/
 
          /* draw elements */
-         let node_data = STORE.state().cosmos.ec2.instances.list;
-         let graph = d3force.makeNodeDatas(node_data);
-         let nodes = d3force.drawNodes(svg, graph);
-         d3force.setNodesCallbacks(nodes);
+         /* let node_data = STORE.state().cosmos.ec2.instances.list;
+          * let graph = d3force.makeNodeDatas(node_data);
+          * let nodes = d3force.drawNodes(svg, graph);
+          * d3force.setNodesCallbacks(nodes);*/
 
          /* sumilation */
-         d3force.makeSimulation(width, height);
-         d3force.makeCollide();
-         d3force.start(graph, nodes);
+         /* d3force.makeSimulation(width, height);
+          * d3force.makeCollide();
+          * d3force.start(graph, nodes);*/
      });
     </script>
 </cosmos>
