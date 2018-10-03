@@ -2,20 +2,10 @@
     <section-header title="AHAN-WHUN-SHUGOI"
                     subtitle="AWS Cli wrapper with Manuals"></section-header>
 
-    <section class="section" style="padding-top: 0px; padding-bottom: 33px;">
-        <div class="container">
-
-            <div class="tabs">
-                <ul>
-                    <li each={tabs} class={active_tag==code ? 'is-active' : ''}>
-                        <a code={code}
-                           onclick={clickTab}>{label}</a>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </section>
+    
+    <page-tabs tabs={tabs}
+               active_tag={active_tag}
+               click-tab={clickTab}></page-tabs>
 
     <div>
         <home_page_readme class="hide"></home_page_readme>
@@ -23,10 +13,6 @@
         <home_page_operators class="hide"></home_page_operators>
         <home_page_others class="hide"></home_page_others>
     </div>
-
-    <style>
-     home_page_root .hide { display: none; }
-    </style>
 
     <script>
      this.default_tag = 'readme';
