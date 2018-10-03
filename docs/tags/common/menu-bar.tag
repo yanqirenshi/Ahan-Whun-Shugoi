@@ -66,21 +66,20 @@
 
      }
      .menu-label {
-         background: #ffffff;
-         color: #FF9901;
+         background: #FF9901;
+         color: #23303E;
      }
      .menu-label.open {
          background: #ffffff;
-         color: #FF9901;
+         color: #23303E;
          width: 44px;
          border-radius: 3px 0px 0px 3px;
          text-shadow: 0px 0px 1px #eee;
          padding-right: 11px;
      }
      menu-bar .menu-list a.is-active {
-         width: 44px;
-         padding-right: 11px;
-         border-radius: 3px 0px 0px 3px;
+         width: 33px;
+         border-radius: 3px;
          background: #ffffff;
          color: #333333;
      }
