@@ -5,7 +5,7 @@
 DBを起動する。
 
 ```lisp
-(aws-beach.db:start)
+(aws.beach.db:start)
 ```
 
 WEBからDBにデータを取り込む。(1〜2時間くらい)
@@ -14,7 +14,10 @@ WEBからDBにデータを取り込む。(1〜2時間くらい)
 (defvar *collect*
   (bordeaux-threads:make-thread
    #'(lambda ()
-       (time (collect)))))
+       (time (aws.beach:collect)))))
+
+
+(aws.beach:collect :target :sns)
 ```
 
 ## Installation
