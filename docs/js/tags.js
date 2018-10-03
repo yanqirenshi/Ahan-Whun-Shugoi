@@ -5,7 +5,11 @@ riot.tag2('api', '', '', '', function(opts) {
      this.on('update', () => { this.draw(); });
 });
 
-riot.tag2('api_page_root', '<section-header title="Api"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
+riot.tag2('api_page_root', '<section-header title="Api"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"> <operator-list operators="{operators}"></operator-list> </div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
+     this.operators = [
+         { name: 'start', description: '', type: 'Function', package: '' },
+         { name: 'stop',  description: '', type: 'Function', package: '' },
+     ];
 });
 
 riot.tag2('app', '<menu-bar brand="{{label:\'RT\'}}" site="{site()}" moves="{[]}"></menu-bar> <div ref="page-area"></div>', 'app > .page { width: 100vw; overflow: hidden; display: block; } app .hide,[data-is="app"] .hide{ display: none; }', '', function(opts) {
@@ -38,7 +42,7 @@ riot.tag2('beach', '', '', '', function(opts) {
      this.on('update', () => { this.draw(); });
 });
 
-riot.tag2('beach_page_root', '<section-header title="Beach"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> <p>Under the paving stone the beach というスローガン(?)がパッケージ名の由来です。</p> <p>AWS Cli のWEB上のマニュアルを全て読み込んでローカルDBに保管します。</p> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Others</h1> <h2 class="subtitle"></h2> <section class="section"> <div class="container"> <h1 class="title is-4">collect が上手くいかない AWSコマンド</h1> <h2 class="subtitle"></h2> <div class="contents"> <p>2018-10-03 (Wed) ですが、 AWS のマニュアルに問題があり、正常にインポート出来ないマニュアルがあります。</p> <p>これらのコマンドは、オプションが正しく取得できていません。</p> <p><pre>\nWARNING: 0  = 8  ⇒ NIL : CREATE-SUBSCRIPTION\nWARNING: 0  = 8  ⇒ NIL : UPDATE-SUBSCRIPTION\nWARNING: 0  = 1  ⇒ NIL : GET\nWARNING: 0  = 2  ⇒ NIL : SET\nWARNING: 32 = 34 ⇒ NIL : CREATE-CLUSTER</pre> </p> </div> </div> </section> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
+riot.tag2('beach_page_root', '<section-header title="Beach"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> <p>Under the paving stone the beach というスローガン(?)がパッケージ名の由来です。</p> <p>AWS Cli のWEB上のマニュアルを全て読み込んでローカルDBに保管します。</p> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"> <operator-list operators="{operators}"></operator-list> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Others</h1> <h2 class="subtitle"></h2> <section class="section"> <div class="container"> <h1 class="title is-4">collect が上手くいかない AWSコマンド</h1> <h2 class="subtitle"></h2> <div class="contents"> <p>2018-10-03 (Wed) ですが、 AWS のマニュアルに問題があり、正常にインポート出来ないマニュアルがあります。</p> <p>これらのコマンドは、オプションが正しく取得できていません。</p> <p><pre>\nWARNING: 0  = 8  ⇒ NIL : CREATE-SUBSCRIPTION\nWARNING: 0  = 8  ⇒ NIL : UPDATE-SUBSCRIPTION\nWARNING: 0  = 1  ⇒ NIL : GET\nWARNING: 0  = 2  ⇒ NIL : SET\nWARNING: 32 = 34 ⇒ NIL : CREATE-CLUSTER</pre> </p> </div> </div> </section> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
      this.operators = [
          { name: 'get-aws',                  description: '', type: '???', package: '' },
          { name: 'find-aws-options',         description: '', type: '???', package: '' },
@@ -162,6 +166,12 @@ riot.tag2('section-list', '<table class="table is-bordered is-striped is-narrow 
      };
 });
 
+riot.tag2('operator-list', '<table class="table"> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Package</th> </tr> </thead> <tbody> <tr each="{opts.operators}"> <td>{name}</td> <td>{type}</td> <td>{description}</td> <td>{package}</td> </tr> </tbody> </table>', '', '', function(opts) {
+});
+
+riot.tag2('pakage-list', '<table class="table"> <thead> <tr><th>Name</th><th>Description</th></tr> </thead> <tbody> <tr each="{opts.packages}"> <th>{name}</th> <td>{description}</td> </tr> </tbody> </table>', '', '', function(opts) {
+});
+
 riot.tag2('sections-list', '<table class="table"> <tbody> <tr each="{opts.data}"> <td><a href="{hash}">{title}</a></td> </tr> </tbody> </table>', '', '', function(opts) {
 });
 
@@ -172,7 +182,15 @@ riot.tag2('core', '', '', '', function(opts) {
      this.on('update', () => { this.draw(); });
 });
 
-riot.tag2('core_page_root', '<section-header title="Command"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
+riot.tag2('core_page_root', '<section-header title="Command"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"> <operator-list operators="{operators}"></operator-list> </div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
+     this.operators = [
+         { name: 'aws',                    description: '', type: '???', package: '' },
+         { name: 'start',                  description: '', type: '???', package: '' },
+         { name: 'stop',                   description: '', type: '???', package: '' },
+         { name: 'graph-data-stor',        description: '', type: '???', package: '' },
+         { name: 'name',                   description: '', type: '???', package: '' },
+         { name: '*print-command-stream*', description: '', type: '???', package: '' },
+     ];
 });
 
 riot.tag2('home', '', '', '', function(opts) {
@@ -194,7 +212,7 @@ riot.tag2('home_page_operators', '<section class="section" style="padding-top: 0
 riot.tag2('home_page_others', '<section class="section" style="padding-top: 0px; padding-bottom: 0px;"> <div class="container"> <div class="contents"> <p>鋭意執筆中</p> </div> </div> </section>', '', '', function(opts) {
 });
 
-riot.tag2('home_page_packages', '<section class="section" style="padding-top: 0px; padding-bottom: 0px;"> <div class="container"> <div class="contents"> <p>構成するパッケージについて説明します。</p> </div> </div> </section> <section class="section" style="padding-top: 33px; padding-bottom: 33px;"> <div class="container"> <div class="tabs"> <ul> <li class="is-active"><a>主要なパッケージ</a></li> <li><a>COMMAND(核)</a></li> <li><a>BEACH(砂浜)</a></li> <li><a>WEB API(Api)</a></li> </ul> </div> </div> </section> <div> <home_page_packages_important packages="{packages}"></home_page_packages_important> <home_page_packages_command packages="{packages}"></home_page_packages_command> <home_page_packages_beach packages="{packages}"></home_page_packages_beach> <home_page_packages_api packages="{packages}"></home_page_packages_api> </div>', '', '', function(opts) {
+riot.tag2('home_page_packages', '<section class="section" style="padding-top: 0px; padding-bottom: 0px;"> <div class="container"> <div class="contents"> <p>構成するパッケージについて説明します。</p> </div> </div> </section> <home_page_packages_important packages="{packages}"></home_page_packages_important> <home_page_packages_command packages="{packages}"></home_page_packages_command> <home_page_packages_beach packages="{packages}"></home_page_packages_beach> <home_page_packages_api packages="{packages}"></home_page_packages_api>', '', '', function(opts) {
      this.packages = {
          important: [
              { name: 'ahan-whun-shugoi', description: '' },
@@ -246,13 +264,41 @@ riot.tag2('home_page_packages_important', '<section class="section"> <div class=
 riot.tag2('home_page_readme', '<section class="section" style="padding-top: 0px; padding-bottom: 0px;"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle">AWS Cli ラッパー、 マニュアルを添えて。</h2> <div class="contents"> <p>AWS Cli を Common Lisp 上から、なるだけ安全に実行するためのライブラリです。</p> <p>コマンドでのパラメータの値の型チェック、実行制限が出来ます。</p> </div> </section> <home_functions></home_functions> <home_usage></home_usage> <home_installation></home_installation> <section class="section"> <div class="container"> <div class="contents"> <h1 class="title">Author</h1> <p>Satoshi Iwasaki (yanqirenshi@gmail.com)</p> </div> </div> </section> <section class="section"> <div class="container"> <div class="contents"> <h1 class="title">Copyright</h1> <p>Copyright (c) 2015 Satoshi Iwasaki (yanqirenshi@gmail.com)</p> </div> </div> </section> <section class="section"> <div class="container"> <div class="contents"> <h1 class="title">License</h1> <p>Licensed under the MIT License.</p> </div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
 });
 
-riot.tag2('home_page_root', '<section-header title="AHAN-WHUN-SHUGOI" subtitle="AWS Cli wrapper with Manuals"></section-header> <section class="section" style="padding-top: 0px; padding-bottom: 33px;"> <div class="container"> <div class="tabs"> <ul> <li class="is-active"><a>README</a></li> <li><a>Packages</a></li> <li><a>Operators</a></li> <li><a>Others</a></li> </ul> </div> </div> </section> <div> <home_page_readme></home_page_readme> <home_page_packages></home_page_packages> <home_page_operators></home_page_operators> <home_page_others></home_page_others> </div>', '', '', function(opts) {
+riot.tag2('home_page_root', '<section-header title="AHAN-WHUN-SHUGOI" subtitle="AWS Cli wrapper with Manuals"></section-header> <section class="section" style="padding-top: 0px; padding-bottom: 33px;"> <div class="container"> <div class="tabs"> <ul> <li each="{tabs}" class="{active_tag==code ? \'is-active\' : \'\'}"> <a code="{code}" onclick="{clickTab}">{label}</a> </li> </ul> </div> </div> </section> <div> <home_page_readme class="hide"></home_page_readme> <home_page_packages class="hide"></home_page_packages> <home_page_operators class="hide"></home_page_operators> <home_page_others class="hide"></home_page_others> </div>', 'home_page_root .hide { display: none; }', '', function(opts) {
+     this.default_tag = 'readme';
+     this.active_tag = null;
+     this.tabs = [
+         { code: 'readme',    label: 'README',    tag: 'home_page_readme' },
+         { code: 'packages',  label: 'Packages',  tag: 'home_page_packages' },
+         { code: 'operators', label: 'Operators', tag: 'home_page_operators' },
+         { code: 'others',    label: 'Others',    tag: 'home_page_others' },
+     ];
+     this.clickTab = (e) => {
+         this.switchTab(e.target.getAttribute('code'));
+     };
+     this.on('mount', () => {
+         this.switchTab(this.default_tag);
+     });
+     this.switchTab = (code) => {
+         if (this.active_tag == code) return;
+
+         this.active_tag = code;
+
+         let tag = null;
+         for (var i in this.tabs) {
+             let tab = this.tabs[i];
+             this.tags[tab.tag].root.classList.add('hide');
+             if (tab.code==code)
+                 tag = tab.tag;
+         }
+
+         this.tags[tag].root.classList.remove('hide');
+
+         this.update();
+     };
 });
 
 riot.tag2('home_usage', '<section class="section"> <div class="container"> <div class="contents"> <h1 class="title">Usage</h1> <p> <pre>\n(aws.beach.db:start)\n(aws.db:start)\n\n(aws.beach:collect)</pre> </p> </div> </div> </section>', '', '', function(opts) {
-});
-
-riot.tag2('pakage-list', '<table class="table"> <thead> <tr><th>Name</th><th>Description</th></tr> </thead> <tbody> <tr each="{opts.packages}"> <th>{name}</th> <td>{description}</td> </tr> </tbody> </table>', '', '', function(opts) {
 });
 
 riot.tag2('web', '', '', '', function(opts) {

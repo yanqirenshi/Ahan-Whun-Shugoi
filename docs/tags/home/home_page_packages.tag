@@ -7,27 +7,11 @@
         </div>
     </section>
 
-    <section class="section" style="padding-top: 33px; padding-bottom: 33px;">
-        <div class="container">
+    <home_page_packages_important packages={packages}></home_page_packages_important>
+    <home_page_packages_command packages={packages}></home_page_packages_command>
+    <home_page_packages_beach packages={packages}></home_page_packages_beach>
+    <home_page_packages_api packages={packages}></home_page_packages_api>
 
-            <div class="tabs">
-                <ul>
-                    <li class="is-active"><a>主要なパッケージ</a></li>
-                    <li><a>COMMAND(核)</a></li>
-                    <li><a>BEACH(砂浜)</a></li>
-                    <li><a>WEB API(Api)</a></li>
-                </ul>
-            </div>
-
-        </div>
-    </section>
-
-    <div>
-        <home_page_packages_important packages={packages}></home_page_packages_important>
-        <home_page_packages_command packages={packages}></home_page_packages_command>
-        <home_page_packages_beach packages={packages}></home_page_packages_beach>
-        <home_page_packages_api packages={packages}></home_page_packages_api>
-    </div>
     <script>
      this.packages = {
          important: [
