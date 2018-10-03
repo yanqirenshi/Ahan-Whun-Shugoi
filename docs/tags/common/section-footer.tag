@@ -12,9 +12,10 @@
      section-footer > .footer {
          padding-top: 13px;
          padding-bottom: 13px;
+         margin-bottom: 33px;
          height: 66px;
-         background: #fef4f4;
-         opacity: 0.7;
+         background: #23303E;
+         color: #ffffff;
      }
     </style>
 </section-footer>

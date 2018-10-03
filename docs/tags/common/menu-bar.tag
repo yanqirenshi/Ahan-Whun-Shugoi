@@ -24,7 +24,7 @@
     <style>
      menu-bar .move-page-menu {
          z-index: 666665;
-         background: #fdeff2;
+         background: #ffffff;
          position: fixed;
          left: 55px;
          top: 0px;
@@ -47,7 +47,7 @@
          position: fixed;
          left: 0px;
          top: 0px;
-         background: #e198b4;
+         background: #FF9901;
      }
 
      menu-bar .menu-label, menu-bar .menu-list a {
@@ -66,12 +66,12 @@
 
      }
      .menu-label {
-         background: #fdeff2;
-         color: #e198b4;
+         background: #ffffff;
+         color: #FF9901;
      }
      .menu-label.open {
-         background: #fdeff2;
-         color: #e198b4;
+         background: #ffffff;
+         color: #FF9901;
          width: 44px;
          border-radius: 3px 0px 0px 3px;
          text-shadow: 0px 0px 1px #eee;
@@ -89,13 +89,6 @@
     <script>
      this.moves = () => {
          let moves = [
-             { code: 'RBP',    href: '/rb/rbp/',    label: 'RBP: RUN PASSPORT' },
-             { code: 'RBR',    href: '/rb/rbr/',    label: 'RBR: TATTA' },
-             { code: 'GEMS',   href: '/rb/gems/',   label: 'Ruby Gems' },
-             { code: 'RUBY',   href: '/rb/Ruby/',   label: 'Ruby' },
-             { code: 'GITLAB', href: '/rb/gitlab/', label: 'Gitlab' },
-             { code: 'SCRUM',  href: '/rb/Scrum/',  label: 'Scrum' },
-             { code: 'HELP',   href: '/rb/help/',   label: 'Help' }
          ]
          return moves.filter((d)=>{
              return d.code != this.opts.current;

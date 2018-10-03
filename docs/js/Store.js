@@ -5,47 +5,61 @@ class Store extends Vanilla_Redux_Store {
     init () {
         let data = {
             site: {
-                active_page: 'page01',
-                home_page: 'page01',
+                active_page: 'home',
+                home_page: 'home',
                 pages: [
                     {
-                        code: "page01",
-                        title: "Page: 01",
-                        menu_label: 'P1',
+                        code: "home",
+                        menu_label: '家',
                         active_section: 'root',
                         home_section: 'root',
                         sections: [
-                            { code: 'root', tag: 'page01-sec_root', title: 'Section: root', description: '' },
-                            { code: 'sec1', tag: 'page01-sec1',     title: 'Section: sec1', description: '' },
-                            { code: 'sec2', tag: 'page01-sec2',     title: 'Section: sec2', description: '' },
-                            { code: 'sec3', tag: 'page01-sec3',     title: 'Section: sec3', description: '' },
+                            { code: 'root', tag: 'home_page_root', title: 'Section: root', description: '' },
                         ],
                         stye: {
                             color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
                         }
                     },
                     {
-                        code: "page02",
-                        title: "Page: 02",
-                        menu_label: 'P2',
+                        code: "core",
+                        menu_label: '核',
                         active_section: 'root',
                         home_section: 'root',
-                        sections: [{ code: 'root', tag: 'page02-sec_root', title: 'Home', description: '' }],
+                        sections: [{ code: 'root', tag: 'core_page_root', title: 'Home', description: '' }],
                         stye: {
                             color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
                         }
                     },
                     {
-                        code: "page03",
-                        title: "Page: 03",
-                        menu_label: 'P3',
+                        code: "beach",
+                        menu_label: '砂浜',
                         active_section: 'root',
                         home_section: 'root',
-                        sections: [{ code: 'root', tag: 'page03-sec_root', title: 'Home', description: '' }],
+                        sections: [{ code: 'root', tag: 'beach_page_root', title: 'Home', description: '' }],
                         stye: {
                             color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
                         }
-                    }
+                    },
+                    {
+                        code: "api",
+                        menu_label: 'Api',
+                        active_section: 'root',
+                        home_section: 'root',
+                        sections: [{ code: 'root', tag: 'api_page_root', title: 'Home', description: '' }],
+                        stye: {
+                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
+                        }
+                    },
+                    {
+                        code: "web",
+                        menu_label: 'Web',
+                        active_section: 'root',
+                        home_section: 'root',
+                        sections: [{ code: 'root', tag: 'web_page_root', title: 'Home', description: '' }],
+                        stye: {
+                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
+                        }
+                    },
                 ]
             }
         };
