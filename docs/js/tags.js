@@ -58,10 +58,10 @@ riot.tag2('beach_page_classes', '<section class="section"> <div class="container
      ];
 });
 
-riot.tag2('beach_page_datamodels', '<section class="section"> <div class="container"> <h1 class="title">Data Model</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section>', '', '', function(opts) {
+riot.tag2('beach_page_datamodels', '<section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">グラフ構造</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section>', '', '', function(opts) {
 });
 
-riot.tag2('beach_page_functions', '<section class="section"> <div class="container"> <h1 class="title">Function</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section>', '', '', function(opts) {
+riot.tag2('beach_page_functions', '<section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> <p>以下のようなことができます。</p> <p>(1) AWS Cli のマニュアルからインポートする。</p> <p>(2) インポートしたものにアクセスする。</p> </div> </div> </section>', '', '', function(opts) {
 });
 
 riot.tag2('beach_page_operators', '<section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"> <operator-list operators="{operators.important}"></operator-list> </div> </div> </section>', '', '', function(opts) {
