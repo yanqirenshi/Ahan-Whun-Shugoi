@@ -8,7 +8,7 @@
     </section>
 
     <home_page_packages_important packages={packages}></home_page_packages_important>
-    <home_page_packages_command packages={packages}></home_page_packages_command>
+    <home_page_packages_cli packages={packages}></home_page_packages_cli>
     <home_page_packages_beach packages={packages}></home_page_packages_beach>
     <home_page_packages_api packages={packages}></home_page_packages_api>
 
@@ -16,13 +16,12 @@
      this.packages = {
          important: [
              { name: 'ahan-whun-shugoi',       description: '' },
-             { name: 'ahan-whun-shugoi.cmd',   description: '未実装。現在は ahan-whun-shugoi に含まれる。' },
-             { name: 'ahan-whun-shugoi.db',    description: '' },
+             { name: 'ahan-whun-shugoi.cli',   description: '未実装。現在は ahan-whun-shugoi に含まれる。' },
              { name: 'ahan-whun-shugoi.api',   description: '' },
              { name: 'ahan-whun-shugoi.beach', description: '' },
              { name: 'ahan-whun-shugoi.help',  description: '' },
          ],
-         command: [
+         cli: [
              { name: 'ahan-whun-shugoi.cli.option', description: '' },
              { name: 'ahan-whun-shugoi.cli.command', description: '' },
              { name: 'ahan-whun-shugoi.cli.config', description: '' },

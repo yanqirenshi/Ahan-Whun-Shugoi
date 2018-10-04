@@ -302,17 +302,16 @@ riot.tag2('home_page_operators', '<section class="section" style="padding-top: 0
 riot.tag2('home_page_others', '<section class="section" style="padding-top: 0px; padding-bottom: 0px;"> <div class="container"> <div class="contents"> <p>鋭意執筆中</p> </div> </div> </section>', '', '', function(opts) {
 });
 
-riot.tag2('home_page_packages', '<section class="section" style="padding-top: 0px; padding-bottom: 0px;"> <div class="container"> <div class="contents"> <p>構成するパッケージについて説明します。</p> </div> </div> </section> <home_page_packages_important packages="{packages}"></home_page_packages_important> <home_page_packages_command packages="{packages}"></home_page_packages_command> <home_page_packages_beach packages="{packages}"></home_page_packages_beach> <home_page_packages_api packages="{packages}"></home_page_packages_api>', '', '', function(opts) {
+riot.tag2('home_page_packages', '<section class="section" style="padding-top: 0px; padding-bottom: 0px;"> <div class="container"> <div class="contents"> <p>構成するパッケージについて説明します。</p> </div> </div> </section> <home_page_packages_important packages="{packages}"></home_page_packages_important> <home_page_packages_cli packages="{packages}"></home_page_packages_cli> <home_page_packages_beach packages="{packages}"></home_page_packages_beach> <home_page_packages_api packages="{packages}"></home_page_packages_api>', '', '', function(opts) {
      this.packages = {
          important: [
              { name: 'ahan-whun-shugoi',       description: '' },
-             { name: 'ahan-whun-shugoi.cmd',   description: '未実装。現在は ahan-whun-shugoi に含まれる。' },
-             { name: 'ahan-whun-shugoi.db',    description: '' },
+             { name: 'ahan-whun-shugoi.cli',   description: '未実装。現在は ahan-whun-shugoi に含まれる。' },
              { name: 'ahan-whun-shugoi.api',   description: '' },
              { name: 'ahan-whun-shugoi.beach', description: '' },
              { name: 'ahan-whun-shugoi.help',  description: '' },
          ],
-         command: [
+         cli: [
              { name: 'ahan-whun-shugoi.cli.option', description: '' },
              { name: 'ahan-whun-shugoi.cli.command', description: '' },
              { name: 'ahan-whun-shugoi.cli.config', description: '' },
@@ -346,7 +345,7 @@ riot.tag2('home_page_packages_api', '<section class="section"> <div class="conta
 riot.tag2('home_page_packages_beach', '<section class="section"> <div class="container"> <h1 class="title">List</h1> <h2 class="subtitle"></h2> <div class="contents"> <pakage-list packages="{opts.packages.beach}"></pakage-list> </div> </div> </section>', '', '', function(opts) {
 });
 
-riot.tag2('home_page_packages_command', '<section class="section"> <div class="container"> <h1 class="title">List</h1> <h2 class="subtitle"></h2> <div class="contents"> <pakage-list packages="{opts.packages.command}"></pakage-list> </div> </div> </section>', '', '', function(opts) {
+riot.tag2('home_page_packages_cli', '<section class="section"> <div class="container"> <h1 class="title">List</h1> <h2 class="subtitle"></h2> <div class="contents"> <pakage-list packages="{opts.packages.cli}"></pakage-list> </div> </div> </section>', '', '', function(opts) {
 });
 
 riot.tag2('home_page_packages_important', '<section class="section"> <div class="container"> <h1 class="title">List</h1> <h2 class="subtitle"></h2> <div class="contents"> <pakage-list packages="{opts.packages.important}"></pakage-list> </div> </div> </section>', '', '', function(opts) {
