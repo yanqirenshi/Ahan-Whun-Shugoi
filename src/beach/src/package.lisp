@@ -45,6 +45,7 @@
            #:get-command-subcommand
            #:find-command-subcommands
            #:find-subcommand-options
+           #:find-subcommand
            #:get-subcommand
            #:collect)
   (:export #:command

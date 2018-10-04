@@ -16,6 +16,10 @@
 ;;;
 ;;; DB(shinra)
 ;;;
+(defun find-subcommand (graph)
+  (find-vertex graph 'subcommand))
+
+
 (defun get-subcommand (&key code (graph *graph*))
   (when code
     (car (find-vertex graph 'subcommand
