@@ -10,6 +10,10 @@
          display: block;
      }
      .hide { display: none; }
+
+     app .section > .container > .contents {
+         padding-left: 22px;
+     }
     </style>
 
     <script>

@@ -11,7 +11,7 @@
             <tr each={opts.classes}>
                 <td>{name}</td>
                 <td>{description}</td>
-                <td>{parent}</td>
+                <td>{precedences}</td>
             </tr>
         </tbody>
     </table>

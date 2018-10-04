@@ -1,4 +1,4 @@
-<core_page_root>
+<cmd_page_root>
     <section-header title="Command"></section-header>
 
     <section class="section">
@@ -40,4 +40,4 @@
          { name: '*print-command-stream*', description: '', type: '???', package: '' },
      ];
     </script>
-</core_page_root>
+</cmd_page_root>

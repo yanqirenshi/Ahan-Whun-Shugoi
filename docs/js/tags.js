@@ -12,7 +12,7 @@ riot.tag2('api_page_root', '<section-header title="Api"></section-header> <secti
      ];
 });
 
-riot.tag2('app', '<menu-bar brand="{{label:\'RT\'}}" site="{site()}" moves="{[]}"></menu-bar> <div ref="page-area"></div>', 'app > .page { width: 100vw; overflow: hidden; display: block; } app .hide,[data-is="app"] .hide{ display: none; }', '', function(opts) {
+riot.tag2('app', '<menu-bar brand="{{label:\'RT\'}}" site="{site()}" moves="{[]}"></menu-bar> <div ref="page-area"></div>', 'app > .page { width: 100vw; overflow: hidden; display: block; } app .hide,[data-is="app"] .hide{ display: none; } app .section > .container > .contents { padding-left: 22px; }', '', function(opts) {
      this.site = () => {
          return STORE.state().get('site');
      };
@@ -35,6 +35,16 @@ riot.tag2('app', '<menu-bar brand="{{label:\'RT\'}}" site="{site()}" moves="{[]}
          location.hash='#home'
 });
 
+riot.tag2('aws', '', '', '', function(opts) {
+     this.mixin(MIXINS.page);
+
+     this.on('mount', () => { this.draw(); });
+     this.on('update', () => { this.draw(); });
+});
+
+riot.tag2('aws_page_root', '<section-header title="Aws"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
+});
+
 riot.tag2('beach', '', '', '', function(opts) {
      this.mixin(MIXINS.page);
 
@@ -42,23 +52,23 @@ riot.tag2('beach', '', '', '', function(opts) {
      this.on('update', () => { this.draw(); });
 });
 
-riot.tag2('beach_page_classes', '<section class="section"> <div class="container"> <h1 class="title">Classes</h1> <h2 class="subtitle"></h2> <div class="contents"> <class-list classes="{classes}"> </div> </div> </section>', '', '', function(opts) {
+riot.tag2('beach_page_classes', '<section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">グラフ構造</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> <section class="section"> <div class="container"> <h1 class="title is-4">コマンド</h1> <h2 class="subtitle"></h2> <div class="contents"> <p><pre>\n   aws -----(1)-----> Command -----(2)-----> subcommand\n             :                      :\n             :                      :\n             :                      +- - - - - -> r-command2subcommands\n             :\n             +- - - - - -> r-aws2commands</pre></p> <table class="table" style="margin-top: 11px;"> <thead></thead> <tbody></tbody> </table> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title is-4">コマンド・オプション</h1> <h2 class="subtitle"></h2> <div class="contents"> <p><pre>\n        aws -----(1)-----> option\n                  :\n                  +- - - - - -> r-aws2options\n\n subcommand -----(1)-----> option\n                  :\n                  +- - - - - -> r-subcommand2options</pre></p> <table class="table" style="margin-top: 11px;"> <thead></thead> <tbody></tbody> </table> </div> </div> </section> </div> </section> <section class="section"> <div class="container"> <h1 class="title">クラス図</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">クラス一覧</h1> <h2 class="subtitle"></h2> <div class="contents"> <class-list classes="{classes}"> </div> </div> </section>', '', '', function(opts) {
      this.classes = [
-         { name:'node',                  description: 'Vertex のルートクラス',                     parent: 'shin' },
-         { name:'sand',                  description: 'AWSからインポートするデータのルートクラス', parent: 'node' },
-         { name:'aws',                   description: '',                                          parent: 'sand' },
-         { name:'option',                description: '',                                          parent: 'sand' },
-         { name:'command',               description: '',                                          parent: 'sand' },
-         { name:'subcommand',            description: '',                                          parent: 'sand' },
-         { name:'r-aws2commands',        description: '',                                          parent: 'ra' },
-         { name:'r-aws2options',         description: '',                                          parent: 'ra' },
-         { name:'r-command2subcommands', description: '',                                          parent: 'ra' },
-         { name:'r-subcommand2options',  description: '',                                          parent: 'ra' },
-         { name:'finder',                description: '',                                          parent: 'shin' },
+         { name:'node',                  description: 'Vertex のルートクラス',                     precedences: 'SHINRABANSHOU:SHIN' },
+         { name:'sand',                  description: 'AWSからインポートするデータのルートクラス', precedences: 'node' },
+         { name:'aws',                   description: '',                                          precedences: 'sand' },
+         { name:'option',                description: '',                                          precedences: 'sand' },
+         { name:'command',               description: '',                                          precedences: 'sand' },
+         { name:'subcommand',            description: '',                                          precedences: 'sand' },
+         { name:'r-aws2commands',        description: '',                                          precedences: 'SHINRABANSHOU:RA' },
+         { name:'r-aws2options',         description: '',                                          precedences: 'SHINRABANSHOU:RA' },
+         { name:'r-command2subcommands', description: '',                                          precedences: 'SHINRABANSHOU:RA' },
+         { name:'r-subcommand2options',  description: '',                                          precedences: 'SHINRABANSHOU:RA' },
+         { name:'finder',                description: '',                                          precedences: 'SHINRABANSHOU:SHIN' },
      ];
 });
 
-riot.tag2('beach_page_datamodels', '<section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">グラフ構造</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section>', '', '', function(opts) {
+riot.tag2('beach_page_datamodels', '<section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">グラフ構造</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> <section class="section"> <div class="container"> <h1 class="title is-4">コマンド</h1> <h2 class="subtitle"></h2> <div class="contents"> <p><pre>\n   AWS -------:r--------> COMMAND -----:r------> SUBCOMMAND\n (unique)    (1:n)                    (1:n)</pre></p> <table class="table" style="margin-top: 11px;"> <thead> <tr><th>Name</th> <th>Description</th></tr> </thead> <tbody> <tr><th>AWS</th> <td></td></tr> <tr><th>COMMAND</th> <td></td></tr> <tr><th>SUBCOMMAND</th> <td></td></tr> </tbody> </table> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title is-4">コマンド・オプション</h1> <h2 class="subtitle"></h2> <div class="contents"> <p><pre>\n        AWS -----:r------> OPTION\n                (1:n)\n\n SUBCOMMAND -----:r------> OPTION\n                (1:n)</pre></p> <table class="table" style="margin-top: 11px;"> <thead> <tr><th>Name</th> <th>Description</th></tr> </thead> <tbody> <tr><th>OPTION</th> <td></td></tr> </tbody> </table> </div> </div> </section> </div> </section>', '', '', function(opts) {
 });
 
 riot.tag2('beach_page_functions', '<section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> <p>以下のようなことができます。</p> <p>(1) AWS Cli のマニュアルからインポートする。</p> <p>(2) インポートしたものにアクセスする。</p> </div> </div> </section>', '', '', function(opts) {
@@ -138,6 +148,24 @@ riot.tag2('beach_page_root', '<section-header title="Beach"></section-header> <p
 
          this.update();
      };
+});
+
+riot.tag2('cmd', '', '', '', function(opts) {
+     this.mixin(MIXINS.page);
+
+     this.on('mount', () => { this.draw(); });
+     this.on('update', () => { this.draw(); });
+});
+
+riot.tag2('cmd_page_root', '<section-header title="Command"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"> <operator-list operators="{operators}"></operator-list> </div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
+     this.operators = [
+         { name: 'aws',                    description: '', type: '???', package: '' },
+         { name: 'start',                  description: '', type: '???', package: '' },
+         { name: 'stop',                   description: '', type: '???', package: '' },
+         { name: 'graph-data-stor',        description: '', type: '???', package: '' },
+         { name: 'name',                   description: '', type: '???', package: '' },
+         { name: '*print-command-stream*', description: '', type: '???', package: '' },
+     ];
 });
 
 riot.tag2('menu-bar', '<aside class="menu"> <p ref="brand" class="menu-label" onclick="{clickBrand}"> {opts.brand.label} </p> <ul class="menu-list"> <li each="{opts.site.pages}"> <a class="{opts.site.active_page==code ? \'is-active\' : \'\'}" href="{\'#\' + code}"> {menu_label} </a> </li> </ul> </aside> <div class="move-page-menu hide" ref="move-panel"> <p each="{moves()}"> <a href="{href}">{label}</a> </p> </div>', 'menu-bar .move-page-menu { z-index: 666665; background: #ffffff; position: fixed; left: 55px; top: 0px; min-width: 111px; height: 100vh; box-shadow: 2px 0px 8px 0px #e0e0e0; padding: 22px 55px 22px 22px; } menu-bar .move-page-menu.hide { display: none; } menu-bar .move-page-menu > p { margin-bottom: 11px; } menu-bar > .menu { z-index: 666666; height: 100vh; width: 55px; padding: 11px 0px 11px 11px; position: fixed; left: 0px; top: 0px; background: #FF9901; } menu-bar .menu-label, menu-bar .menu-list a { padding: 0; width: 33px; height: 33px; text-align: center; margin-top: 8px; border-radius: 3px; background: none; color: #ffffff; font-weight: bold; padding-top: 7px; font-size: 14px; } menu-bar .menu-label,[data-is="menu-bar"] .menu-label{ background: #FF9901; color: #23303E; } menu-bar .menu-label.open,[data-is="menu-bar"] .menu-label.open{ background: #ffffff; color: #23303E; width: 44px; border-radius: 3px 0px 0px 3px; text-shadow: 0px 0px 1px #eee; padding-right: 11px; } menu-bar .menu-list a.is-active { width: 33px; border-radius: 3px; background: #ffffff; color: #333333; }', '', function(opts) {
@@ -240,7 +268,7 @@ riot.tag2('section-list', '<table class="table is-bordered is-striped is-narrow 
      };
 });
 
-riot.tag2('class-list', '<table class="table"> <thead> <tr> <th>Name</th> <th>Description</th> <th>Parent</th> </tr> </thead> <tbody> <tr each="{opts.classes}"> <td>{name}</td> <td>{description}</td> <td>{parent}</td> </tr> </tbody> </table>', '', '', function(opts) {
+riot.tag2('class-list', '<table class="table"> <thead> <tr> <th>Name</th> <th>Description</th> <th>Parent</th> </tr> </thead> <tbody> <tr each="{opts.classes}"> <td>{name}</td> <td>{description}</td> <td>{precedences}</td> </tr> </tbody> </table>', '', '', function(opts) {
 });
 
 riot.tag2('operator-list', '<table class="table"> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Package</th> </tr> </thead> <tbody> <tr each="{opts.operators}"> <td>{name}</td> <td>{type}</td> <td>{description}</td> <td>{package}</td> </tr> </tbody> </table>', '', '', function(opts) {
@@ -253,24 +281,6 @@ riot.tag2('pakage-list', '<table class="table"> <thead> <tr><th>Name</th><th>Des
 });
 
 riot.tag2('sections-list', '<table class="table"> <tbody> <tr each="{opts.data}"> <td><a href="{hash}">{title}</a></td> </tr> </tbody> </table>', '', '', function(opts) {
-});
-
-riot.tag2('core', '', '', '', function(opts) {
-     this.mixin(MIXINS.page);
-
-     this.on('mount', () => { this.draw(); });
-     this.on('update', () => { this.draw(); });
-});
-
-riot.tag2('core_page_root', '<section-header title="Command"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"> <operator-list operators="{operators}"></operator-list> </div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
-     this.operators = [
-         { name: 'aws',                    description: '', type: '???', package: '' },
-         { name: 'start',                  description: '', type: '???', package: '' },
-         { name: 'stop',                   description: '', type: '???', package: '' },
-         { name: 'graph-data-stor',        description: '', type: '???', package: '' },
-         { name: 'name',                   description: '', type: '???', package: '' },
-         { name: '*print-command-stream*', description: '', type: '???', package: '' },
-     ];
 });
 
 riot.tag2('home', '', '', '', function(opts) {
@@ -295,11 +305,12 @@ riot.tag2('home_page_others', '<section class="section" style="padding-top: 0px;
 riot.tag2('home_page_packages', '<section class="section" style="padding-top: 0px; padding-bottom: 0px;"> <div class="container"> <div class="contents"> <p>構成するパッケージについて説明します。</p> </div> </div> </section> <home_page_packages_important packages="{packages}"></home_page_packages_important> <home_page_packages_command packages="{packages}"></home_page_packages_command> <home_page_packages_beach packages="{packages}"></home_page_packages_beach> <home_page_packages_api packages="{packages}"></home_page_packages_api>', '', '', function(opts) {
      this.packages = {
          important: [
-             { name: 'ahan-whun-shugoi', description: '' },
-             { name: 'ahan-whun-shugoi.db', description: '' },
-             { name: 'ahan-whun-shugoi.api', description: '' },
+             { name: 'ahan-whun-shugoi',       description: '' },
+             { name: 'ahan-whun-shugoi.cmd',   description: '未実装。現在は ahan-whun-shugoi に含まれる。' },
+             { name: 'ahan-whun-shugoi.db',    description: '' },
+             { name: 'ahan-whun-shugoi.api',   description: '' },
              { name: 'ahan-whun-shugoi.beach', description: '' },
-             { name: 'ahan-whun-shugoi.help', description: '' },
+             { name: 'ahan-whun-shugoi.help',  description: '' },
          ],
          command: [
              { name: 'ahan-whun-shugoi.cli.option', description: '' },

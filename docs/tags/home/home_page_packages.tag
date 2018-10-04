@@ -15,11 +15,12 @@
     <script>
      this.packages = {
          important: [
-             { name: 'ahan-whun-shugoi', description: '' },
-             { name: 'ahan-whun-shugoi.db', description: '' },
-             { name: 'ahan-whun-shugoi.api', description: '' },
+             { name: 'ahan-whun-shugoi',       description: '' },
+             { name: 'ahan-whun-shugoi.cmd',   description: '未実装。現在は ahan-whun-shugoi に含まれる。' },
+             { name: 'ahan-whun-shugoi.db',    description: '' },
+             { name: 'ahan-whun-shugoi.api',   description: '' },
              { name: 'ahan-whun-shugoi.beach', description: '' },
-             { name: 'ahan-whun-shugoi.help', description: '' },
+             { name: 'ahan-whun-shugoi.help',  description: '' },
          ],
          command: [
              { name: 'ahan-whun-shugoi.cli.option', description: '' },

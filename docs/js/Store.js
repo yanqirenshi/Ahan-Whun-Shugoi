@@ -11,8 +11,7 @@ class Store extends Vanilla_Redux_Store {
                     {
                         code: "home",
                         menu_label: '家',
-                        active_section: 'root',
-                        home_section: 'root',
+                        active_section: 'root', home_section: 'root',
                         sections: [
                             { code: 'root', tag: 'home_page_root', title: 'Section: root', description: '' },
                         ],
@@ -21,11 +20,19 @@ class Store extends Vanilla_Redux_Store {
                         }
                     },
                     {
-                        code: "core",
-                        menu_label: '核',
-                        active_section: 'root',
-                        home_section: 'root',
-                        sections: [{ code: 'root', tag: 'core_page_root', title: 'Home', description: '' }],
+                        code: "aws",
+                        menu_label: 'AWS',
+                        active_section: 'root', home_section: 'root',
+                        sections: [{ code: 'root', tag: 'aws_page_root', title: 'Home', description: '' }],
+                        stye: {
+                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
+                        }
+                    },
+                    {
+                        code: "cmd",
+                        menu_label: 'Cmd',
+                        active_section: 'root', home_section: 'root',
+                        sections: [{ code: 'root', tag: 'cmd_page_root', title: 'Home', description: '' }],
                         stye: {
                             color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
                         }
@@ -33,8 +40,7 @@ class Store extends Vanilla_Redux_Store {
                     {
                         code: "beach",
                         menu_label: '砂浜',
-                        active_section: 'root',
-                        home_section: 'root',
+                        active_section: 'root', home_section: 'root',
                         sections: [{ code: 'root', tag: 'beach_page_root', title: 'Home', description: '' }],
                         stye: {
                             color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
@@ -43,8 +49,7 @@ class Store extends Vanilla_Redux_Store {
                     {
                         code: "api",
                         menu_label: 'Api',
-                        active_section: 'root',
-                        home_section: 'root',
+                        active_section: 'root', home_section: 'root',
                         sections: [{ code: 'root', tag: 'api_page_root', title: 'Home', description: '' }],
                         stye: {
                             color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
@@ -53,8 +58,7 @@ class Store extends Vanilla_Redux_Store {
                     {
                         code: "web",
                         menu_label: 'Web',
-                        active_section: 'root',
-                        home_section: 'root',
+                        active_section: 'root', home_section: 'root',
                         sections: [{ code: 'root', tag: 'web_page_root', title: 'Home', description: '' }],
                         stye: {
                             color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
