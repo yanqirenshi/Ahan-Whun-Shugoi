@@ -13,8 +13,6 @@
                 #:*api-v1*)
   (:import-from #:ahan-whun-shugoi-api.beach
                 #:*api-beach*)
-  (:import-from #:ahan-whun-shugoi-api.cosmos
-                #:*api-cosmos*)
   (:import-from #:ahan-whun-shugoi-api.config
                 #:config))
 (in-package :ahan-whun-shugoi-api.app)
@@ -28,5 +26,4 @@
  :session
  :validation
  (:mount "/beach" *api-beach*)
- (:mount "/cosmos" *api-cosmos*)
  *api-v1*)

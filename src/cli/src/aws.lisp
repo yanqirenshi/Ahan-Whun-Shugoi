@@ -1,4 +1,4 @@
-(in-package :ahan-whun-shugoi)
+(in-package :ahan-whun-shugoi.cli)
 
 ;;;
 ;;; Printer

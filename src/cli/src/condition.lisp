@@ -1,4 +1,4 @@
-(in-package :ahan-whun-shugoi)
+(in-package :ahan-whun-shugoi.cli)
 
 (define-condition aws-cli-error (simple-error)
   ((command     :initarg :command     :initform nil :reader aws-cli-error-command)

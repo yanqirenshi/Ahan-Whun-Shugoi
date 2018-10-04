@@ -389,7 +389,7 @@ riot.tag2('home_page_root', '<section-header title="AHAN-WHUN-SHUGOI" subtitle="
      };
 });
 
-riot.tag2('home_usage', '<section class="section"> <div class="container"> <div class="contents"> <h1 class="title">Usage</h1> <p> <pre>\n(aws.beach.db:start)\n(aws.db:start)\n\n(aws.beach:collect)</pre> </p> </div> </div> </section>', '', '', function(opts) {
+riot.tag2('home_usage', '<section class="section"> <div class="container"> <h1 class="title">Usage</h1> <section class="section"> <div class="container"> <h1 class="title is-4">Starts</h1> <div class="contents"> <p> <pre>\n(aws.beach.db:start)\n(aws.db:start)</pre> </p> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title is-4">Import Manuals</h1> <div class="contents"> <p> <pre>\n(aws:collect :refresh t :thread t)\n\n    or\n\n(shugoi:collect :refresh t :thread t)</pre> </p> </div> </div> </section> </div> </section>', '', '', function(opts) {
 });
 
 riot.tag2('web', '', '', '', function(opts) {

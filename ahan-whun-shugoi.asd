@@ -16,29 +16,11 @@ Author: Satoshi Iwasaki (yanqirenshi@gmail.com)
   :version "0.1"
   :author "Satoshi Iwasaki"
   :license "MIT"
-  :depends-on (:cl-ppcre
-               :local-time
-               :trivial-shell
-               :split-sequence
-               :jonathan
-               :upanishad
-               :shinrabanshou
-               :closure-html
-               :quri
-               :dexador
-               :lparallel
+  :depends-on (:ahan-whun-shugoi-cli
                :ahan-whun-shugoi-beach)
-  :components ((:module "core"
-                :serial t
+  :components ((:module "src"
                 :components
-                ((:module "db" :components ((:file "graph")))
-                 (:module "cmd-builder" :components ((:file "config")
-                                                     (:file "option")
-                                                     (:file "command")))
-                 (:module "helper" :components ((:file "help")))
-                 (:file "package")
-                 (:file "condition")
-                 (:file "aws"))))
+                ((:file "package"))))
   :description ""
   :long-description
   #.(with-open-file (stream (merge-pathnames

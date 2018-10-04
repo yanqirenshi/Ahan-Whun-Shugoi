@@ -1,6 +1,6 @@
 (in-package :cl-user)
-(defpackage ahan-whun-shugoi
-  (:nicknames :aws)
+(defpackage ahan-whun-shugoi.cli
+  (:nicknames :aws.cli)
   (:use #:cl
         #:aws.cli.command
         #:aws.help)
@@ -18,7 +18,7 @@
   ;; ??
   (:export #:name
            #:*print-command-stream*))
-(in-package :ahan-whun-shugoi)
+(in-package :ahan-whun-shugoi.cli)
 
 
 (defun mapline (func text)
