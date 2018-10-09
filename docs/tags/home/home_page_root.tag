@@ -2,7 +2,6 @@
     <section-header title="AHAN-WHUN-SHUGOI"
                     subtitle="AWS Cli wrapper with Manuals"></section-header>
 
-    
     <page-tabs tabs={tabs}
                active_tag={active_tag}
                click-tab={clickTab}></page-tabs>

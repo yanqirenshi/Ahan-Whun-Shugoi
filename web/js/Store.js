@@ -1,86 +1,74 @@
 class Store extends Vanilla_Redux_Store {
     constructor(reducer) {
-        super(reducer, {});
+        super(reducer, Immutable.Map({}));
     }
-    initGraphfinders () {
-        return {
-            select: 'DEFAULT',
-            list: []
+    makePageStage (data) {
+        let val = (obj, key, default_val) => {
+            if (!obj || !key || !obj[key]) return default_val;
+
+            return obj[key];
         };
-    }
-    initGraphElements () {
-        return { list: [], ht: {}};
-    }
-    initSelector () {
+
         return {
-            display: false,
-            element: {code: null, _class: null},
-            title: 'Selector',
-            tabs: [
-                {code: 'commands',    select: true,  display: false, label: '', search: ''},
-                {code: 'subcommands', select: false, display: false, label: '', search: ''},
-                {code: 'options',     select: false, display: false, label: '', search: ''},
-                {code: 'basic',       select: false, display: false, label: ''}
-            ]
+            code: data.code,
+            menu_label: val(data, 'menu_label', '???'),
+            active_section: val(data, 'active_section', 'root'),
+            home_section: (data, 'home_section', 'root'),
+            sections: data.sections,
+            stye: (data, 'stye', {
+                color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
+            })
         };
-    }
-    initMenus () {
-        return [
-            {
-                code: 'finder',
-                type: 'group',
-                icon: 'fas fa-binoculars',
-                open: false,
-                children: [
-                    { code: 'add-finder',    type: 'item', icon: 'fas fa-plus' },
-                    { code: 'update-finder', type: 'item', icon: 'fas fa-cog' },
-                    { code: 'delete-finder', type: 'item', icon: 'fas fa-minus' },
-                ]
-            },
-            {
-                code: 'move',
-                type: 'group',
-                icon: 'fas fa-paper-plane',
-                open: false,
-                children: [
-                    { code: 'move-to-beach',  type: 'item', icon: 'fab fa-servicestack', action:'move-page' },
-                    { code: 'move-to-cosmos', type: 'item', icon: 'fas fa-star', action:'move-page' }
-                ]
-            },
-            {
-                code: 'account',
-                type: 'group',
-                icon: 'fas fa-user',
-                open: false,
-                children: [
-                    { code: 'move-to-Setting',  type: 'item', icon: 'fas fa-cogs' },
-                    { code: 'move-to-Sign Out', type: 'item', icon: 'fas fa-sign-out-alt' }
-                ]
-            }
-        ];
     }
     init () {
-        this._contents = {
-            beach: {
-                display: true,
-                finders: this.initGraphfinders(),
-                aws: null,
-                commands: this.initGraphElements(),
-                subcommands: this.initGraphElements(),
-                options: this.initGraphElements(),
-                r: this.initGraphElements(),
-                selector: this.initSelector(),
-                menus: this.initMenus()
-            },
-            cosmos: {
-                display: false,
-                finders: this.initGraphfinders(),
-                r: this.initGraphElements(),
-                ec2: {
-                    instances: {ht: {}, list: []}
-                }
+        let data = {
+            site: {
+                active_page: 'beach',
+                home_page: 'beach',
+                pages: [
+                    this.makePageStage({
+                        code: "beach", menu_label: '砂浜',
+                        sections: [
+                            { code: 'root', tag: 'page_beach_root' },
+                        ]
+                    }),
+                    this.makePageStage({
+                        code: "page01", menu_label: 'P1',
+                        sections: [
+                            { code: 'root', tag: 'page01-sec_root' },
+                        ]
+                    }),
+                    this.makePageStage({
+                        code: "page02", menu_label: 'P2',
+                        sections: [
+                            { code: 'root', tag: 'page02-sec_root' }
+                        ],
+                    }),
+                    this.makePageStage({
+                        code: "page03", menu_label: 'P3',
+                        sections: [
+                            { code: 'root', tag: 'page03-sec_root' }
+                        ],
+                    })
+                ]
             }
         };
+
+        for (var i in data.site.pages) {
+            let page = data.site.pages[i];
+            for (var k in page.sections) {
+                let section = page.sections[k];
+                let hash = '#' + page.code;
+
+                if (section.code!='root')
+                    hash += '/' + section.code;
+
+                section.hash = hash;
+            }
+        }
+
+
+        this._contents = Immutable.Map(data);
         return this;
     }
 }

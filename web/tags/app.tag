@@ -1,61 +1,38 @@
 <app>
-    <beach class="{STORE.state().beach.display ? '' : 'hide'}" nodes={this.nodes()} edges={this.links()}></beach>
-    <selector></selector>
+    <menu-bar brand={{label:'AWS'}} site={site()} moves={[]}></menu-bar>
 
-    <cosmos class="{STORE.state().cosmos.display ? '' : 'hide'}"></cosmos>
-
-    <menu></menu>
+    <div ref="page-area"></div>
 
     <style>
-     app > .hide { display:none; }
+     app > .page {
+         width: 100vw;
+         height: 100vh;
+         overflow: hidden;
+         display: block;
+     }
+     .hide { display: none; }
     </style>
 
     <script>
+     this.site = () => {
+         return STORE.state().get('site');
+     };
+
+     STORE.subscribe((action)=>{
+         if (action.type!='MOVE-PAGE')
+             return;
+
+         let tags= this.tags;
+
+         tags['menu-bar'].update();
+         ROUTER.switchPage(this, this.refs['page-area'], this.site());
+     })
+
      window.addEventListener('resize', (event) => {
          this.update();
      });
 
-     this.nodes = function () {
-         let state = STORE.state().beach;
-         let aws = state.aws ? [state.aws] : [];
-         return aws.concat(GraphUtil.filterElements(state.options.list))
-                   .concat(GraphUtil.filterElements(state.commands.list))
-                   .concat(GraphUtil.filterElements(state.subcommands.list));
-     }
-
-     this.links = function () {
-         let state = STORE.state().beach;
-         return GraphUtil.filterElements(state.r.list);
-     };
-
-     STORE.subscribe((action) => {
-         if (action.type=='FETCHED-AWS')
-             this.update();
-     });
-
-     // LOAD FIRST
-     ACTIONS.fetchFinders('APP');
-     ACTIONS.fetchAws('APP');
-
-     STORE.subscribe((action) => {
-         if (action.type=='FETCHED-AWS' && action.from=='APP')
-             return ACTIONS.fetchCommands('APP');
-
-         if (action.type=='FETCHED-COMMANDS' && action.from=='APP')
-             return ACTIONS.fetchSubcommands('APP');
-     });
-     STORE.subscribe((action) => {
-         let update = [
-             'MOVE-PAGE',
-             'FETCHED-SUBCOMMANDS',
-             'UPDATED-COMMAND-DISPLAY',
-             'UPDATED-SUBCOMMAND-DISPLAY',
-             'UPDATED-OPTION-DISPLAY'
-         ].find(function (v) { return v==action.type; }) ;
-         if (update)
-             this.update();
-     });
-
-     ACTIONS.loadEc2Instances();
+     if (location.hash=='')
+         location.hash='#beach'
     </script>
 </app>

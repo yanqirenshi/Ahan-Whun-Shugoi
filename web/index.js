@@ -4,7 +4,7 @@
 var Uri = new Vanilla_URI();
 var Request = new Vanilla_Ajax('http', 'localhost', '');
 var API = new Vanilla_Ajax({
-    scheme: _CONFIG.api.protcol,
+    scheme: _CONFIG.api.scheme,
     host: _CONFIG.api.host,
     port: _CONFIG.api.port,
     path: _CONFIG.api.path,
@@ -15,22 +15,7 @@ var API = new Vanilla_Ajax({
         }
     }
 });
-var Api = {
-    cosmos: new Vanilla_Ajax({
-        scheme: _CONFIG.api.protcol,
-        host: _CONFIG.api.host,
-        port: _CONFIG.api.port,
-        path: {
-            prefix: '/aws/api/v1/cosmos'
-        },
-        credentials: 'include',
-        callback: {
-            401: function (r, api) {
-                location.hash = '#sign-in';
-            }
-        }
-    })
-};
+
 /* ******* */
 /*  Redux  */
 /* ******* */
@@ -41,25 +26,15 @@ var STORE = new Store(REDUCER).init();
 /* *********** */
 /*  Metronome  */
 /* *********** */
-let Metronome = new Vanilla_metronome({
-    interval: 1000 * 60,
-    tick: function (count) {}
+var Metronome = new Vanilla_metronome({
+    interval: 1000 * 10,
+    tick: function (count) {
+         // ACTIONS.fetchData();
+    }
 });
 
-/* ************* */
-/*  NetworkGrap  */
-/* ************* */
-var GraphUtil = new NetworkGraphUtil();
-
 /* ****** */
-/*  main  */
+/*  Router  */
 /* ****** */
-route.start(function () {
-    let hash = location.hash;
-    let len = hash.length;
-    if (len==0)
-        return '/';
-    return hash.substring(1);
-}());
-riot.mount('*');
-Metronome.start();
+var ROUTER = new Router(STORE, ACTIONS);
+ROUTER.start();
