@@ -28,39 +28,6 @@ class GraphUtility {
         }
         return node;
     }
-    marge (old_list, new_list)  {
-        let sorter = function (a, b) { return b._id - a._id; };
-        let old_list_sorted = old_list.sort(sorter);
-        let new_list_sorted = new_list.sort(sorter);
-
-        let old_data = old_list_sorted.pop();
-        let new_data = new_list_sorted.pop();
-        let out = [];
-        do {
-            if (!old_data && new_data) {
-                out.push(new_data);
-                new_data = new_list_sorted.pop();
-            } else if (old_data && !new_data) {
-                out.push(old_data);
-                old_data = old_list_sorted.pop();
-            } else if (old_data && new_data) {
-                if (old_data._id == new_data._id) {
-                    for (var k in new_data)
-                        old_data[k] = new_data[k];
-                    out.push(old_data);
-                    new_data = new_list_sorted.pop();
-                    old_data = old_list_sorted.pop();
-                } else if (old_data._id < new_data._id) {
-                    out.push(new_data);
-                    new_data = new_list_sorted.pop();
-                } else if (old_data._id > new_data._id) {
-                    out.push(old_data);
-                    old_data = old_list_sorted.pop();
-                }
-            }
-        } while(old_data || new_data);
-        return out;
-    }
     node_list2ht (list, ht) {
         for (var i in list) {
             let key = list[i]._id;
@@ -118,15 +85,8 @@ class GraphUtility {
         this.draw(nodes, edges);
     }
     /* **************************************************************** *
-     *                                                                  *
-     *    Used                                                          *
-     *                                                                  *
+     *    ????                                                          *
      * **************************************************************** */
-    setObjectValues (source, target) {
-        for (var key in source)
-            target[key] = source[key];
-        return target;
-    }
     marge2 (state, add_list) {
         let state_ht = state.ht;
         let state_list = state.list;
@@ -148,6 +108,16 @@ class GraphUtility {
             ht: state_ht,
             list: state_list
         };
+    }
+    /* **************************************************************** *
+     *                                                                  *
+     *    Used                                                          *
+     *                                                                  *
+     * **************************************************************** */
+    setObjectValues (source, target) {
+        for (var key in source)
+            target[key] = source[key];
+        return target;
     }
     /* svg を整える */
     makeD3Svg (selector) {
@@ -186,4 +156,60 @@ class GraphUtility {
 
          new D3Ruler().draw(d3svg, new D3Ruler().makeRules(88000, 500));
      }
+    /* GraphNodeData */
+    makeGraphNodeData (core) {
+        return {
+            x: 0,
+            y: 0,
+            label: {
+                text: core.code,
+                font: {
+                    size: 12
+                }
+            },
+            circle: {
+                r: 33,
+                fill: '#eeeeee',
+                stroke: {
+                    color: '#888888',
+                    width: 1
+                }
+            },
+            _id: core._id,
+            _class: core._class,
+            _core: core
+        };
+    }
+    updateGraphNodeData (source, target) {
+        // ブラウザ側で変更できないものは更新する。
+    }
+    /* GraphEdgeData */
+    makeGraphEdgeData (core) {
+        return {
+            source: core['from_id'],
+            target: core['to_id'],
+            _core: core,
+        };
+    }
+    updateGraphEdgeData (source, target) {}
+    // fetch したデータを STORE のデータにマージする。
+    // 追加する場合、グラフ用のデータに変換する。
+    mergeNodes (sources, targets) {
+        let targets_ht = targets.ht;
+
+        for (var i in sources) {
+            let source = sources[i];
+            let target = targets_ht[source._id];
+
+            if (target) {
+                this.updateGraphNodeData(source, target);
+            } else {
+                let data = this.makeGraphNodeData(source);
+                targets.ht[source._id] = data;
+                targets.list.push(data);
+            }
+        }
+
+        return targets;
+    }
 }

@@ -29,30 +29,30 @@
 (defmethod jojo:%to-json ((obj r-aws2commands))
   (jojo:with-object
     (jojo:write-key-value "_id"     (slot-value obj 'up:%id))
-    (jojo:write-key-value "from-id" (slot-value obj 'shinra:from-id))
-    (jojo:write-key-value "to-id"   (slot-value obj 'shinra:to-id))
+    (jojo:write-key-value "from_id" (slot-value obj 'shinra:from-id))
+    (jojo:write-key-value "to_id"   (slot-value obj 'shinra:to-id))
     (jojo:write-key-value "stroke"  (slot-value obj 'stroke))))
 
 (defmethod jojo:%to-json ((obj r-aws2options))
   (jojo:with-object
     (jojo:write-key-value "_id"     (slot-value obj 'up:%id))
-    (jojo:write-key-value "from-id" (slot-value obj 'shinra:from-id))
-    (jojo:write-key-value "to-id"   (slot-value obj 'shinra:to-id))
+    (jojo:write-key-value "from_id" (slot-value obj 'shinra:from-id))
+    (jojo:write-key-value "to_id"   (slot-value obj 'shinra:to-id))
     (jojo:write-key-value "stroke"  (slot-value obj 'stroke))))
 
 (defmethod jojo:%to-json ((obj r-command2subcommands))
   (jojo:with-object
     (jojo:write-key-value "_id"     (slot-value obj 'up:%id))
-    (jojo:write-key-value "from-id" (slot-value obj 'shinra:from-id))
-    (jojo:write-key-value "to-id"   (slot-value obj 'shinra:to-id))
+    (jojo:write-key-value "from_id" (slot-value obj 'shinra:from-id))
+    (jojo:write-key-value "to_id"   (slot-value obj 'shinra:to-id))
     (jojo:write-key-value "stroke"  (slot-value obj 'stroke))))
 
 (defmethod jojo:%to-json ((obj r-subcommand2options))
   (jojo:with-object
     (jojo:write-key-value "_id"         (slot-value obj 'up:%id))
-    (jojo:write-key-value "from-id"     (slot-value obj 'shinra:from-id))
-    (jojo:write-key-value "to-id"       (slot-value obj 'shinra:to-id))
-    (jojo:write-key-value "option-type" (slot-value obj 'option-type))
-    (jojo:write-key-value "value-types" (slot-value obj 'value-types))
+    (jojo:write-key-value "from_id"     (slot-value obj 'shinra:from-id))
+    (jojo:write-key-value "to_id"       (slot-value obj 'shinra:to-id))
+    (jojo:write-key-value "option_type" (slot-value obj 'option-type))
+    (jojo:write-key-value "value_types" (slot-value obj 'value-types))
     (jojo:write-key-value "attributes"  (slot-value obj 'attributes))
     (jojo:write-key-value "stroke"  (slot-value obj 'stroke))))

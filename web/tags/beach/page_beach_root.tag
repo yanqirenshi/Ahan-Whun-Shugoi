@@ -6,7 +6,7 @@
 
      this.d3svg = null;
      this.simulator = new D3Simulator().make();
-     
+
      this.on('mount', () => {
          this.d3svg = this.gutil.makeD3Svg('beach-graph');
 
@@ -25,18 +25,16 @@
              return;
 
          let state = STORE.get('beach')
-         let aws_ht = {}
-         aws_ht[state.aws._id] = state.aws;
+
          let nodes = {
-             ht: Object.assign({}, aws_ht, state.commands.ht),
-             list: [].concat([state.aws]).concat(state.commands.list)
+             ht: Object.assign({}, state.aws.ht, state.commands.ht),
+             list: [].concat(state.aws.list).concat(state.commands.list)
          }
          let edges = state.r;
 
-         new D3Nodes().draw(d3svg,
-                            nodes,
-                            this.simulator,
-                            (type, data) => { return; });
+         new D3Nodes().draw(d3svg, nodes, this.simulator, (type, data) => {
+             return;
+         });
 
          new D3Edges().draw(d3svg, edges, this.simulator);
      };
