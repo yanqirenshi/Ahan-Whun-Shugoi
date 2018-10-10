@@ -5,16 +5,42 @@ class Actions extends Vanilla_Redux_Actions {
             data: data
         };
     }
-    fetchData () {
-        API.get('/', function (response) {
-            STORE.dispatch(this.fetchedData(response));
-        }.bind(this));
+    fetchAws (from) {
+        let self = this;
+        API.get('/aws', function (response) {
+            STORE.dispatch(self.fetchedAws(response, from));
+        });
     }
-    fetchedData (response) {
+    fetchedAws (response, from) {
+        let GraphUtil = new GraphUtility();
+
+        let state = STORE.get('beach');
+
+        let aws = response.AWS;
+
+        let commands = GraphUtil.marge2(state.commands,
+                                        response.COMMANDS.NODES);
+        let options = GraphUtil.marge2(state.options,
+                                       response.OPTIONS.NODES);
+
+        let aws_state = { ht: {}, list: [aws]};
+        aws_state.ht[aws._id] = aws;
+        let r = GraphUtil.marge2(state.r,
+                                 [].concat(
+                                     GraphUtil.setEdgesDisplay(response.COMMANDS.RELATIONSHIPS, aws_state, commands),
+                                     GraphUtil.setEdgesDisplay(response.OPTIONS.RELATIONSHIPS, aws_state, options)));
+
         return {
-            type: 'FETCHED-DATA',
-            data: response,
-            target: 'stage'
+            from: from,
+            type: 'FETCHED-AWS',
+            data: {
+                beach: {
+                    aws: aws,
+                    commands: commands,
+                    options: options,
+                    r: r
+                }
+            }
         };
     }
 }

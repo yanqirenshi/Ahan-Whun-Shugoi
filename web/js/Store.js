@@ -20,37 +20,46 @@ class Store extends Vanilla_Redux_Store {
             })
         };
     }
+    makePages () {
+        return [
+            this.makePageStage({
+                code: "beach", menu_label: '砂浜',
+                sections: [
+                    { code: 'root', tag: 'page_beach_root' },
+                ]
+            }),
+            this.makePageStage({
+                code: "page01", menu_label: 'P1',
+                sections: [
+                    { code: 'root', tag: 'page01-sec_root' },
+                ]
+            }),
+            this.makePageStage({
+                code: "page02", menu_label: 'P2',
+                sections: [
+                    { code: 'root', tag: 'page02-sec_root' }
+                ],
+            }),
+            this.makePageStage({
+                code: "page03", menu_label: 'P3',
+                sections: [
+                    { code: 'root', tag: 'page03-sec_root' }
+                ],
+            })
+        ];
+    }
     init () {
         let data = {
             site: {
                 active_page: 'beach',
                 home_page: 'beach',
-                pages: [
-                    this.makePageStage({
-                        code: "beach", menu_label: '砂浜',
-                        sections: [
-                            { code: 'root', tag: 'page_beach_root' },
-                        ]
-                    }),
-                    this.makePageStage({
-                        code: "page01", menu_label: 'P1',
-                        sections: [
-                            { code: 'root', tag: 'page01-sec_root' },
-                        ]
-                    }),
-                    this.makePageStage({
-                        code: "page02", menu_label: 'P2',
-                        sections: [
-                            { code: 'root', tag: 'page02-sec_root' }
-                        ],
-                    }),
-                    this.makePageStage({
-                        code: "page03", menu_label: 'P3',
-                        sections: [
-                            { code: 'root', tag: 'page03-sec_root' }
-                        ],
-                    })
-                ]
+                pages: this.makePages()
+            },
+            beach: {
+                aws:      { list: [], ht: {} },
+                commands: { list: [], ht: {} },
+                options:  { list: [], ht: {} },
+                r:        { list: [], ht: {} }
             }
         };
 

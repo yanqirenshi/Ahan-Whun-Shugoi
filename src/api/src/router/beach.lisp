@@ -46,6 +46,9 @@
   (let ((_id (validation _id :integer :require t)))
     (render-json (get-option-at-%id _id))))
 
+(defroute "/aws" ()
+  (render-json (get-aws)))
+
 (defroute "/aws/options" ()
   (render-json (find-aws-options (get-aws))))
 
