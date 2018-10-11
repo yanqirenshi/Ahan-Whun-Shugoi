@@ -30,7 +30,19 @@
              ht: Object.assign({}, state.aws.ht, state.commands.ht),
              list: [].concat(state.aws.list).concat(state.commands.list)
          }
-         let edges = state.r;
+
+         // 表示していないノードのエッジは除外する。
+         let edges = { ht: {}, list: [] };
+         let nodes_ht = nodes.ht;
+         for (var i in state.r.list) {
+             let r = state.r.list[i];
+
+             if (!(nodes_ht[r.source] && nodes_ht[r.target]))
+                 continue;
+
+             edges.ht[r._id] = r;
+             edges.list.push(r);
+         }
 
          new D3Nodes().draw(d3svg, nodes, this.simulator, (type, data) => {
              return;

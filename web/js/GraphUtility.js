@@ -67,20 +67,20 @@ class GraphUtility {
         this.setObjectValues(from, target);
     }
     draw (graph, nodes, edges) {
-         graph.setNodes(nodes);
-         graph.setEdges(edges);
-         graph.draw();
+        graph.setNodes(nodes);
+        graph.setEdges(edges);
+        graph.draw();
     }
     drawFirst (graph, svg_d3, svg_tag, base_tag, nodes, edges) {
-         graph.setSvg(svg_d3);
-         graph.resizeSvg(svg_tag,
-                              base_tag.clientWidth,
-                              base_tag.clientHeight);
-         graph.initViewBox(svg_tag);
+        graph.setSvg(svg_d3);
+        graph.resizeSvg(svg_tag,
+                        base_tag.clientWidth,
+                        base_tag.clientHeight);
+        graph.initViewBox(svg_tag);
 
-         if ((!nodes || nodes.length==0) &&
-             !edges || edges.length==0)
-             return;
+        if ((!nodes || nodes.length==0) &&
+            !edges || edges.length==0)
+            return;
 
         this.draw(nodes, edges);
     }
@@ -121,69 +121,40 @@ class GraphUtility {
     }
     /* svg を整える */
     makeD3Svg (selector) {
-         let w = window.innerWidth;
-         let h = window.innerHeight;
+        let w = window.innerWidth;
+        let h = window.innerHeight;
 
-         let svg_tag = document.getElementById(selector);
-         svg_tag.setAttribute('height',h);
-         svg_tag.setAttribute('width',w);
+        let svg_tag = document.getElementById(selector);
+        svg_tag.setAttribute('height',h);
+        svg_tag.setAttribute('width',w);
 
-         let d3svg = new D3Svg({
-             d3: d3,
-             svg: d3.select('#' + selector),
-             x: 0,
-             y: 0,
-             w: w,
-             h: h,
-             scale: 1
-         });
+        let d3svg = new D3Svg({
+            d3: d3,
+            svg: d3.select('#' + selector),
+            x: 0,
+            y: 0,
+            w: w,
+            h: h,
+            scale: 1
+        });
 
-         return d3svg;
-     };
+        return d3svg;
+    };
     /* いまつこてない */
-     refreshSvgSize () {
-         let tag = this.refs.svg;
+    refreshSvgSize () {
+        let tag = this.refs.svg;
 
-         tag.setAttribute('width',window.innerWidth);
-         tag.setAttribute('height',window.innerHeight);
-     }
+        tag.setAttribute('width',window.innerWidth);
+        tag.setAttribute('height',window.innerHeight);
+    }
     /* レイヤー・グループ と ルーラー を描画する。 */
     drawBase (d3svg) {
-         if (!d3svg)
-             return;
+        if (!d3svg)
+            return;
 
-         new D3Base().draw(d3svg);
+        new D3Base().draw(d3svg);
 
-         new D3Ruler().draw(d3svg, new D3Ruler().makeRules(88000, 500));
-     }
-    /* GraphEdgeData */
-    makeGraphEdgeData (core) {
-        return {
-            source: core['from_id'],
-            target: core['to_id'],
-            _core: core,
-        };
-    }
-    updateGraphEdgeData (source, target) {}
-    // fetch したデータを STORE のデータにマージする。
-    // 追加する場合、グラフ用のデータに変換する。
-    mergeNodes (sources, targets) {
-        let targets_ht = targets.ht;
-
-        for (var i in sources) {
-            let source = sources[i];
-            let target = targets_ht[source._id];
-
-            if (target) {
-                this.updateGraphNodeData(source, target);
-            } else {
-                let data = this.makeGraphNodeData(source);
-                targets.ht[source._id] = data;
-                targets.list.push(data);
-            }
-        }
-
-        return targets;
+        new D3Ruler().draw(d3svg, new D3Ruler().makeRules(88000, 500));
     }
 }
 
@@ -270,5 +241,39 @@ class GraphNode {
         }
 
         return targets;
+    }
+}
+
+class GraphEdge {
+    makeGraphEdgeData (core) {
+        return {
+            source: core['from_id'],
+            target: core['to_id'],
+            _core: core,
+        };
+    }
+    updateGraphEdgeData (source, target) {}
+    mergeEdges (sources, targets) {
+        let targets_new = {
+            ht: Object.assign({}, targets.ht),
+            list: [].concat(targets.list)
+        };
+
+        let targets_ht = targets_new.ht;
+
+        for (var i in sources) {
+            let source = sources[i];
+            let target = targets_ht[source._id];
+
+            if (target) {
+                this.updateGraphEdgeData(source, target);
+            } else {
+                let data = this.makeGraphEdgeData(source);
+                targets_new.ht[source._id] = data;
+                targets_new.list.push(data);
+            }
+        }
+
+        return targets_new;
     }
 }
