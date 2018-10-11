@@ -13,12 +13,13 @@ class Actions extends Vanilla_Redux_Actions {
     }
     fetchedAws (response, from) {
         let GraphUtil = new GraphUtility();
+        let graphNode = new GraphNode();
 
         let state = STORE.get('beach');
 
-        let aws      = GraphUtil.mergeNodes([response.AWS],          state.aws);
-        let commands = GraphUtil.mergeNodes(response.COMMANDS.NODES, state.commands);
-        let options  = GraphUtil.mergeNodes(response.OPTIONS.NODES,  state.options);
+        let aws      = graphNode.mergeNodes([response.AWS],          state.aws);
+        let commands = graphNode.mergeNodes(response.COMMANDS.NODES, state.commands);
+        let options  = graphNode.mergeNodes(response.OPTIONS.NODES,  state.options);
 
         // let aws_state = { ht: {}, list: [aws]};
         // aws_state.ht[aws._id] = aws;

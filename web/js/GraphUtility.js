@@ -156,33 +156,6 @@ class GraphUtility {
 
          new D3Ruler().draw(d3svg, new D3Ruler().makeRules(88000, 500));
      }
-    /* GraphNodeData */
-    makeGraphNodeData (core) {
-        return {
-            x: 0,
-            y: 0,
-            label: {
-                text: core.code,
-                font: {
-                    size: 12
-                }
-            },
-            circle: {
-                r: 33,
-                fill: '#eeeeee',
-                stroke: {
-                    color: '#888888',
-                    width: 1
-                }
-            },
-            _id: core._id,
-            _class: core._class,
-            _core: core
-        };
-    }
-    updateGraphNodeData (source, target) {
-        // ブラウザ側で変更できないものは更新する。
-    }
     /* GraphEdgeData */
     makeGraphEdgeData (core) {
         return {
@@ -194,6 +167,92 @@ class GraphUtility {
     updateGraphEdgeData (source, target) {}
     // fetch したデータを STORE のデータにマージする。
     // 追加する場合、グラフ用のデータに変換する。
+    mergeNodes (sources, targets) {
+        let targets_ht = targets.ht;
+
+        for (var i in sources) {
+            let source = sources[i];
+            let target = targets_ht[source._id];
+
+            if (target) {
+                this.updateGraphNodeData(source, target);
+            } else {
+                let data = this.makeGraphNodeData(source);
+                targets.ht[source._id] = data;
+                targets.list.push(data);
+            }
+        }
+
+        return targets;
+    }
+}
+
+class GraphNode {
+    getLocation (core) {
+        if (core._class=='AWS')
+            return { x: 0, y:0, fx:0, fy:0 };
+
+        let location = {
+            x: 0,
+            y: 0
+        };
+
+        if (core.location.X!=0 && core.location.Y!=0) {
+            location.x = core.location.X;
+            location.y = core.location.Y;
+        }
+
+        return location;
+    }
+    getCircleR (core) {
+        if (core._class=='AWS') return 55;
+        if (core._class=='COMMAND') return 33;
+        if (core._class=='SUBCOMMAND') return 33;
+        if (core._class=='OPTION') return 33;
+
+        return 33;
+    };
+    getCircleFill (core) {
+        if (core._class=='AWS')        return '#ff9901';
+        if (core._class=='COMMAND')    return '#ffa31b';
+        if (core._class=='SUBCOMMAND') return '#ffad34';
+        if (core._class=='OPTION')     return '#ffb84e';
+
+        return '#eeeeee';
+    }
+    getCircleStroke (core) {
+        let color = 'rgba(' + core.stroke.COLOR.R + ', ' + core.stroke.COLOR.G + ', ' + core.stroke.COLOR.B + ', ' + core.stroke.COLOR.A + ')';
+        return {
+            color: color,
+            width: core.stroke.WIDTH
+        };
+    }
+    makeGraphNodeData (core) {
+        let location = this.getLocation(core);
+        return {
+            x: location.x,
+            y: location.y,
+            fx: location.fx,
+            fy: location.fy,
+            label: {
+                text: core.code,
+                font: {
+                    size: 12
+                }
+            },
+            circle: {
+                r: this.getCircleR(core),
+                fill: this.getCircleFill(core),
+                stroke: this.getCircleStroke(core)
+            },
+            _id: core._id,
+            _class: core._class,
+            _core: core
+        };
+    }
+    updateGraphNodeData (source, target) {
+        // ブラウザ側で変更できないものは更新する。
+    }
     mergeNodes (sources, targets) {
         let targets_ht = targets.ht;
 
