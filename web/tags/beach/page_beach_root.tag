@@ -1,6 +1,8 @@
 <page_beach_root>
     <svg id="beach-graph"></svg>
 
+    <page_beach_inspector></page_beach_inspector>
+
     <script>
      this.gutil = new GraphUtility();
 
