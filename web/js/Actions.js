@@ -39,4 +39,25 @@ class Actions extends Vanilla_Redux_Actions {
             }
         };
     }
+    switchDisplay (type, _id, display) {
+        let self = this;
+
+        let path = '/' + type.toLowerCase()  + 's/' + _id + '/display/' + display;
+
+        API.get(path, function (response) {
+            STORE.dispatch(self.switchedDisplay(response, type, _id, display));
+        });
+    }
+    switchedDisplay (response, type, _id, display) {
+        let data = STORE.get('beach');
+
+        if (type=='COMMAND')
+            data.commands.ht[_id]._core.display = display;
+
+        return {
+            type: 'SWITCHED-DISPLAY',
+            data: data,
+            data_type: type,
+        };
+    }
 }

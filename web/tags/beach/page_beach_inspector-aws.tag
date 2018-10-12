@@ -8,7 +8,9 @@
 
         <div class="flex-item" style="flex-grow: 1; overflow: auto;">
             <page_beach_inspector-aws-basic class="hide"></page_beach_inspector-aws-basic>
-            <page_beach_inspector-display-controller class="hide" objects={getCommands()}></page_beach_inspector-display-controller>
+            <page_beach_inspector-display-controller class="hide"
+                                                     objects={getCommands()}
+                                                     callback={callbackDisplayController}></page_beach_inspector-display-controller>
         </div>
     </div>
 
@@ -42,6 +44,10 @@
      this.clickTab = (e, action, data) => {
          if (this.page_tabs.switchTab(this.tags, data.code))
              this.update();
+     };
+
+     this.callbackDisplayController = (e, action, data) => {
+         ACTIONS.switchDisplay(data.class, data._id, !data.display);
      };
     </script>
 </page_beach_inspector-aws>
