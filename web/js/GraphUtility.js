@@ -120,7 +120,7 @@ class GraphUtility {
         return target;
     }
     /* svg を整える */
-    makeD3Svg (selector) {
+    makeD3Svg (selector, callbacks) {
         let w = window.innerWidth;
         let h = window.innerHeight;
 
@@ -135,7 +135,8 @@ class GraphUtility {
             y: 0,
             w: w,
             h: h,
-            scale: 1
+            scale: 1,
+            callbacks: callbacks,
         });
 
         return d3svg;
@@ -242,6 +243,18 @@ class GraphNode {
 
         return targets;
     }
+    filterDisplay (store, list) {
+        for (var i in list) {
+            let node = list[i];
+
+            if (!node._core.display) continue;
+
+            store.ht[node._id] = node;
+            store.list.push(node);
+        }
+
+        return store;
+    }
 }
 
 class GraphEdge {
@@ -275,5 +288,19 @@ class GraphEdge {
         }
 
         return targets_new;
+    }
+    filterDisplay (store, nodes, list) {
+         let nodes_ht = nodes.ht;
+         for (var i in list) {
+             let r = list[i];
+
+             if (!(nodes_ht[r.source] && nodes_ht[r.target]))
+                 continue;
+
+             store.ht[r._id] = r;
+             store.list.push(r);
+         }
+
+        return store;
     }
 }

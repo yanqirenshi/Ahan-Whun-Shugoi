@@ -1,7 +1,7 @@
 <page_beach_root>
     <svg id="beach-graph"></svg>
 
-    <page_beach_inspector></page_beach_inspector>
+    <page_beach_inspector object={selectedObject}></page_beach_inspector>
 
     <script>
      this.gutil = new GraphUtility();
@@ -9,8 +9,17 @@
      this.d3svg = null;
      this.simulator = new D3Simulator().make();
 
+     this.selectedObject = null;
+
+     this.clickSvg = () => {
+         this.selectedObject = null;
+         this.tags['page_beach_inspector'].update();
+     };
+
      this.on('mount', () => {
-         this.d3svg = this.gutil.makeD3Svg('beach-graph');
+         this.d3svg = this.gutil.makeD3Svg('beach-graph', {
+             clickSvg: this.clickSvg,
+         });
 
          this.gutil.drawBase(this.d3svg);
 
@@ -28,26 +37,21 @@
 
          let state = STORE.get('beach')
 
-         let nodes = {
-             ht: Object.assign({}, state.aws.ht, state.commands.ht),
-             list: [].concat(state.aws.list).concat(state.commands.list)
-         }
+         // 表示するノードのみに絞る。
+         let nodes = { ht: {}, list: [] };
+         new GraphNode().filterDisplay(nodes, state.aws.list);
+         new GraphNode().filterDisplay(nodes, state.commands.list);
 
          // 表示していないノードのエッジは除外する。
          let edges = { ht: {}, list: [] };
-         let nodes_ht = nodes.ht;
-         for (var i in state.r.list) {
-             let r = state.r.list[i];
+         new GraphEdge().filterDisplay (edges, nodes, state.r.list);
 
-             if (!(nodes_ht[r.source] && nodes_ht[r.target]))
-                 continue;
+         new D3Nodes().draw(d3svg, nodes, this.simulator, (data, e, action) => {
+             if ('click-circle'!=action) return;
 
-             edges.ht[r._id] = r;
-             edges.list.push(r);
-         }
+             this.selectedObject = data;
 
-         new D3Nodes().draw(d3svg, nodes, this.simulator, (type, data) => {
-             return;
+             this.tags['page_beach_inspector'].update();
          });
 
          new D3Edges().draw(d3svg, edges, this.simulator);

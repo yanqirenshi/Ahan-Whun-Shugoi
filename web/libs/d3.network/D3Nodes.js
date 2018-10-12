@@ -117,17 +117,21 @@ class D3Nodes {
                   .on("start", (d) => {
                       this.nodeDrag_start(d, simulator);
                       this._callback(d, d3.event, 'drag-start');
+                      d3.event.sourceEvent.stopPropagation();
                   })
                   .on("drag", (d) => {
                       this.nodeDrag_dragged(d);
                       this._callback(d, d3.event, 'drag');
+                      d3.event.sourceEvent.stopPropagation();
                   })
                   .on("end", (d) => {
                       this.nodeDrag_end(d, simulator);
                       this._callback(d, d3.event, 'drag-end');
+                      d3.event.sourceEvent.stopPropagation();
                   }))
             .on('click', (d) => {
                 this._callback(d, d3.event, 'click-circle');
+                d3.event.stopPropagation();
             });
 
 
@@ -141,6 +145,7 @@ class D3Nodes {
             .text((d) => { return d.label.text; })
             .on('click', (d) => {
                 this._callback(d3.event, 'click-circle', d);
+                d3.event.stopPropagation();
             });
 
         // g_list.append('text')

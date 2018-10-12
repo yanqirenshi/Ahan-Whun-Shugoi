@@ -14,18 +14,12 @@ class D3Ruler {
         ];
 
         for (var i=start ; i < end ; i+=pitch)
-            x_data.push({ _id: _id--,
-                          x1:i,
-                          y1:start,
-                          x2:i,
-                          y2: end});
+            if (i!=0)
+                x_data.push({ _id: _id--, x1:i, y1:start, x2:i, y2: end});
 
         for (var i=start ; i < end ; i+=pitch)
-            y_data.push({ _id: _id--,
-                          x1:start,
-                          y1:i,
-                          x2:end,
-                          y2: i});
+            if (i!=0)
+            y_data.push({ _id: _id--, x1:start, y1:i, x2:end, y2: i});
 
         return { axis: axis, roules: [].concat(x_data).concat(y_data) };
     };
@@ -58,6 +52,7 @@ class D3Ruler {
             .attr('x2', (d) => { return d.x2;})
             .attr('y2', (d) => { return d.y2;})
             .attr('stroke', '#333333')
-            .attr('stroke-width', 3);
+            .attr('stroke-width', 6)
+            .attr('stroke-dasharray', 6);
     }
 }
