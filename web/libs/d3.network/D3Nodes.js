@@ -11,7 +11,8 @@ class D3Nodes {
     nodeDrag_start(d, simulator) {
         if (!d3.event.active) simulator.alphaTarget(0.3).restart();
 
-        if (d.fx && d.fy)
+        var regex = new RegExp(/^[-+]?[0-9]+(\.[0-9]+)?$/);
+        if (regex.test(d.fx) && regex.test(d.fy))
             d._fixed = true;
 
         d.fx = d.x;
