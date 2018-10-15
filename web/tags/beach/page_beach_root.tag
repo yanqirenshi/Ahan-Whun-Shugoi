@@ -16,6 +16,16 @@
          this.tags['page_beach_inspector'].update();
      };
 
+     this.clickNode = (data, e, action) => {
+         if ('click-circle'!=action) return;
+
+         this.selectedObject = data;
+
+         ACTIONS.fetchAwsCommands(data._id);
+
+         this.tags['page_beach_inspector'].update();
+     };
+
      this.on('mount', () => {
          this.d3svg = this.gutil.makeD3Svg('beach-graph', {
              clickSvg: this.clickSvg,
@@ -46,13 +56,7 @@
          let edges = { ht: {}, list: [] };
          new GraphEdge().filterDisplay (edges, nodes, state.r.list);
 
-         new D3Nodes().draw(d3svg, nodes, this.simulator, (data, e, action) => {
-             if ('click-circle'!=action) return;
-
-             this.selectedObject = data;
-
-             this.tags['page_beach_inspector'].update();
-         });
+         new D3Nodes().draw(d3svg, nodes, this.simulator, this.clickNode);
 
          new D3Edges().draw(d3svg, edges, this.simulator);
      };

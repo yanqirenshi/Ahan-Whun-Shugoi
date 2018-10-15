@@ -29,11 +29,11 @@
 (defun find-commands ()
   (find-vertex *graph* 'command))
 
-(defun get-command (&key code (graph *graph*))
-  (when code
-    (car (find-vertex graph 'command
-                      :slot 'code
-                      :value code))))
+(defun get-command (&key %id code (graph *graph*))
+  (cond (%id (shinra:get-vertex-at graph 'command :%id %id))
+        (code (car (find-vertex graph 'command
+                                :slot 'code
+                                :value code)))))
 
 (defun find-command-subcommands (command)
   (shinra:find-r-vertex *graph*

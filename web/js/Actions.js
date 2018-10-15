@@ -39,6 +39,35 @@ class Actions extends Vanilla_Redux_Actions {
             }
         };
     }
+    fetchAwsCommands () {
+        let path = '/aws/commands';
+
+        let self = this;
+        API.get(path, function (response) {
+            STORE.dispatch(self.fetchedAwsCommands(response));
+        });
+    }
+    fetchedAwsCommands (response) {
+        let graphNode = new GraphNode();
+        let graphEdge = new GraphEdge();
+
+        let edges = response.RELATIONSHIPS;
+
+        let state = STORE.get('beach');
+
+        let commands = graphNode.mergeNodes(response.NODES,         state.commands);
+        let r        = graphEdge.mergeEdges(response.RELATIONSHIPS, r);
+
+        return {
+            type: 'FETCHED-AWS-COMMANDS',
+            data: {
+                beach: {
+                    commands: commands,
+                    r:        r,
+                }
+            }
+        };
+    }
     switchDisplay (type, _id, display) {
         let self = this;
 

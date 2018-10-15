@@ -1,9 +1,9 @@
 (in-package :ahan-whun-shugoi-api.controller)
 
-(defun get-aws ()
+(defun make-response-aws ()
   (let ((aws (car (shinra:find-vertex (graph) 'aws.beach::aws))))
     (list :aws aws
-          :commands (find-aws-commands aws)
+          :commands (mapcar #'aws.beach::command2response-display (find-commands))
           :options (find-aws-options aws))))
 
 (defun find-aws-options (aws)

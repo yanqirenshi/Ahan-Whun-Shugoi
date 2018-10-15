@@ -1,5 +1,10 @@
 (in-package :ahan-whun-shugoi-api.controller)
 
+(defun make-response-command (command)
+  (list :command command
+        :subcommands (mapcar #'aws.beach::subcommand2response-display (find-command-subcommands command))
+        :parent-relationships (shinra:find-r-edge *graph* 'aws.beach:r-aws2commands :to command)))
+
 (defun get-command (&key %id)
   (get-vertex-at-%id 'aws.beach:command %id))
 
@@ -11,22 +16,10 @@
                                :edges (getf relationships :relationships)))))
 
 (defun find-commands ()
-  (let ((nodes (shinra:find-vertex *graph* 'aws.beach:command)))
-    (list :nodes nodes
-          ;; TODO: きったねぇなぁ。
-          :relationships (list :nodes (apply #'nconc (mapcar #'(lambda (node)
-                                                                 (shinra:find-r-vertex *graph*
-                                                                                       'aws.beach:r-command2subcommands
-                                                                                       :from node))
-                                                             nodes))
-                               :edges (apply #'nconc (mapcar #'(lambda (node)
-                                                                 (shinra:find-r-edge *graph*
-                                                                                     'aws.beach:r-command2subcommands
-                                                                                     :from node))
-                                                             nodes))))))
+  (shinra:find-vertex *graph* 'aws.beach:command))
 
 (defun find-command-subcommands (command)
-  (find-to-vertexs-relationship (graph) command 'aws.beach:r-command2subcommands))
+  (shinra:find-r-vertex *graph* 'aws.beach:r-command2subcommands :from command))
 
 (defun update-command-display (_id value)
   (let* ((command (get-command :%id _id))

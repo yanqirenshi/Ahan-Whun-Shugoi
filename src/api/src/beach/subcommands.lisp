@@ -1,5 +1,10 @@
 (in-package :ahan-whun-shugoi-api.controller)
 
+(defun make-response-subcommand (subcommand)
+  (list :subcommand subcommand
+        :options (mapcar #'aws.beach::option2response-display (find-subcommand-options subcommand))
+        :parent-relationships (shinra:find-r-edge *graph* 'aws.beach:r-command2subcommands :to subcommand)))
+
 (defun get-subcommand (&key %id)
   (get-vertex-at-%id 'aws.beach::subcommand %id))
 
@@ -9,7 +14,7 @@
           :options (find-subcommand-options subcommand))))
 
 (defun find-subcommand-options (subcommand)
-  (find-to-vertexs-relationship (graph) subcommand 'aws.beach::r-subcommand2options))
+  (shinra:find-r-vertex *graph* 'aws.beach::r-subcommand2options :from subcommand))
 
 (defun find-subcommands ()
   (let ((nodes (shinra:find-vertex *graph* 'aws.beach::subcommand)))

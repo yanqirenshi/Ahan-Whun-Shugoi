@@ -19,5 +19,9 @@
            #:get-subcommand
            #:find-subcommands
            #:get-option)
-  (:export #:get-finder))
+  (:export #:get-finder)
+  (:export #:make-response-aws
+           #:make-response-command
+           #:make-response-subcommand
+           #:make-response-option))
 (in-package :ahan-whun-shugoi-api.controller)

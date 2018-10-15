@@ -29,3 +29,10 @@
     (jojo:write-key-value "display"     (let ((v (slot-value obj 'display))) (or v :false)))
     (jojo:write-key-value "stroke"      (slot-value obj 'stroke))
     (jojo:write-key-value "_class"      "SUBCOMMAND")))
+
+
+(defun subcommand2response-display (obj)
+  (list :_id     (slot-value obj 'up:%id)
+        :code    (slot-value obj 'code)
+        :uri     (slot-value obj 'uri)
+        :display (let ((v (slot-value obj 'display))) (or v :false))))

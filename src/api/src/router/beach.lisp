@@ -53,7 +53,42 @@
   (render-json (find-aws-options (get-aws))))
 
 (defroute "/aws/commands" ()
-  (render-json (find-aws-commands (get-aws))))
+  (render-json (find-aws-commands (getf (get-aws) :aws))))
+
+
+;;;;;
+;;;;; AWS
+;;;;;
+(defroute "/aws" ()
+  (render-json (make-response-aws)))
+
+
+;;;;;
+;;;;; COMMAND
+;;;;;
+(defroute "/commands/:_id" (&key _id)
+  (let ((_id (validation _id :integer :require t)))
+    (let ((command (aws.beach:get-command :%id _id)))
+      (unless command (throw-code 404))
+      (render-json (make-response-command command)))))
+
+;;;;;
+;;;;; SUBCOMMAND
+;;;;;
+(defroute "/subcommands/:_id" (&key _id)
+  (let ((_id (validation _id :integer :require t)))
+    (let ((subcommand (aws.beach:get-subcommand :%id _id)))
+      (unless subcommand (throw-code 404))
+      (render-json (make-response-subcommand subcommand)))))
+
+;;;;;
+;;;;; OPTION
+;;;;;
+(defroute "/options/:_id" (&key _id)
+  (let ((_id (validation _id :integer :require t)))
+    (let ((option (aws.beach::get-option :%id _id)))
+      (unless option (throw-code 404))
+      (render-json (make-response-option option)))))
 
 ;;;;;
 ;;;;; FINDER

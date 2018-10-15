@@ -3,11 +3,12 @@
 ;;;
 ;;; DB(shinra)
 ;;;
-(defun get-option (&key code (graph *graph*))
-  (car (find-vertex graph
-                    'option
-                    :slot 'code
-                    :value code)))
+(defun get-option (&key %id code (graph *graph*))
+  (cond (%id (shinra:get-vertex-at graph 'option :%id %id))
+        (code (car (find-vertex graph
+                                'option
+                                :slot 'code
+                                :value code)))))
 
 (defun make-option-slot-values (option-data)
   (let ((code (ensure-keyword (getf option-data :code)))
