@@ -260,8 +260,9 @@ class GraphNode {
 class GraphEdge {
     makeGraphEdgeData (core) {
         return {
-            source: core['from_id'],
-            target: core['to_id'],
+            source: core.from_id,
+            target: core.to_id,
+            _id: core._id,
             _core: core,
         };
     }
@@ -288,6 +289,28 @@ class GraphEdge {
         }
 
         return targets_new;
+    }
+    injection (edge, type, nodes_ht) {
+        let node = nodes_ht[edge[type]];
+
+        if (!node) return;
+
+        if (!node._edges)
+            node._edges = { in: {}, out: {} };
+
+        // injection edge to node
+        let key = type=='source' ? 'out' : 'in';
+        node._edges[key][edge._id] = edge;
+        // injection node to edge
+        edge['_' + type] = node;
+    }
+    injections (edges_list, nodes_ht) {
+        for (var i in edges_list) {
+            let edge = edges_list[i];
+
+            this.injection(edge, 'source', nodes_ht);
+            this.injection(edge, 'target', nodes_ht);
+        };
     }
     filterDisplay (store, nodes, list) {
          let nodes_ht = nodes.ht;

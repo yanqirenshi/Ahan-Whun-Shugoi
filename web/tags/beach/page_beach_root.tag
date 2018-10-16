@@ -21,8 +21,6 @@
 
          this.selectedObject = data;
 
-         ACTIONS.fetchAwsCommands(data._id);
-
          this.tags['page_beach_inspector'].update();
      };
 

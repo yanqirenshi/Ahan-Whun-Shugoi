@@ -8,9 +8,12 @@
 
         <div class="flex-item" style="flex-grow: 1; overflow: auto;">
             <page_beach_inspector-aws-basic class="hide"></page_beach_inspector-aws-basic>
-            <page_beach_inspector-display-controller class="hide"
-                                                     objects={getCommands()}
-                                                     callback={callbackDisplayController}></page_beach_inspector-display-controller>
+            <page_beach_inspector-aws-commands class="hide"
+                                               commands={getCommands()}
+                                               callback={callbackDisplayController}></page_beach_inspector-aws-commands>
+            <page_beach_inspector-aws-options class="hide"
+                                              options={getOptions()}
+                                              callback={callbackDisplayController}></page_beach_inspector-aws-options>
         </div>
     </div>
 
@@ -25,15 +28,33 @@
 
     <script>
      this.getCommands = () => {
-         // TODO: これは出来れば手繰りたい。
-         return STORE.get('beach.commands.list').sort((a,b) => {
-             return (a._core.code > b._core.code) ? 1 : -1;
+         let aws = this.opts.object;
+
+         if (!aws) return [];
+
+         return this.opts.object._core.commands.sort((a,b) => {
+             return a.CODE > b.CODE ? 1 : -1;
          });
+     };
+     this.getOptions = () => {
+         let aws = this.opts.object;
+
+         if (!aws) return [];
+
+         let out = [];
+         for (var k in aws._edges.out) {
+             let to = aws._edges.out[k]._target;
+             if (to._class == "OPTION")
+                 out.push(to);
+         }
+
+         return out;
      };
 
      this.page_tabs = new PageTabs([
-         {code: 'basid',   label: 'Basic',   tag: 'page_beach_inspector-aws-basic' },
-         {code: 'display', label: 'Display', tag: 'page_beach_inspector-display-controller' },
+         {code: 'basid',    label: 'Basic',    tag: 'page_beach_inspector-aws-basic' },
+         {code: 'commands', label: 'Commands', tag: 'page_beach_inspector-aws-commands' },
+         {code: 'options',  label: 'Options',  tag: 'page_beach_inspector-aws-options' },
      ]);
 
      this.on('mount', () => {

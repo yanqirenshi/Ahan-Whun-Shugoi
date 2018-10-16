@@ -30,4 +30,5 @@
   (list :_id     (slot-value obj 'up:%id)
         :code    (slot-value obj 'code)
         :uri     (slot-value obj 'uri)
-        :display (let ((v (slot-value obj 'display))) (or v :false))))
+        :display (let ((v (slot-value obj 'display))) (or v :false))
+        :_class  "COMMAND"))

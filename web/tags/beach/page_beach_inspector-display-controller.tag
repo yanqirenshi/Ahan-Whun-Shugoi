@@ -9,14 +9,14 @@
             </thead>
             <tbody>
                 <tr each={cmd in this.opts.objects}>
-                    <td style="padding: 12px;">{cmd._core.code}</td>
+                    <td style="padding: 12px;">{cmd.CODE}</td>
                     <td>
                         <a class="button is-small"
                            onclick={clickDisplayButton}
-                           object_class={cmd._core._class}
-                           object_id={cmd._id}
-                           object_display={cmd._core.display ? 1 : -1}>
-                            {cmd._core.display ? 'True' : 'False'}
+                           object_class={cmd._CLASS}
+                           object_id={cmd._ID}
+                           object_display={cmd._DISPLAY ? 1 : -1}>
+                            {cmd._DISPLAY ? 'True' : 'False'}
                         </a>
                     </td>
                 </tr>

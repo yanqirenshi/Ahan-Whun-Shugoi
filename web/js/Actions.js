@@ -18,53 +18,22 @@ class Actions extends Vanilla_Redux_Actions {
 
         let state = STORE.get('beach');
 
-        let aws      = graphNode.mergeNodes([response.AWS],          state.aws);
-        let commands = graphNode.mergeNodes(response.COMMANDS.NODES, state.commands);
-        let options  = graphNode.mergeNodes(response.OPTIONS.NODES,  state.options);
+        response.AWS.commands = response.COMMANDS;
 
-        let r = state.r;
-        r = graphEdge.mergeEdges(response.COMMANDS.RELATIONSHIPS, r);
-        r = graphEdge.mergeEdges(response.OPTIONS.RELATIONSHIPS, r);
+        state.aws     = graphNode.mergeNodes([response.AWS],                 state.aws);
+        state.options = graphNode.mergeNodes(response.OPTIONS.NODES,         state.options);
+        state.r       = graphEdge.mergeEdges(response.OPTIONS.RELATIONSHIPS, state.r);
+
+        // injection
+        let edges = state.r.list;
+        let nodes = Object.assign({}, state.aws.ht, state.options.ht);
+        graphEdge.injections(edges, nodes);
 
         return {
             from: from,
             type: 'FETCHED-AWS',
             data: {
-                beach: {
-                    aws:      aws,
-                    commands: commands,
-                    options:  options,
-                    r:        r,
-                }
-            }
-        };
-    }
-    fetchAwsCommands () {
-        let path = '/aws/commands';
-
-        let self = this;
-        API.get(path, function (response) {
-            STORE.dispatch(self.fetchedAwsCommands(response));
-        });
-    }
-    fetchedAwsCommands (response) {
-        let graphNode = new GraphNode();
-        let graphEdge = new GraphEdge();
-
-        let edges = response.RELATIONSHIPS;
-
-        let state = STORE.get('beach');
-
-        let commands = graphNode.mergeNodes(response.NODES,         state.commands);
-        let r        = graphEdge.mergeEdges(response.RELATIONSHIPS, r);
-
-        return {
-            type: 'FETCHED-AWS-COMMANDS',
-            data: {
-                beach: {
-                    commands: commands,
-                    r:        r,
-                }
+                beach: state
             }
         };
     }
