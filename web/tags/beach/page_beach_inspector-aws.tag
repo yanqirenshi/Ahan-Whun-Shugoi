@@ -32,7 +32,7 @@
 
          if (!aws) return [];
 
-         return this.opts.object._core.commands.sort((a,b) => {
+         return this.opts.object._core.children_display.sort((a,b) => {
              return a.CODE > b.CODE ? 1 : -1;
          });
      };

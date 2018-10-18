@@ -35,8 +35,31 @@
      });
 
      STORE.subscribe((action) => {
-         if (action.type=='FETCHED-AWS')
+         if (action.type=='SWITCHED-DISPLAY') {
+             this.tags['page_beach_inspector'].update();
+             return;
+         }
+
+
+         if (action.type=='FETCHED-AWS') {
+             ACTIONS.fetchCommandsAtDisplayed();
+             return;
+         }
+
+         if (action.type=='FETCHED-COMMANDS-AT-DISPLAYED') {
+             ACTIONS.fetchSubcommandsAtDisplayed();
+             return;
+         }
+
+         if (action.type=='FETCHED-SUBCOMMANDS-AT-DISPLAYED') {
              this.draw(this.d3svg);
+             return;
+         }
+
+         if (action.type=='FETCHED-OPTIONS-AT-DISPLAYED') {
+             this.draw(this.d3svg);
+             return;
+         }
      });
 
      this.draw = (d3svg) => {

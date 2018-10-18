@@ -15,8 +15,8 @@
                            onclick={clickDisplayButton}
                            object_class={cmd._CLASS}
                            object_id={cmd._ID}
-                           object_display={cmd._DISPLAY ? 1 : -1}>
-                            {cmd._DISPLAY ? 'True' : 'False'}
+                           object_display={cmd.DISPLAY ? 1 : -1}>
+                            {cmd.DISPLAY ? 'True' : 'False'}
                         </a>
                     </td>
                 </tr>

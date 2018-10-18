@@ -223,7 +223,21 @@ class GraphNode {
         };
     }
     updateGraphNodeData (source, target) {
-        // ブラウザ側で変更できないものは更新する。
+        if (source._class!=target._class) return target; //TODO: エラーにしよう。
+        if (source._id!=target._id)       return target; //TODO: エラーにしよう。
+
+        let core = target._core;
+
+        if (source._class=='AWS') {
+            let slots = ['children_display', 'code', 'description', 'display', 'synopsis'];
+            for (var i in slots) {
+                let key = slots[i];
+                core[key] = source[key];
+            }
+            return target;
+        }
+
+        return target; //TODO: エラーにしよう。
     }
     mergeNodes (sources, targets) {
         let targets_ht = targets.ht;

@@ -66,15 +66,32 @@
 ;;;;;
 ;;;;; COMMAND
 ;;;;;
+(defroute "/commands/display" ()
+  (render-json nil))
+
 (defroute "/commands/:_id" (&key _id)
   (let ((_id (validation _id :integer :require t)))
     (let ((command (aws.beach:get-command :%id _id)))
       (unless command (throw-code 404))
       (render-json (make-response-command command)))))
 
+(defroute "/commands/:_id/display/:value" (&key _id value)
+  (let* ((_id (validation _id :integer :require t))
+         (value (cond ((string= "false" value) nil)
+                      ((string= "true" value) t)
+                      (t (throw-code 401))))
+         (command (get-command :%id _id)))
+    (unless command (throw-code 404))
+    (update-node-display command value)
+    (render-json (make-response-command command))))
+
+
 ;;;;;
 ;;;;; SUBCOMMAND
 ;;;;;
+(defroute "/subcommands/display" ()
+  (render-json nil))
+
 (defroute "/subcommands/:_id" (&key _id)
   (let ((_id (validation _id :integer :require t)))
     (let ((subcommand (aws.beach:get-subcommand :%id _id)))
@@ -84,6 +101,9 @@
 ;;;;;
 ;;;;; OPTION
 ;;;;;
+(defroute "/options/display" ()
+  (render-json nil))
+
 (defroute "/options/:_id" (&key _id)
   (let ((_id (validation _id :integer :require t)))
     (let ((option (aws.beach::get-option :%id _id)))
@@ -122,15 +142,6 @@
 (defroute "/commands/:_id/subcommands" (&key _id)
   (let ((_id (validation _id :integer :require t)))
     (render-json (find-command-subcommands (get-command-at-%id _id)))))
-
-(defroute "/commands/:_id/display/:value" (&key _id value)
-  (let* ((_id (validation _id :integer :require t))
-         (value (cond ((string= "false" value) nil)
-                      ((string= "true" value) t)
-                      (t (throw-code 401))))
-         (command (get-command :%id _id)))
-    (unless command (throw-code 404))
-    (render-json (update-node-display command value))))
 
 (defroute ("/commands/:_id/location" :method :POST) (&key _id _parsed)
   (let* ((_id (validation _id :integer :require t))

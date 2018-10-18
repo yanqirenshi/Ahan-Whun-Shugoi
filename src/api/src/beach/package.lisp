@@ -1,7 +1,7 @@
 (in-package :cl-user)
 (defpackage ahan-whun-shugoi-api.controller
   (:nicknames :aws-api.controller)
-  (:use :cl)
+  (:use #:cl)
   (:import-from :aws.beach.db
                 #:*graph*)
   (:export #:get-aws

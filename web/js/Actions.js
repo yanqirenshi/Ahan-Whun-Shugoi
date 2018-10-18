@@ -1,4 +1,14 @@
 class Actions extends Vanilla_Redux_Actions {
+    constructor() {
+        super();
+        this.tools = {
+            graph: {
+                util: new GraphUtility(),
+                node: new GraphNode(),
+                edge: new GraphEdge(),
+            }
+        };
+    }
     movePage (data) {
         return {
             type: 'MOVE-PAGE',
@@ -18,9 +28,8 @@ class Actions extends Vanilla_Redux_Actions {
 
         let state = STORE.get('beach');
 
-        response.AWS.commands = response.COMMANDS;
-
-        state.aws     = graphNode.mergeNodes([response.AWS],                 state.aws);
+        let aws = response.AWS;
+        state.aws     = graphNode.mergeNodes([aws],                          state.aws);
         state.options = graphNode.mergeNodes(response.OPTIONS.NODES,         state.options);
         state.r       = graphEdge.mergeEdges(response.OPTIONS.RELATIONSHIPS, state.r);
 
@@ -37,6 +46,44 @@ class Actions extends Vanilla_Redux_Actions {
             }
         };
     }
+    fetchCommandsAtDisplayed () {
+        let self = this;
+        API.get('/commands/display', (response) => {
+            STORE.dispatch(this.fetchedCommandsAtDisplayed(response));
+        });
+    }
+    fetchedCommandsAtDisplayed (response) {
+        return {
+            type: 'FETCHED-COMMANDS-AT-DISPLAYED',
+            data: {}
+        };
+    }
+    fetchSubcommandsAtDisplayed (from) {
+        let self = this;
+        API.get('/subcommands/display', (response) => {
+            STORE.dispatch(this.fetchedSubcommandsAtDisplayed(response, from));
+        });
+    }
+    fetchedSubcommandsAtDisplayed (response, from) {
+        return {
+            from: from,
+            type: 'FETCHED-SUBCOMMANDS-AT-DISPLAYED',
+            data: {}
+        };
+    }
+    fetchOptionsAtDisplayed (from) {
+        let self = this;
+        API.get('/options/display', (response) => {
+            STORE.dispatch(this.fetchedOptionsAtDisplayed(response, from));
+        });
+    }
+    fetchedOptionsAtDisplayed (response, from) {
+        return {
+            from: from,
+            type: 'FETCHED-OPTIONS-AT-DISPLAYED',
+            data: {}
+        };
+    }
     switchDisplay (type, _id, display) {
         let self = this;
 
@@ -47,14 +94,19 @@ class Actions extends Vanilla_Redux_Actions {
         });
     }
     switchedDisplay (response, type, _id, display) {
-        let data = STORE.get('beach');
+        let command = [response.COMMAND];
+        let parent = [response.PARENT.NODE];
+        let parent_r = [response.PARENT.EDGE];
 
-        if (type=='COMMAND')
-            data.commands.ht[_id]._core.display = display;
+        let state = STORE.get('beach');
+        let tools = this.tools.graph;
+        state.commands = tools.node.mergeNodes(command,  state.commands);
+        state.aws      = tools.node.mergeNodes(parent,   state.aws);
+        state.r        = tools.edge.mergeEdges(parent_r, state.r);
 
         return {
             type: 'SWITCHED-DISPLAY',
-            data: data,
+            data: { beach: state },
             data_type: type,
         };
     }
