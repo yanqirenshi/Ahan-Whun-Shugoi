@@ -37,6 +37,7 @@
      STORE.subscribe((action) => {
          if (action.type=='SWITCHED-DISPLAY') {
              this.tags['page_beach_inspector'].update();
+             this.draw(this.d3svg);
              return;
          }
 
@@ -75,10 +76,9 @@
 
          // 表示していないノードのエッジは除外する。
          let edges = { ht: {}, list: [] };
-         new GraphEdge().filterDisplay (edges, nodes, state.r.list);
+         new GraphEdge().filterDisplay(edges, nodes, state.r.list);
 
          new D3Nodes().draw(d3svg, nodes, this.simulator, this.clickNode);
-
          new D3Edges().draw(d3svg, edges, this.simulator);
      };
     </script>

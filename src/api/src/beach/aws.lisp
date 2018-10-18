@@ -32,9 +32,11 @@
     (jojo:write-key-value "children_display" (slot-value obj 'children-display))
     (jojo:write-key-value "_class"           "AWS")))
 
+(defun get-aws ()
+  (car (shinra:find-vertex (graph) 'aws.beach::aws)))
 
 (defun make-response-aws ()
-  (let ((aws (car (shinra:find-vertex (graph) 'aws.beach::aws))))
+  (let ((aws (get-aws)))
     (list :aws (aws2aws aws)
           :options (find-aws-options aws))))
 

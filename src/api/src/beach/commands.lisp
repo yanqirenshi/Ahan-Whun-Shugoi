@@ -51,6 +51,23 @@
 (defun find-commands ()
   (shinra:find-vertex *graph* 'aws.beach:command))
 
+(defun %find-commands-at-displayed (r-list &optional nodes edges)
+  (let ((r (car r-list)))
+    (if (null r)
+        (list :nodes nodes :edges edges)
+        (let ((node (getf r :vertex))
+              (edge (getf r :edge)))
+          (if (not (aws.beach::display node))
+              (%find-commands-at-displayed (cdr r-list) nodes edges)
+              (%find-commands-at-displayed (cdr r-list)
+                                           (push (command2command node) nodes)
+                                           (push edge edges)))))))
+
+(defun find-commands-at-displayed ()
+  (%find-commands-at-displayed (shinra:find-r *graph* 'aws.beach:r-aws2commands
+                                              :from (get-aws)
+                                              :vertex-class 'aws.beach:command)))
+
 (defun find-command-subcommands (command)
   (shinra:find-r-vertex *graph* 'aws.beach:r-command2subcommands :from command))
 

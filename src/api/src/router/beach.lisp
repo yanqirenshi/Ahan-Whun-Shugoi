@@ -67,7 +67,7 @@
 ;;;;; COMMAND
 ;;;;;
 (defroute "/commands/display" ()
-  (render-json nil))
+  (render-json (find-commands-at-displayed)))
 
 (defroute "/commands/:_id" (&key _id)
   (let ((_id (validation _id :integer :require t)))

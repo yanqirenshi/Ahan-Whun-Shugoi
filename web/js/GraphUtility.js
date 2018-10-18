@@ -326,12 +326,20 @@ class GraphEdge {
             this.injection(edge, 'target', nodes_ht);
         };
     }
+    getID (obj) {
+        if (typeof obj == "object")
+            return obj._id;
+        return obj;
+    }
     filterDisplay (store, nodes, list) {
          let nodes_ht = nodes.ht;
          for (var i in list) {
              let r = list[i];
 
-             if (!(nodes_ht[r.source] && nodes_ht[r.target]))
+             let source_id = this.getID(r.source);
+             let target_id = this.getID(r.target);
+
+             if (!(nodes_ht[source_id] && nodes_ht[target_id]))
                  continue;
 
              store.ht[r._id] = r;

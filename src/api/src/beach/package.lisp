@@ -2,6 +2,8 @@
 (defpackage ahan-whun-shugoi-api.controller
   (:nicknames :aws-api.controller)
   (:use #:cl)
+  (:import-from :alexandria
+                #:when-let)
   (:import-from :aws.beach.db
                 #:*graph*)
   (:export #:get-aws
@@ -16,6 +18,7 @@
            #:update-node-display
            #:update-node-location
            #:find-commands
+           #:find-commands-at-displayed
            #:get-subcommand
            #:find-subcommands
            #:get-option)

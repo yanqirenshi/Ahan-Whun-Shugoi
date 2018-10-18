@@ -53,9 +53,17 @@ class Actions extends Vanilla_Redux_Actions {
         });
     }
     fetchedCommandsAtDisplayed (response) {
+        let commands = response.NODES;
+        let parent_r = response.EDGES;
+
+        let state = STORE.get('beach');
+        let tools = this.tools.graph;
+        state.commands = tools.node.mergeNodes(commands, state.commands);
+        state.r        = tools.edge.mergeEdges(parent_r, state.r);
+
         return {
             type: 'FETCHED-COMMANDS-AT-DISPLAYED',
-            data: {}
+            data: { beach: state },
         };
     }
     fetchSubcommandsAtDisplayed (from) {
