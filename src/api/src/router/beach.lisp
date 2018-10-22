@@ -90,7 +90,7 @@
 ;;;;; SUBCOMMAND
 ;;;;;
 (defroute "/subcommands/display" ()
-  (render-json nil))
+  (render-json (find-subcommands-at-displayed)))
 
 (defroute "/subcommands/:_id" (&key _id)
   (let ((_id (validation _id :integer :require t)))

@@ -21,6 +21,7 @@
            #:find-commands-at-displayed
            #:get-subcommand
            #:find-subcommands
+           #:find-subcommands-at-displayed
            #:get-option)
   (:export #:get-finder)
   (:export #:make-response-aws

@@ -73,6 +73,7 @@
          let nodes = { ht: {}, list: [] };
          new GraphNode().filterDisplay(nodes, state.aws.list);
          new GraphNode().filterDisplay(nodes, state.commands.list);
+         new GraphNode().filterDisplay(nodes, state.subcommands.list);
 
          // 表示していないノードのエッジは除外する。
          let edges = { ht: {}, list: [] };

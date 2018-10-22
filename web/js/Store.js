@@ -56,10 +56,11 @@ class Store extends Vanilla_Redux_Store {
                 pages: this.makePages()
             },
             beach: {
-                aws:      { list: [], ht: {} },
-                commands: { list: [], ht: {} },
-                options:  { list: [], ht: {} },
-                r:        { list: [], ht: {} }
+                aws:         { list: [], ht: {} },
+                commands:    { list: [], ht: {} },
+                subcommands: { list: [], ht: {} },
+                options:     { list: [], ht: {} },
+                r:           { list: [], ht: {} }
             }
         };
 

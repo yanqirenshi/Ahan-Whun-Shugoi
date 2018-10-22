@@ -39,7 +39,7 @@
      this.getOptions = () => {
          let aws = this.opts.object;
 
-         if (!aws) return [];
+         if (!(aws && aws._class=="AWS")) return [];
 
          let out = [];
          for (var k in aws._edges.out) {
@@ -51,6 +51,12 @@
          return out;
      };
 
+     this.callbackDisplayController = (e, action, data) => {
+         ACTIONS.switchDisplay(data.class, data._id, !data.display);
+     };
+    </script>
+
+    <script>
      this.page_tabs = new PageTabs([
          {code: 'basid',    label: 'Basic',    tag: 'page_beach_inspector-aws-basic' },
          {code: 'commands', label: 'Commands', tag: 'page_beach_inspector-aws-commands' },
@@ -65,10 +71,6 @@
      this.clickTab = (e, action, data) => {
          if (this.page_tabs.switchTab(this.tags, data.code))
              this.update();
-     };
-
-     this.callbackDisplayController = (e, action, data) => {
-         ACTIONS.switchDisplay(data.class, data._id, !data.display);
      };
     </script>
 </page_beach_inspector-aws>
