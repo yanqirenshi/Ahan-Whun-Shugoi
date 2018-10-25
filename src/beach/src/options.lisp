@@ -3,6 +3,9 @@
 ;;;
 ;;; DB(shinra)
 ;;;
+(defun find-option (&key (graph *graph*))
+  (shinra:find-vertex graph 'option))
+
 (defun get-option (&key %id code (graph *graph*))
   (cond (%id (shinra:get-vertex-at graph 'option :%id %id))
         (code (car (find-vertex graph

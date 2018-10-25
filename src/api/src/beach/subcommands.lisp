@@ -13,8 +13,8 @@
     (setf (slot-value subcommand_out 'aws.beach::location)     (slot-value subcommand_in 'aws.beach::location))
     (setf (slot-value subcommand_out 'aws.beach::display)      (slot-value subcommand_in 'aws.beach::display))
     (setf (slot-value subcommand_out 'aws.beach::stroke)       (slot-value subcommand_in 'aws.beach::stroke))
-    ;; (setf (slot-value subcommand_out 'children-display)        (mapcar #'aws.beach::subcommand2response-display
-    ;;                                                                 (find-command-subcommands subcommand_in)))
+    (setf (slot-value subcommand_out 'children-display)        (mapcar #'aws.beach::option2response-display
+                                                                    (find-subcommand-options subcommand_in)))
     subcommand_out))
 
 

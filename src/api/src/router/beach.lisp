@@ -102,7 +102,7 @@
 ;;;;; OPTION
 ;;;;;
 (defroute "/options/display" ()
-  (render-json nil))
+  (render-json (find-options-at-displayed)))
 
 (defroute "/options/:_id" (&key _id)
   (let ((_id (validation _id :integer :require t)))

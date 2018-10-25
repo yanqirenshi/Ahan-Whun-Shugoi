@@ -17,6 +17,7 @@
                 class="hide"
                 subcommands={getSubcommands()}
                 callback={callbackDisplayController}></page_beach_inspector-command-subcommands>
+            <page_beach_inspector-command-manual class="hide"></page_beach_inspector-command-manual>
         </div>
     </div>
 
@@ -52,6 +53,7 @@
      this.page_tabs = new PageTabs([
          {code: 'basid',       label: 'Basic',       tag: 'page_beach_inspector-command-basic' },
          {code: 'subcommands', label: 'Subcommands', tag: 'page_beach_inspector-command-subcommands' },
+         {code: 'manual',      label: 'Manual', tag: 'page_beach_inspector-command-manual' },
      ]);
 
      this.on('mount', () => {

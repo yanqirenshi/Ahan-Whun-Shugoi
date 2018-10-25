@@ -88,6 +88,12 @@ class D3Svg {
 
         this._svg.attr('viewBox', viewbox);
     }
+    lookAt (x, y) {
+        this._x = x - (this._w/2);
+        this._y = y - (this._h/2);
+
+        this.refreshViewBox();
+    }
     /** **************************************************************** *
      * Accessor
      * **************************************************************** */

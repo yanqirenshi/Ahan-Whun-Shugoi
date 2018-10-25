@@ -29,6 +29,8 @@
              clickSvg: this.clickSvg,
          });
 
+         this.d3svg.lookAt(100, 100);
+
          this.gutil.drawBase(this.d3svg);
 
          ACTIONS.fetchAws();
@@ -53,7 +55,7 @@
          }
 
          if (action.type=='FETCHED-SUBCOMMANDS-AT-DISPLAYED') {
-             this.draw(this.d3svg);
+             ACTIONS.fetchOptionsAtDisplayed();
              return;
          }
 
@@ -74,6 +76,7 @@
          new GraphNode().filterDisplay(nodes, state.aws.list);
          new GraphNode().filterDisplay(nodes, state.commands.list);
          new GraphNode().filterDisplay(nodes, state.subcommands.list);
+         new GraphNode().filterDisplay(nodes, state.options.list);
 
          // 表示していないノードのエッジは除外する。
          let edges = { ht: {}, list: [] };

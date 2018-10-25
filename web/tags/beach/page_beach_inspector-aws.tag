@@ -14,6 +14,7 @@
             <page_beach_inspector-aws-options class="hide"
                                               options={getOptions()}
                                               callback={callbackDisplayController}></page_beach_inspector-aws-options>
+            <page_beach_inspector-aws-manual class="hide"></page_beach_inspector-aws-manual>
         </div>
     </div>
 
@@ -61,6 +62,7 @@
          {code: 'basid',    label: 'Basic',    tag: 'page_beach_inspector-aws-basic' },
          {code: 'commands', label: 'Commands', tag: 'page_beach_inspector-aws-commands' },
          {code: 'options',  label: 'Options',  tag: 'page_beach_inspector-aws-options' },
+         {code: 'manual',   label: 'Manual',   tag: 'page_beach_inspector-aws-manual' },
      ]);
 
      this.on('mount', () => {

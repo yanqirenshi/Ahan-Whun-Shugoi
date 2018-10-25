@@ -186,9 +186,9 @@ class GraphNode {
     };
     getCircleFill (core) {
         if (core._class=='AWS')        return '#ff9901';
-        if (core._class=='COMMAND')    return '#ffa31b';
+        if (core._class=='COMMAND')    return '#FFF5E6';
         if (core._class=='SUBCOMMAND') return '#ffad34';
-        if (core._class=='OPTION')     return '#ffb84e';
+        if (core._class=='OPTION')     return '#ffcc80';
 
         return '#eeeeee';
     }
