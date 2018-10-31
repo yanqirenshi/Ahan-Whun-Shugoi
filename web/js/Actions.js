@@ -189,6 +189,10 @@ class Actions extends Vanilla_Redux_Actions {
             return target._id == node._id;
         });
 
+        let tools = this.tools.graph;
+        let parent_key = this.class2key(parent_node._class);
+        state[parent_key] = tools.node.mergeNodes([parent_node], state[parent_key]);
+
         return state;
     }
     switchedDisplay (response, type, _id, display) {

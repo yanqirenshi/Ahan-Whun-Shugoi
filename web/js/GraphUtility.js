@@ -227,17 +227,21 @@ class GraphNode {
         if (source._id!=target._id)       return target; //TODO: エラーにしよう。
 
         let core = target._core;
+        let slots_ht = {
+            'AWS': ['children_display', 'code', 'description', 'synopsis'],
+            'COMMAND': ['children_display', 'display'],
+            'SUBCOMMAND': ['children_display', 'display'],
+            'OPTION': ['children_display', 'display'],
+        };
 
-        if (source._class=='AWS') {
-            let slots = ['children_display', 'code', 'description', 'display', 'synopsis'];
-            for (var i in slots) {
-                let key = slots[i];
-                core[key] = source[key];
-            }
-            return target;
+        let slots = slots_ht[source._class];
+
+        for (var i in slots) {
+            let key = slots[i];
+            core[key] = source[key];
         }
 
-        return target; //TODO: エラーにしよう。
+        return target;
     }
     mergeNodes (sources, targets) {
         let targets_ht = targets.ht;

@@ -87,18 +87,24 @@
         ((eq to-class 'aws.beach::option) 'aws.beach:r-subcommand2options)
         (t (error "むーん"))))
 
+(defun update-node-display-parent (graph node class)
+  (let* ((edge-class (to-parent-edge-class class))
+         (r (car (shinra:find-r graph edge-class :to node)))
+         (parent (getf r :vertex))
+         (parent-class (class-name (class-of parent))))
+    (list :node (cond ((eq parent-class 'aws.beach::aws)         (aws2aws parent))
+                      ((eq parent-class 'aws.beach:command)     (command2command parent))
+                      ((eq parent-class 'aws.beach::subcommand) (subcommand2subcommand parent)))
+          :edge (getf r :edge))))
+
 (defun update-node-display (node value)
-  (let* ((class (class-name (class-of node)))
-         (edge-class (to-parent-edge-class class))
-         (relashonship (shinra:find-r *graph* edge-class :to node)))
+  (let ((graph *graph*)
+        (class (class-name (class-of node))))
     (up:execute-transaction
-     (up:tx-change-object-slots *graph* class (up:%id node)
+     (up:tx-change-object-slots graph class (up:%id node)
                                 `((aws.beach:display ,value))))
     (list :node node
-          :parent (first (mapcar #'(lambda (r)
-                                     (list :node (getf r :vertex)
-                                           :edge (getf r :edge)))
-                                 relashonship)))))
+          :parent (update-node-display-parent graph node class))))
 
 (defun update-subcommand-display (command value)
   (unless command (caveman2:throw-code 404))
