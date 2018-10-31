@@ -95,10 +95,10 @@
      (up:tx-change-object-slots *graph* class (up:%id node)
                                 `((aws.beach:display ,value))))
     (list :node node
-          :relashonships (mapcar #'(lambda (r)
+          :parent (first (mapcar #'(lambda (r)
                                      (list :node (getf r :vertex)
                                            :edge (getf r :edge)))
-                                 relashonship))))
+                                 relashonship)))))
 
 (defun update-subcommand-display (command value)
   (unless command (caveman2:throw-code 404))

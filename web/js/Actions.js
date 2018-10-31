@@ -108,7 +108,24 @@ class Actions extends Vanilla_Redux_Actions {
             data: { beach: state }
         };
     }
+    can_remove_p (node_id) {
+        let state = STORE.get('beach');
+        let r_list = state.r.list;
+
+        for (var i in r_list) {
+            let r = r_list[i];
+            let source = r._source ? r._source : r.source;
+            let target = r._target ? r._target : r.target;
+
+            if (node_id==source._id && target._core.display)
+                return false;
+        }
+        return true;
+    }
     switchDisplay (type, _id, display) {
+        if (!this.can_remove_p(_id))
+            return alert('子供で表示しているやつがあるので非表示に出来ません。');
+
         let self = this;
 
         let path = '/' + type.toLowerCase()  + 's/' + _id + '/display/' + display;
@@ -117,16 +134,74 @@ class Actions extends Vanilla_Redux_Actions {
             STORE.dispatch(self.switchedDisplay(response, type, _id, display));
         });
     }
-    switchedDisplay (response, type, _id, display) {
-        let command = [response.COMMAND];
-        let parent = [response.PARENT.NODE];
-        let parent_r = [response.PARENT.EDGE];
+    class2key (cls) {
+        let keys = {
+            'AWS': 'aws',
+            'COMMAND': 'commands',
+            'SUBCOMMAND': 'subcommands',
+            'OPTION': 'options',
+        };
 
+        return keys[cls];
+    }
+    showNode (node, parent_node, parent_edge, response) {
         let state = STORE.get('beach');
         let tools = this.tools.graph;
-        state.commands = tools.node.mergeNodes(command,  state.commands);
-        state.aws      = tools.node.mergeNodes(parent,   state.aws);
-        state.r        = tools.edge.mergeEdges(parent_r, state.r);
+
+        let node_key = this.class2key(node._class);
+        state[node_key] = tools.node.mergeNodes([node],  state[node_key]);
+
+        let parent_key = this.class2key(parent_node._class);
+        state[parent_key] = tools.node.mergeNodes([parent_node], state[parent_key]);
+
+        state.r = tools.edge.mergeEdges(parent_edge, state.r);
+
+        return state;
+    }
+    removeData(state, delete_p) {
+        let data = state;
+        let data_ht_new = Object.assign({}, data.ht);
+        let data_list_new = [];
+
+        for (var i in data.list) {
+            let node = data.list[i];
+
+            if(delete_p(node))
+                delete data_ht_new[node._id];
+            else
+                data_list_new.push(node);
+        }
+
+        return { ht:data_ht_new, list: data_list_new };
+    }
+    hideNode (node, parent_node, parent_edge, response) {
+        let state = STORE.get('beach');
+
+        // remove Relationship
+        state.r = this.removeData(state['r'], (r) => {
+            let target = r._target ? r._target : r.target;
+            return target._id==node._id;
+        });
+
+        // remove Node
+        let node_key = this.class2key(node._class);
+        state[node_key] = this.removeData(state[node_key], (target) => {
+            return target._id == node._id;
+        });
+
+        return state;
+    }
+    switchedDisplay (response, type, _id, display) {
+        let node = response.NODE;
+        let parent_node = response.PARENT.NODE;
+        let parent_edge = [response.PARENT.EDGE];
+
+        let state;
+
+        if (node.display)
+            state = this.showNode(node, parent_node, parent_edge, response);
+        else
+            state = this.hideNode(node, parent_node, parent_edge, response);
 
         return {
             type: 'SWITCHED-DISPLAY',

@@ -34,7 +34,7 @@
 
 (defun make-response-command (command)
   (let ((parent-relationship (car (shinra:find-r *graph* 'aws.beach:r-aws2commands :to command))))
-    (list :command (command2command command)
+    (list :node (command2command command)
           :parent (list :node (aws2aws (getf parent-relationship :vertex))
                         :edge (getf parent-relationship :edge)))))
 

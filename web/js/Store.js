@@ -29,9 +29,9 @@ class Store extends Vanilla_Redux_Store {
                 ]
             }),
             this.makePageStage({
-                code: "page01", menu_label: 'P1',
+                code: "help", menu_label: 'Help',
                 sections: [
-                    { code: 'root', tag: 'page01-sec_root' },
+                    { code: 'root', tag: 'help_page_root' },
                 ]
             }),
             this.makePageStage({
