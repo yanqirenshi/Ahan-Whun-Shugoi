@@ -14,7 +14,8 @@
             <page_beach_inspector-aws-options class="hide"
                                               options={getOptions()}
                                               callback={callbackDisplayController}></page_beach_inspector-aws-options>
-            <page_beach_inspector-aws-manual class="hide"></page_beach_inspector-aws-manual>
+            <page_beach_inspector-aws-manual class="hide"
+                                             source={this.opts.object}></page_beach_inspector-aws-manual>
         </div>
     </div>
 

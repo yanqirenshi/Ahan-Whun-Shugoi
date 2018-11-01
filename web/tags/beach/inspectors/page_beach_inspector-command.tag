@@ -17,7 +17,9 @@
                 class="hide"
                 subcommands={getSubcommands()}
                 callback={callbackDisplayController}></page_beach_inspector-command-subcommands>
-            <page_beach_inspector-command-manual class="hide"></page_beach_inspector-command-manual>
+
+            <page_beach_inspector-command-manual class="hide"
+                                                 source={this.opts.object}></page_beach_inspector-command-manual>
         </div>
     </div>
 

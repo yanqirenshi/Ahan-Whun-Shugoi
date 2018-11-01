@@ -1,10 +1,10 @@
 <page_beach_inspector class={opts.object ? '' : 'hide'}>
 
     <div class="inspector">
-        <page_beach_inspector-aws        class="{hide('AWS')}"        object={opts.object}></page_beach_inspector-aws>
-        <page_beach_inspector-command    class="{hide('COMMAND')}"    object={opts.object}></page_beach_inspector-command>
-        <page_beach_inspector-option     class="{hide('OPTION')}"     object={opts.object}></page_beach_inspector-option>
-        <page_beach_inspector-subcommand class="{hide('SUBCOMMAND')}" object={opts.object}></page_beach_inspector-subcommand>
+        <page_beach_inspector-aws        class="{hide('AWS')}"        object={getSource('AWS')}></page_beach_inspector-aws>
+        <page_beach_inspector-command    class="{hide('COMMAND')}"    object={getSource('COMMAND')}></page_beach_inspector-command>
+        <page_beach_inspector-option     class="{hide('OPTION')}"     object={getSource('OPTION')}></page_beach_inspector-option>
+        <page_beach_inspector-subcommand class="{hide('SUBCOMMAND')}" object={getSource('SUBCOMMAND')}></page_beach_inspector-subcommand>
     </div>
 
     <style>
@@ -22,6 +22,12 @@
     </style>
 
     <script>
+     this.getSource = (code) => {
+         if (!this.opts.object || this.opts.object._class != code)
+             return null;
+
+         return this.opts.object;
+     };
      this.hide = (code) => {
          if (!this.opts.object || this.opts.object._class != code)
              return 'hide'
