@@ -116,15 +116,15 @@ class D3Svg {
      * **************************************************************** */
     setSvgGrabMoveStart (event) {
         this._drag = {
-            x: event.x,
-            y: event.y
+            x: event.x * this._scale,
+            y: event.y * this._scale
         };
     }
     setSvgGrabMoveDrag (event) {
         var startX = this._drag.x,
             startY = this._drag.y;
-        var x = event.x,
-            y = event.y;
+        var x = event.x * this._scale,
+            y = event.y * this._scale;
 
         this._x -= (x - startX);
         this._y -= (y - startY);

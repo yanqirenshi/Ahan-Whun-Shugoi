@@ -10,7 +10,9 @@
         <page-tabs core={page_tabs} callback={clickTab} style="margin-bottom:22px;"></page-tabs>
 
         <div class="flex-item" style="flex-grow: 1; overflow: auto;">
-            <page_beach_inspector-option-basic class="hide"></page_beach_inspector-option-basic>
+            <page_beach_inspector-option-basic class="hide"
+                                               source={opts.object}></page_beach_inspector-option-basic>
+
             <page_beach_inspector-option-manual class="hide"
                                                 source={opts.object}></page_beach_inspector-option-manual>
         </div>

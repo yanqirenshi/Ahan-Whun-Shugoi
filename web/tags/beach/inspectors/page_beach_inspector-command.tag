@@ -11,15 +11,17 @@
 
         <div class="flex-item" style="flex-grow: 1; overflow: auto;">
             <page_beach_inspector-command-basic
-                class="hide"></page_beach_inspector-command-basic>
+                class="hide"
+                source={this.opts.object}></page_beach_inspector-command-basic>
 
             <page_beach_inspector-command-subcommands
                 class="hide"
                 subcommands={getSubcommands()}
                 callback={callbackDisplayController}></page_beach_inspector-command-subcommands>
 
-            <page_beach_inspector-command-manual class="hide"
-                                                 source={this.opts.object}></page_beach_inspector-command-manual>
+            <page_beach_inspector-command-manual
+                class="hide"
+                source={opts.object}></page_beach_inspector-command-manual>
         </div>
     </div>
 

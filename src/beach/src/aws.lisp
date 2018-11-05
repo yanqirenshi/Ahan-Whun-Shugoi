@@ -30,7 +30,8 @@
                   `((code :aws)
                     (services    ,(parse-aws-services html))
                     (description ,(pt2html (find-description-tag html)))
-                    (synopsis    ,(pt2html (find-synopsis-tag html))))))
+                    (synopsis    ,(pt2html (find-synopsis-tag html)))
+                    (uri         "https://docs.aws.amazon.com/cli/latest/reference/"))))
 
 (defun tx-make-r-aws-option (graph aws option)
   (tx-make-edge graph 'r-aws2options aws option :r))

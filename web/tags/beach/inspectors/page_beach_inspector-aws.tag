@@ -7,15 +7,19 @@
         <page-tabs core={page_tabs} callback={clickTab} style="margin-bottom:22px;"></page-tabs>
 
         <div class="flex-item" style="flex-grow: 1; overflow: auto;">
-            <page_beach_inspector-aws-basic class="hide"></page_beach_inspector-aws-basic>
+            <page_beach_inspector-aws-basic class="hide"
+                                            source={opts.object}></page_beach_inspector-aws-basic>
+
             <page_beach_inspector-aws-commands class="hide"
                                                commands={getCommands()}
                                                callback={callbackDisplayController}></page_beach_inspector-aws-commands>
+
             <page_beach_inspector-aws-options class="hide"
                                               options={getOptions()}
                                               callback={callbackDisplayController}></page_beach_inspector-aws-options>
+
             <page_beach_inspector-aws-manual class="hide"
-                                             source={this.opts.object}></page_beach_inspector-aws-manual>
+                                             source={opts.object}></page_beach_inspector-aws-manual>
         </div>
     </div>
 

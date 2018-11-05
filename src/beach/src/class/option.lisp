@@ -24,7 +24,7 @@
     (jojo:write-key-value "description" "") ;; web/ での表示用
     (jojo:write-key-value "value-types" (slot-value obj 'value-types))
     (jojo:write-key-value "values-org"  (slot-value obj 'values-org))
-    (jojo:write-key-value "required"    (slot-value obj 'required))
+    (jojo:write-key-value "required"    (or (slot-value obj 'required) :null))
     (jojo:write-key-value "location"    (slot-value obj 'location))
     (jojo:write-key-value "display"     (let ((v (slot-value obj 'display))) (or v :false)))
     (jojo:write-key-value "stroke"      (slot-value obj 'stroke))

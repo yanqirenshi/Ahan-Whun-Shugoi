@@ -21,6 +21,20 @@
      }
     </style>
 
+    <style>
+     page_beach_inspector .section {
+         padding-bottom: 0px;
+         padding-top: 22px;
+     }
+     page_beach_inspector .section > .container > h1 {
+         margin-bottom: 8px;
+     }
+     page_beach_inspector .section > .container > .contents {
+         padding-left: 11px;
+     }
+    </style>
+
+
     <script>
      this.getSource = (code) => {
          if (!this.opts.object || this.opts.object._class != code)
