@@ -29,7 +29,7 @@
     (jojo:write-key-value "location"         (slot-value obj 'aws.beach::location))
     (jojo:write-key-value "display"          (let ((v (slot-value obj 'aws.beach::display))) (or v :false)))
     (jojo:write-key-value "stroke"           (slot-value obj 'aws.beach::stroke))
-    (jojo:write-key-value "uri"              (slot-value obj 'aws.beach::uri)))
+    (jojo:write-key-value "uri"              (or (slot-value obj 'aws.beach::uri) :null))
     (jojo:write-key-value "children_display" (slot-value obj 'children-display))
     (jojo:write-key-value "_class"           "AWS")))
 
