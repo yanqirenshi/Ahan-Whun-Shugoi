@@ -1,19 +1,13 @@
-<web_page_root>
-    <section-header title="Web"></section-header>
-
-    <page-tabs tabs={tabs}
-               active_tag={active_tag}
-               click-tab={clickTab}></page-tabs>
-
-    <div>
-        <web_page_sitemap class="hide"></web_page_sitemap>
-    </div>
+<page-aws>
+    <section-header title="Aws"></section-header>
 
     <section class="section">
         <div class="container">
             <h1 class="title">Description</h1>
             <h2 class="subtitle"></h2>
+
             <div class="contents">
+                <p>これ何やったっけ。。。。</p>
             </div>
         </div>
     </section>
@@ -35,4 +29,4 @@
     </section>
 
     <section-footer></section-footer>
-</web_page_root>
+</page-aws>

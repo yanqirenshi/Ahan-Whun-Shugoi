@@ -1,4 +1,5 @@
-<home_page_readme>
+<page-home_readme>
+
     <section class="section" style="padding-top: 0px; padding-bottom: 0px;">
         <div class="container">
             <h1 class="title">Description</h1>
@@ -10,7 +11,6 @@
     </section>
 
     <home_functions></home_functions>
-    <home_usage></home_usage>
     <home_installation></home_installation>
 
     <section class="section">
@@ -41,4 +41,5 @@
     </section>
 
     <section-footer></section-footer>
-</home_page_readme>
+
+</page-home_readme>

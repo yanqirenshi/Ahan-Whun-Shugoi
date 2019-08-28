@@ -1,6 +1,7 @@
-<web_page_tab_readme>
+<page-web_tab_readme>
+
     <div>
-        <web_page_sitemap class="hide"></web_page_sitemap>
+        <page-web_sitemap class="hide"></page-web_sitemap>
     </div>
 
     <section class="section">
@@ -37,4 +38,5 @@
             </section>
         </div>
     </section>
-</web_page_tab_readme>
+
+</page-web_tab_readme>

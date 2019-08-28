@@ -1,4 +1,5 @@
-<home_page_packages>
+<page-home_packages>
+
     <section class="section" style="padding-top: 0px; padding-bottom: 0px;">
         <div class="container">
             <div class="contents">
@@ -7,10 +8,10 @@
         </div>
     </section>
 
-    <home_page_packages_important packages={packages}></home_page_packages_important>
-    <home_page_packages_cli packages={packages}></home_page_packages_cli>
-    <home_page_packages_beach packages={packages}></home_page_packages_beach>
-    <home_page_packages_api packages={packages}></home_page_packages_api>
+    <page-home_packages_important packages={packages}></page-home_packages_important>
+    <page-home_packages_cli packages={packages}></page-home_packages_cli>
+    <page-home_packages_beach packages={packages}></page-home_packages_beach>
+    <page-home_packages_api packages={packages}></page-home_packages_api>
 
     <script>
      this.packages = {
@@ -48,4 +49,5 @@
          ],
      }
     </script>
-</home_page_packages>
+
+</page-home_packages>

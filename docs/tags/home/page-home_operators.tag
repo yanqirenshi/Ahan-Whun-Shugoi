@@ -1,4 +1,5 @@
-<home_page_others>
+<page-home_operators>
+
     <section class="section" style="padding-top: 0px; padding-bottom: 0px;">
         <div class="container">
             <div class="contents">
@@ -6,4 +7,5 @@
             </div>
         </div>
     </section>
-</home_page_others>
+
+</page-home_operators>

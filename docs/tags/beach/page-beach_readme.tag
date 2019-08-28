@@ -1,4 +1,4 @@
-<beach_page_readme>
+<page-beach_readme>
     <section class="section">
         <div class="container">
             <h1 class="title">Description</h1>
@@ -45,4 +45,4 @@ WARNING: 32 = 34 ⇒ NIL : CREATE-CLUSTER</pre>
             </section>
         </div>
     </section>
-</beach_page_readme>
+</page-beach_readme>

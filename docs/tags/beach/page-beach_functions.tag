@@ -1,4 +1,4 @@
-<beach_page_functions>
+<page-beach_functions>
     <section class="section">
         <div class="container">
             <h1 class="title">Description</h1>
@@ -10,4 +10,4 @@
             </div>
         </div>
     </section>
-</beach_page_functions>
+</page-beach_functions>

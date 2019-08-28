@@ -1,4 +1,4 @@
-<beach_page_datamodels>
+<page-beach_datamodels>
     <section class="section">
         <div class="container">
             <h1 class="title">Description</h1>
@@ -62,4 +62,4 @@
             </section>
         </div>
     </section>
-</beach_page_datamodels>
+</page-beach_datamodels>

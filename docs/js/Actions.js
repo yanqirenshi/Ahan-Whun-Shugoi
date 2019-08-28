@@ -1,9 +1,15 @@
 class Actions extends Vanilla_Redux_Actions {
     movePage (data) {
-        return {
+        let state = STORE.get('site');
+
+        // Page は選択された route の根なので "[0]" を指定。
+        state.active_page = data.route[0];
+
+        STORE.dispatch({
             type: 'MOVE-PAGE',
-            data: data
-        };
+            data: { site: state },
+            route: data.route,
+        });
     }
     fetchData () {
         API.get('/', function (response) {

@@ -1,4 +1,4 @@
-<beach_page_operators>
+<page-beach_operators>
     <section class="section">
         <div class="container">
             <h1 class="title">Operators</h1>
@@ -46,4 +46,4 @@
          ]
      };
     </script>
-</beach_page_operators>
+</page-beach_operators>

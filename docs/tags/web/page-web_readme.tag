@@ -1,5 +1,14 @@
-<aws_page_root>
-    <section-header title="Aws"></section-header>
+<page-web_readme>
+
+    <section-header title="Web"></section-header>
+
+    <page-tabs tabs={tabs}
+               active_tag={active_tag}
+               click-tab={clickTab}></page-tabs>
+
+    <div>
+        <page-web_sitemap class="hide"></page-web_sitemap>
+    </div>
 
     <section class="section">
         <div class="container">
@@ -27,4 +36,5 @@
     </section>
 
     <section-footer></section-footer>
-</aws_page_root>
+
+</page-web_readme>

@@ -1,4 +1,4 @@
-<beach_page_classes>
+<page-beach_classes>
     <section class="section">
         <div class="container">
             <h1 class="title">Description</h1>
@@ -91,4 +91,4 @@
          { name:'finder',                description: '',                                          precedences: 'SHINRABANSHOU:SHIN' },
      ];
     </script>
-</beach_page_classes>
+</page-beach_classes>

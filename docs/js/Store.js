@@ -9,60 +9,40 @@ class Store extends Vanilla_Redux_Store {
                 home_page: 'home',
                 pages: [
                     {
-                        code: "home",
                         menu_label: '家',
-                        active_section: 'root', home_section: 'root',
-                        sections: [
-                            { code: 'root', tag: 'home_page_root', title: 'Section: root', description: '' },
-                        ],
-                        stye: {
-                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
-                        }
+                        code: "home",
+                        tag: 'page-home_root',
                     },
                     {
-                        code: "aws",
+                        menu_label: '使',
+                        code: "usage",
+                        tag: 'page-usage',
+                    },
+                    {
                         menu_label: 'AWS',
-                        active_section: 'root', home_section: 'root',
-                        sections: [{ code: 'root', tag: 'aws_page_root', title: 'Home', description: '' }],
-                        stye: {
-                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
-                        }
+                        code: "aws",
+                        tag: 'page-aws',
                     },
                     {
-                        code: "cmd",
                         menu_label: 'Cmd',
-                        active_section: 'root', home_section: 'root',
-                        sections: [{ code: 'root', tag: 'cmd_page_root', title: 'Home', description: '' }],
-                        stye: {
-                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
-                        }
+                        code: "cmd",
+                        tag: 'page-cmd',
+                        children: [],
                     },
                     {
-                        code: "beach",
                         menu_label: '砂浜',
-                        active_section: 'root', home_section: 'root',
-                        sections: [{ code: 'root', tag: 'beach_page_root', title: 'Home', description: '' }],
-                        stye: {
-                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
-                        }
+                        code: "beach",
+                        tag: 'page-beach',
                     },
                     {
-                        code: "api",
                         menu_label: 'Api',
-                        active_section: 'root', home_section: 'root',
-                        sections: [{ code: 'root', tag: 'api_page_root', title: 'Home', description: '' }],
-                        stye: {
-                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
-                        }
+                        code: "api",
+                        tag: 'api_page_root',
                     },
                     {
-                        code: "web",
                         menu_label: 'Web',
-                        active_section: 'root', home_section: 'root',
-                        sections: [{ code: 'root', tag: 'web_page_root', title: 'Home', description: '' }],
-                        stye: {
-                            color: { 1: '#fdeff2', 2: '#e0e0e0', 3: '#e198b4', 4: '#ffffff', 5: '#eeeeee', 5: '#333333' }
-                        }
+                        code: "web",
+                        tag: 'page-web',
                     },
                 ]
             }

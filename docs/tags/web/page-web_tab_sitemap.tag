@@ -1,4 +1,5 @@
-<web_page_tab_sitemap>
+<page-web_tab-sitemap>
+
     <section class="section">
         <div class="container">
             <h1 class="title">Description</h1>
@@ -9,4 +10,5 @@
             </div>
         </div>
     </section>
-</web_page_tab_sitemap>
+
+</page-web_tab-sitemap>

@@ -1,14 +1,16 @@
-<web_page_root>
-    <section-header title="Web"></section-header>
+<page-beach>
+    <section-header title="Beach"></section-header>
 
     <page-tabs tabs={tabs}
                active_tag={active_tag}
                click-tab={clickTab}></page-tabs>
 
     <div>
-        <web_page_tab_sitemap class="hide"></web_page_tab_sitemap>
-        <web_page_tab_readme class="hide"></web_page_tab_readme>
-        <web_page_tab_beach class="hide"></web_page_tab_beach>
+        <page-beach_readme class="hide"></page-beach_readme>
+        <page-beach_functions class="hide"></page-beach_functions>
+        <page-beach_datamodels class="hide"></page-beach_datamodels>
+        <page-beach_operators class="hide"></page-beach_operators>
+        <page-beach_classes class="hide"></page-beach_classes>
     </div>
 
     <section-footer></section-footer>
@@ -17,9 +19,11 @@
      this.default_tag = 'readme';
      this.active_tag = null;
      this.tabs = [
-         { code: 'readme',  label: 'README',  tag: 'web_page_tab_readme' },
-         { code: 'sitemap', label: 'Sitemap', tag: 'web_page_tab_sitemap' },
-         { code: 'beach',   label: 'Beach',   tag: 'web_page_tab_beach' },
+         { code: 'readme',     label: 'README',      tag: 'page-beach_readme' },
+         { code: 'functions',  label: 'Functions',   tag: 'page-beach_functions' },
+         { code: 'datamodels', label: 'Data Models', tag: 'page-beach_datamodels' },
+         { code: 'classes',    label: 'Classes',     tag: 'page-beach_classes' },
+         { code: 'operators',  label: 'Operators',   tag: 'page-beach_operators' },
      ];
      this.clickTab = (e) => {
          this.switchTab(e.target.getAttribute('code'));
@@ -45,4 +49,4 @@
          this.update();
      };
     </script>
-</web_page_root>
+</page-beach>

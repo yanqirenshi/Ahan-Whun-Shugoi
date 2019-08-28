@@ -1,16 +1,15 @@
-<beach_page_root>
-    <section-header title="Beach"></section-header>
+<page-usage>
+    <section-header title="Usage"
+                    subtitle=""></section-header>
 
     <page-tabs tabs={tabs}
                active_tag={active_tag}
                click-tab={clickTab}></page-tabs>
 
     <div>
-        <beach_page_readme class="hide"></beach_page_readme>
-        <beach_page_functions class="hide"></beach_page_functions>
-        <beach_page_datamodels class="hide"></beach_page_datamodels>
-        <beach_page_operators class="hide"></beach_page_operators>
-        <beach_page_classes class="hide"></beach_page_classes>
+        <page-usage_readme        class="hide"></page-usage_readme>
+        <page-usage_setting-lisp  class="hide"></page-usage_setting-lisp>
+        <page-usage_import-manual class="hide"></page-usage_import-manual>
     </div>
 
     <section-footer></section-footer>
@@ -19,11 +18,9 @@
      this.default_tag = 'readme';
      this.active_tag = null;
      this.tabs = [
-         { code: 'readme',     label: 'README',      tag: 'beach_page_readme' },
-         { code: 'functions',  label: 'Functions',   tag: 'beach_page_functions' },
-         { code: 'datamodels', label: 'Data Models', tag: 'beach_page_datamodels' },
-         { code: 'classes',    label: 'Classes',     tag: 'beach_page_classes' },
-         { code: 'operators',  label: 'Operators',   tag: 'beach_page_operators' },
+         { code: 'readme',        label: 'README',        tag: 'page-usage_readme' },
+         { code: 'setting-lisp',  label: 'Setting Lisp',  tag: 'page-usage_setting-lisp' },
+         { code: 'import-manual', label: 'Import Manual', tag: 'page-usage_import-manual' },
      ];
      this.clickTab = (e) => {
          this.switchTab(e.target.getAttribute('code'));
@@ -49,4 +46,4 @@
          this.update();
      };
     </script>
-</beach_page_root>
+</page-usage>

@@ -1,41 +1,46 @@
 <app>
     <menu-bar brand={{label:'RT'}} site={site()} moves={[]}></menu-bar>
 
+    <app-page-area></app-page-area>
+
     <div ref="page-area"></div>
-
-    <style>
-     app > .page {
-         width: 100vw;
-         overflow: hidden;
-         display: block;
-     }
-     .hide { display: none; }
-
-     app .section > .container > .contents {
-         padding-left: 22px;
-     }
-    </style>
 
     <script>
      this.site = () => {
          return STORE.state().get('site');
      };
+     this.impure = () => {
+         return STORE.get('purging.impure');
+     }
+     this.updateMenuBar = () => {
+         if (this.tags['menu-bar'])
+             this.tags['menu-bar'].update();
+     }
+    </script>
 
+
+    <script>
      STORE.subscribe((action)=>{
-         if (action.type!='MOVE-PAGE')
-             return;
+         if (action.type=='MOVE-PAGE') {
+             this.updateMenuBar();
 
-         let tags= this.tags;
+             this.tags['app-page-area'].update({ opts: { route: action.route }});
+         }
 
-         tags['menu-bar'].update();
-         ROUTER.switchPage(this, this.refs['page-area'], this.site());
+         if (action.type=='FETCHED-IMPURE-PURGING')
+             this.tags['popup-working-action'].update();
      })
 
      window.addEventListener('resize', (event) => {
          this.update();
      });
 
-     if (location.hash=='')
-         location.hash='#home'
+     this.on('mount', () => {
+         let hash = location.hash.split('/');
+         hash[0] = hash[0].substring(1)
+
+         ACTIONS.movePage({ route: hash });
+     });
     </script>
+
 </app>
