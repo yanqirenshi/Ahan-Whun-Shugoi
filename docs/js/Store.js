@@ -4,6 +4,7 @@ class Store extends Vanilla_Redux_Store {
     }
     init () {
         let data = {
+            structures: AWS_STRUCTURES,
             site: {
                 active_page: 'home',
                 home_page: 'home',

@@ -1,4 +1,5 @@
 <operator-list>
+
     <table class="table">
         <thead>
             <tr>
@@ -10,11 +11,17 @@
         </thead>
         <tbody>
             <tr each={opts.operators}>
-                <td>{name}</td>
+                <td>
+                    {name}
+                </td>
                 <td>{type}</td>
                 <td>{description}</td>
                 <td>{package}</td>
             </tr>
         </tbody>
     </table>
+
+    <script>
+    </script>
+
 </operator-list>

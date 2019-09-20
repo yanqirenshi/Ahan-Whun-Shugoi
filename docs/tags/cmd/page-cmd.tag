@@ -32,12 +32,10 @@
 
     <script>
      this.operators = [
-         { name: 'aws',                    description: '', type: '???', package: '' },
-         { name: 'start',                  description: '', type: '???', package: '' },
-         { name: 'stop',                   description: '', type: '???', package: '' },
-         { name: 'graph-data-stor',        description: '', type: '???', package: '' },
-         { name: 'name',                   description: '', type: '???', package: '' },
-         { name: '*print-command-stream*', description: '', type: '???', package: '' },
+         { package: 'AHAN-WHUN-SHUGOI.CLI', type: 'FUNCTION', name: 'AWS',                    description: '' },
+         { package: 'AHAN-WHUN-SHUGOI.DB',  type: 'FUNCTION', name: 'START',                  description: '' },
+         { package: 'AHAN-WHUN-SHUGOI.DB',  type: 'FUNCTION', name: 'STOP',                   description: '' },
+         { package: 'AHAN-WHUN-SHUGOI.CLI', type: 'FUNCTION', name: '*PRINT-COMMAND-STREAM*', description: '' },
      ];
     </script>
 </page-cmd>

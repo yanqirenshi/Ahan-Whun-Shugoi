@@ -184,12 +184,10 @@ riot.tag2('page-beach_readme', '<section class="section"> <div class="container"
 
 riot.tag2('page-cmd', '<section-header title="Command"></section-header> <section class="section"> <div class="container"> <h1 class="title">Description</h1> <h2 class="subtitle"></h2> <div class="contents"> </div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Usage</h1> <h2 class="subtitle"></h2> <div class="contents"></div> </div> </section> <section class="section"> <div class="container"> <h1 class="title">Operators</h1> <h2 class="subtitle"></h2> <div class="contents"> <operator-list operators="{operators}"></operator-list> </div> </div> </section> <section-footer></section-footer>', '', '', function(opts) {
      this.operators = [
-         { name: 'aws',                    description: '', type: '???', package: '' },
-         { name: 'start',                  description: '', type: '???', package: '' },
-         { name: 'stop',                   description: '', type: '???', package: '' },
-         { name: 'graph-data-stor',        description: '', type: '???', package: '' },
-         { name: 'name',                   description: '', type: '???', package: '' },
-         { name: '*print-command-stream*', description: '', type: '???', package: '' },
+         { package: 'AHAN-WHUN-SHUGOI.CLI', type: 'FUNCTION', name: 'AWS',                    description: '' },
+         { package: 'AHAN-WHUN-SHUGOI.DB',  type: 'FUNCTION', name: 'START',                  description: '' },
+         { package: 'AHAN-WHUN-SHUGOI.DB',  type: 'FUNCTION', name: 'STOP',                   description: '' },
+         { package: 'AHAN-WHUN-SHUGOI.CLI', type: 'FUNCTION', name: '*PRINT-COMMAND-STREAM*', description: '' },
      ];
 });
 
@@ -296,7 +294,7 @@ riot.tag2('section-list', '<table class="table is-bordered is-striped is-narrow 
 riot.tag2('class-list', '<table class="table"> <thead> <tr> <th>Name</th> <th>Description</th> <th>Parent</th> </tr> </thead> <tbody> <tr each="{opts.classes}"> <td>{name}</td> <td>{description}</td> <td>{precedences}</td> </tr> </tbody> </table>', '', '', function(opts) {
 });
 
-riot.tag2('operator-list', '<table class="table"> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Package</th> </tr> </thead> <tbody> <tr each="{opts.operators}"> <td>{name}</td> <td>{type}</td> <td>{description}</td> <td>{package}</td> </tr> </tbody> </table>', '', '', function(opts) {
+riot.tag2('operator-list', '<table class="table"> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> <th>Package</th> </tr> </thead> <tbody> <tr each="{opts.operators}"> <td> {name} </td> <td>{type}</td> <td>{description}</td> <td>{package}</td> </tr> </tbody> </table>', '', '', function(opts) {
 });
 
 riot.tag2('page-tabs', '<section class="section" style="padding-top: 0px; padding-bottom: 33px;"> <div class="container"> <div class="tabs"> <ul> <li each="{opts.tabs}" class="{opts.active_tag==code ? \'is-active\' : \'\'}"> <a code="{code}" onclick="{opts.clickTab}">{label}</a> </li> </ul> </div> </div> </section>', '', '', function(opts) {
